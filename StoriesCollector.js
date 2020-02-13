@@ -149,13 +149,14 @@ function get_characters(){
 }
 
 function get_text(){
+	get_characters();
+	
 	// Read entered character names
 	char_names = document.getElementById("char_names").value.split(",").slice(0, chars.length).map(e => e.trim());
 
 	// Get the text in the story
 	var story = document.getElementsByClassName("transcription")[0].getElementsByClassName("line");
 	text_story = title_format + story[1].innerText + br;
-	get_characters();
 	for (var i = 2; i < story.length - 1; i++){
 		// Speaker
 		var avatar = story[i].getElementsByClassName("avatar");
@@ -217,7 +218,7 @@ function get_exercise() {
 		
 	} else if (exercise) {
 	/* fill in missing phrase */
-		if (exercise.firstChild.firstChild.classList.contains("graded-text-input")){
+		if (exercise.firstChild.firstChild.classList && exercise.firstChild.firstChild.classList.contains("graded-text-input")){
 			ex_list.push({
 				type: "type missing phrase",
 				question: active_line.firstChild.innerText,
