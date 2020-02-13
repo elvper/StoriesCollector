@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.1
+// @version      0.1.1
 // @description  Collect stories and exercises from Duolingo
-// @author       Pikachu
+// @author       elvper
 // @match        https://stories.duolingo.com/lessons/*
 // @grant        none
 // ==/UserScript==
@@ -101,7 +101,7 @@ var br = "\n\n"; // Big break (double enter)
 
 // Other
 var speaker_color = "#7AC70C"; // Color to display narrator / character name in
-var narator_marking = "\&\\#x1F50A; "; // Text or symbol for when the narrator speaks
+var narator_marking = "&#x1F50A; "; // Text or symbol for when the narrator speaks
 
 // Recognize from language
 // duo.l10n.declared[4]
@@ -150,19 +150,21 @@ function get_characters(){
 
 function get_text(){
 	// Read entered character names
-	char_names = document.getElementById("char_names").value.split(",").map(e => e.trim());
+	char_names = document.getElementById("char_names").value.split(",").slice(0, chars.length).map(e => e.trim());
 
 	// Get the text in the story
 	var story = document.getElementsByClassName("transcription")[0].getElementsByClassName("line");
 	text_story = title_format + story[1].innerText + br;
 	get_characters();
 	for (var i = 2; i < story.length - 1; i++){
+		// Speaker
 		var avatar = story[i].getElementsByClassName("avatar");
 		text_story += avatar.length ?
 			"[color=" + speaker_color + "]" +
 			char_names[chars.indexOf(avatar[0].src)] +
 			": [/color]" :
-			i === 2 ? "" : narator_marking;
+			narator_marking;
+		// What's said
 		text_story += story[i].innerText + br;
 	};
 }
@@ -179,15 +181,14 @@ function check() {
 	line_pos = [...document.getElementsByClassName("transcription")[0].children].indexOf(
 		document.getElementsByClassName("line selected")[0]
 	);
-	// If no exercise entered for the line already check for one
-	console.log(ex_pos);
-	if (ex_pos.indexOf(line_pos) == -1 || (document.getElementsByClassName("match-challenge") && ex_pos.indexOf("end") == -1)){
+	// If no exercise entered for the line check if there is one
+	if (ex_pos.indexOf(line_pos) == -1 || (document.getElementsByClassName("match-challenge").length && ex_pos.indexOf("end") == -1)){
 		get_exercise();
+		
+		// ############################################## Debug #####
+		console.log("----- Exercise list (story reader) -----");
+		console.log(ex_list);
 	}
-	
-	// ############################################## Debug #####
-	console.log("exercise list XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-	console.log(ex_list);
 }
 
 function get_exercise() {
@@ -205,9 +206,27 @@ function get_exercise() {
 		});
 		ex_pos.push(line_pos);
 		
-	/* multiple choice */
+	/* fill in missing word */
+	} else if (active_line.children[1] && active_line.classList.contains("line-no-speech-bubble-preceding-challenge")){
+		ex_list.push({
+			type: "type missing word",
+			question: active_line.firstChild.innerText,
+			answers: active_line.children[1].innerText
+		});
+		ex_pos.push(line_pos);
+		
 	} else if (exercise) {
-		if (exercise.classList.contains("multiple-choice-challenge")){
+	/* fill in missing phrase */
+		if (exercise.firstChild.firstChild.classList.contains("graded-text-input")){
+			ex_list.push({
+				type: "type missing phrase",
+				question: active_line.firstChild.innerText,
+				answers: active_line.children[1].innerText
+			});
+			ex_pos.push(line_pos);
+
+	/* multiple choice */
+		} else if (exercise.classList.contains("multiple-choice-challenge")){
 			a_list = [];
 			for (var i of document.getElementsByClassName("challenge-answers")[0].children){
 				a_list.push(">- " + i.innerText.substr(2));
@@ -269,8 +288,9 @@ function build_output(){
 	
 	var div = document.createElement("div");
 	div.setAttribute("style", "padding-top: 250px;");
-	div.innerHTML = '<textarea id="output" rows="200" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;">' + all_text + '</textarea>';
+	div.innerHTML = '<textarea id="output" rows="200" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
 	document.getElementsByClassName("transcription")[0].append(div);
+	document.getElementById("output").value = all_text;
 }
 
 function astext_exercises(){
@@ -309,7 +329,7 @@ var transcript_load = setInterval(function() {
 		
 		// Add box to type in character names
 		var div = document.createElement("div");
-		div.innerHTML = '<div><textarea id="char_names" rows="1" cols="50" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea></div>';
+		div.innerHTML = '<textarea id="char_names" rows="1" cols="50" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
 		document.getElementsByClassName("transcription")[0].prepend(div);
 
 		clearInterval(transcript_load);
