@@ -32,6 +32,41 @@ header.en_de = _ =>
 	'>#####Characters:' + br +
 	'> ' + narator_marking + ': NARRATOR ;' + br +
 	'> ' + char_names.join("; ");
+header.en_es = _ =>
+	'[[LTS INDEX] Spanish Stories](https://forum.duolingo.com/comment/35116428)' + br +
+	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+	'Learn Through Stories [LTS] : Duolingo Spanish Stories' + br +
+	'>#####Characters:' + br +
+	'> ' + narator_marking + ': NARRATOR ;' + br +
+	'> ' + char_names.join("; ");
+header.en_pt = _ =>
+	'[[LTS INDEX] Portuguese Stories](https://forum.duolingo.com/comment/35116516)' + br +
+	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+	'Learn Through Stories [LTS] : Duolingo Portuguese Stories' + br +
+	'>#####Characters:' + br +
+	'> ' + narator_marking + ': NARRATOR ;' + br +
+	'> ' + char_names.join("; ");
+header.es_en = _ =>
+	'[[LTS ÍNDICE] Cuentos : inglés para hispanohablantes](https://forum.duolingo.com/comment/35418327)' + br +
+	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+	'Learn Through Stories [LTS] : Duolingo English Stories' + br +
+	'>#####Personajes:' + br +
+	'> ' + narator_marking + ': NARRATOR ;' + br +
+	'> ' + char_names.join("; ");
+header.pt_en = _ =>
+	'[[[LTS INDEX] Histórias: inglês para falantes de português](https://forum.duolingo.com/comment/35553792)' + br +
+	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+	'Learn Through Stories [LTS] : Duolingo English Stories' + br +
+	'>#####Personagens:' + br +
+	'> ' + narator_marking + ': NARRATOR ;' + br +
+	'> ' + char_names.join("; ");
+header.zh_en = _ =>
+	'[[[LTS INDEX] 小故事 :讲中文的 - 英语](https://forum.duolingo.com/comment/35834162)' + br +
+	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+	'Learn Through Stories [LTS] : Duolingo English Stories' + br +
+	'>#####:' + br +
+	'> ' + narator_marking + ': 扬声器 ;' + br +
+	'> ' + char_names.join("; ");
 	
 // Text between the story and exercises
 var tinycards = {};
@@ -45,15 +80,19 @@ tinycards.en_fr = _ =>
 tinycards.en_de = _ =>
 	'---' + br +
 	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
+tinycards.en_es = _ =>
+	'---' + br +
+	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
+tinycards.en_pt = _ =>
+	'---' + br +
+	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
+tinycards.es_en = _ =>
+	'---' + br;
+tinycards.pt_en = _ =>
+	'---' + br;
+tinycards.zh_en = _ =>
+	'---' + br;
 	
-// Questions
-var questions = {};
-questions.en = {
-	select: "Select the missing phrase",
-	arrange: "Write in the correct order",
-	match: "Select the pairs:"
-}
-
 var title_format = "#### ! ";
 
 // Line breaks
@@ -63,6 +102,15 @@ var br = "\n\n"; // Big break (double enter)
 // Other
 var speaker_color = "#7AC70C"; // Color to display narrator / character name in
 var narator_marking = "\&\\#x1F50A; "; // Text or symbol for when the narrator speaks
+
+// Recognize from language
+// duo.l10n.declared[4]
+var from = {
+	"¿Ya tienes una cuenta de Duolingo?": "es",
+	"Already have a Duolingo account?": "en",
+	"已有多邻国帐户？": "zh",
+	"Já tem uma conta no Duolingo?": "pt"
+};
 
 // ############################################################
 // ############ Automatically collected variables #############
@@ -81,11 +129,6 @@ var ex_list = [], // Collected list of exercises in the story
 	text_story = "", // Text of the story
 	text_ex = "", // Exercises formatted as text
 	chars; // Character image URL's
-	
-var from = {
-	"¿Ya tienes una cuenta de Duolingo?": "es",
-	"Already have a Duolingo account?": "en"
-};
 	
 // ############################################################
 // ############ Functions #####################################
@@ -184,7 +227,7 @@ function get_exercise() {
 			}
 			ex_list.push({
 				type: "missing phrase",
-				question: "Select the missing phrase" + b + active_line.children[1].innerText.replace(/_ _/g, "__"),
+				question: active_line.firstChild.innerText + b + active_line.children[1].innerText.replace(/_ _/g, "__"),
 				answers: a_list
 			});
 			ex_pos.push(line_pos);
@@ -196,7 +239,7 @@ function get_exercise() {
 			[...exercise.firstChild.children].forEach(e => a_list.push(e.innerText));
 			ex_list.push({
 				type: "arrange words",
-				question: "Write in the correct order",
+				question: active_line.firstChild.innerText,
 				answers: a_list.join(" - ")
 			});
 			ex_pos.push(line_pos);
@@ -207,7 +250,7 @@ function get_exercise() {
 			[...exercise.getElementsByClassName("tokens")[0].children].forEach(e => a_list.push(e.innerText));
 			ex_list.push({
 				type: "match pairs",
-				question: "Select the pairs:",
+				question: exercise.firstChild.innerText,
 				answers: a_list.join(" - ")
 			});
 			ex_pos.push("end");
