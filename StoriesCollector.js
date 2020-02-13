@@ -2,7 +2,7 @@
 // @name         Duolingo Stories Miner
 // @version      0.1
 // @description  Collect stories and exercises from Duolingo
-// @author       elvper
+// @author       Pikachu
 // @match        https://stories.duolingo.com/lessons/*
 // @grant        none
 // ==/UserScript==
