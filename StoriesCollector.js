@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.1.1
+// @version      0.1.2
 // @description  Collect stories and exercises from Duolingo
 // @author       elvper
 // @match        https://stories.duolingo.com/lessons/*
@@ -229,8 +229,8 @@ function get_exercise() {
 	/* multiple choice */
 		} else if (exercise.classList.contains("multiple-choice-challenge")){
 			a_list = [];
-			for (var i of document.getElementsByClassName("challenge-answers")[0].children){
-				a_list.push(">- " + i.innerText.substr(2));
+			for (var i of document.getElementsByClassName("challenge-answers")[0].getElementsByClassName("phrases-with-hints")){
+				a_list.push(">- " + i.innerText);
 			}
 			ex_list.push({
 				type: "multiple choice",
