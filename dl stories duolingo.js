@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.3.2
+// @version      0.2.4
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -253,7 +253,7 @@ function collect_exercises(e) {
 					// split phrase into random parts
 					var mix = flatStext(line.phrases).replace(/[.,!;:?]/g, "").split(" ");
 					shuffleArray(mix);
-					ex += br + "> " + mix.join(" - ") + b + b;
+					ex += b + "> " + mix.join(" - ") + b + b;
 					break;
 				case "select-phrases":
 					// add question
@@ -267,16 +267,16 @@ function collect_exercises(e) {
 					}
 					shuffleArray(a);
 					// add sub-question
-					ex += b + "> " + flatStext(e.lines[4].phrases).replace(correct, "_".repeat(correct.length));
+					ex += b + "> " + flatStext(line.phrases).replace(correct, "...".repeat(correct.length));
 					// add answer options
-					ex += b + "> - " + a.join(b + "> - ") + b + b;
+					ex += b + "> > - " + a.join(b + "> - ") + b + b;
 					break;
 				case "type-text":
 					// add question
 					ex += ex_count + "\. " + ask[from_language].type;
 					// add phrase to complete
 					var missing = line.challenges[0].text;
-					ex += b + "> " + flatStext(line.phrases).replace(missing, "_".repeat(missing.length)) + b + b;
+					ex += b + "> " + flatStext(line.phrases).replace(missing, "...".repeat(missing.length)) + b + b;
 					break;
 			}
 		}
