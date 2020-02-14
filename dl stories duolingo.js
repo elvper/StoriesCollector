@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.1
+// @version      0.2.2
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -109,6 +109,9 @@ var ask = {
 	}
 };
 
+// Catch narrator names
+var narrator = ["Narrator", "Narrador", "narradora", "Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
+
 // Line breaks
 var b = "  \n"; // Small break (two spaces)
 var br = "\n\n"; // Big break (double enter)
@@ -121,9 +124,6 @@ var learning = null,
 	from_language = null;
 
 var output = "";
-
-var narrator = ["Narrator", "Narrador", "Narratrice", "Narrateur"];
-
 var char_names = null;
 
 var flattext = a => a.flatMap(a => a.text).join("");
@@ -196,6 +196,7 @@ function display_output(caller) {
 	document.getElementById("output").value = output;
 }
 
+// Create exercises
 function collect_exercises(e) {
 	var ex = "", // output
 		a = []; // array of answer options
@@ -293,13 +294,6 @@ function shuffleArray(array) {
 	xhttp.open("GET", "https://stories.duolingo.com/api/user", true);
 	xhttp.send();
 })();
-
-function scripts_page() {
-	var scrpt = document.createElement('script');
-	scrpt.setAttribute("type","text/javascript");
-	scrpt.innerText = request_story;
-	document.head.append(scrpt);
-}
 
 // Wait for elements to load
 var transcript_load = setInterval(function() {
