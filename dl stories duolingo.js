@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.3.1
+// @version      0.2.3.2
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -223,7 +223,7 @@ function collect_exercises(e) {
 			switch(line.challenges[0].type) {
 				case "multiple-choice":
 					// add question
-					ex += flattext(line.challenges[0].question);
+					ex += ex_count + "\. " + flattext(line.challenges[0].question);
 					// options
 					a = [];
 					a.push(flattext(line.challenges[0].answer));
@@ -236,13 +236,13 @@ function collect_exercises(e) {
 					break;
 				case "point-to-phrase":
 					// add question
-					ex += flattext(line.challenges[0].prompt);
+					ex += ex_count + "\. " + flattext(line.challenges[0].prompt);
 					// add phrase to select words from
 					ex += b + "> " + flatStext(line.phrases) + b + b;
 					break;
 				case "arrange":
 					// add question
-					ex += ask[from_language].arrange;
+					ex += ex_count + "\. " + ask[from_language].arrange;
 					// split phrase into random parts
 					var mix = flatStext(line.phrases).replace(/[.,!;:?]/g, "").split(" ");
 					shuffleArray(mix);
@@ -250,7 +250,7 @@ function collect_exercises(e) {
 					break;
 				case "select-phrases":
 					// add question
-					ex += ask[from_language].select;
+					ex += ex_count + "\. " + ask[from_language].select;
 					// options
 					a = [];
 					var correct = line.challenges[0].phrases[0].text;
@@ -266,7 +266,7 @@ function collect_exercises(e) {
 					break;
 				case "type-text":
 					// add question
-					ex += ask[from_language].type;
+					ex += ex_count + "\. " + ask[from_language].type;
 					// add phrase to complete
 					var missing = line.challenges[0].text;
 					ex += b + "> " + flatStext(line.phrases).replace(missing, "_".repeat(missing.length)) + b + b;
