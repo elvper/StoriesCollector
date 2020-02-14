@@ -89,22 +89,22 @@ bridge.zh_en = _ =>
 var ask = {
 	en: {
 		arrange: "Sort the words into the correct order.",
-		select: "Select the correction option.",
+		select: "Select the correct option.",
 		type: "Fill in the missing word(s)."
 	},
 	es: {
 		arrange: "@@@@@ Sort the words into the correct order.",
-		select: "@@@@@ Select the correction option.",
+		select: "@@@@@ Select the correct option.",
 		type: "@@@@@ Fill in the gap."
 	},
 	pt: {
 		arrange: "@@@@@ Sort the words into the correct order.",
-		select: "@@@@@ Select the correction option.",
+		select: "@@@@@ Select the correct option.",
 		type: "@@@@@ Fill in the gap."
 	},
 	zh: {
 		arrange: "@@@@@ Sort the words into the correct order.",
-		select: "@@@@@ Select the correction option.",
+		select: "@@@@@ Select the correct option.",
 		type: "@@@@@ Fill in the gap."
 	}
 };
