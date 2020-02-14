@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.0
+// @version      0.2.1
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -122,12 +122,11 @@ var learning = null,
 
 var output = "";
 
-var narrator = ["Narrator", "Narrador"];
+var narrator = ["Narrator", "Narrador", "Narratrice", "Narrateur"];
 
 var char_names = null;
 
 var flattext = a => a.flatMap(a => a.text).join("");
-//var flatStext = a => a.flatMap(a => a.syncedTexts[0].text).join("");
 var flatStext = a => a.flatMap(a => flattext(a.syncedTexts)).join("");
 var flatperson = a => a.flatMap(a => a.person ? a.person : null);
 
@@ -216,7 +215,7 @@ function collect_exercises(e) {
 					}
 					shuffleArray(a);
 					// add answer options
-					ex += b + "> " + a.join(b + "> ") + b + b;
+					ex += b + "> - " + a.join(b + "> - ") + b + b;
 					break;
 				case "point-to-phrase":
 					// add question
@@ -237,13 +236,16 @@ function collect_exercises(e) {
 					ex += ask[from_language].select;
 					// options
 					a = [];
-					a.push(line.challenges[0].phrases[0].text);
+					var correct = line.challenges[0].phrases[0].text;
+					a.push(correct);
 					for (var option of line.challenges[0].phrases[0].wrongOptions) {
 						a.push(option);
 					}
 					shuffleArray(a);
+					// add sub-question
+					ex += b + "> " + flatStext(e.lines[4].phrases).replace(correct, "_".repeat(correct.length));
 					// add answer options
-					ex += b + "> " + a.join(b + "> ") + b + b;
+					ex += br + "> - " + a.join(b + "> - ") + b + b;
 					break;
 				case "type-text":
 					// add question
