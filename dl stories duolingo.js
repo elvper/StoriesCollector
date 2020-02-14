@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.5
+// @version      0.2.6
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -20,22 +20,22 @@ var header = {
 		'[[LTS INDEX] French stories]' + 
 		'(https://forum.duolingo.com/comment/35112359)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-		'Learn Through Stories [LTS] : Duolingo French Stories' + br,
+		'Learn Through Stories [LTS] : Duolingo French Stories',
 	en_de:
 		'[[LTS INDEX] German Stories]' + 
 		'(https://forum.duolingo.com/comment/35116657)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-		'Learn Through Stories [LTS] : Duolingo German Stories' + br,
+		'Learn Through Stories [LTS] : Duolingo German Stories',
 	en_es:
 		'[[LTS INDEX] Spanish Stories]' + 
 		'(https://forum.duolingo.com/comment/35116428)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-		'Learn Through Stories [LTS] : Duolingo Spanish Stories' + br,
+		'Learn Through Stories [LTS] : Duolingo Spanish Stories',
 	en_pt:
 		'[[LTS INDEX] Portuguese Stories]' +
 		'(https://forum.duolingo.com/comment/35116516)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-		'Learn Through Stories [LTS] : Duolingo Portuguese Stories' + br,
+		'Learn Through Stories [LTS] : Duolingo Portuguese Stories',
 	es_en:
 		'[[LTS ÍNDICE] Cuentos : inglés para hispanohablantes]' +
 		'(https://forum.duolingo.com/comment/35418327)' + br +
@@ -45,12 +45,12 @@ var header = {
 		'[[[LTS INDEX] Histórias: inglês para falantes de português]' + 
 		'(https://forum.duolingo.com/comment/35553792)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-		'Learn Through Stories [LTS] : Duolingo English Stories' + br,
+		'Learn Through Stories [LTS] : Duolingo English Stories',
 	zh_en:
 		'[[[LTS INDEX] 小故事 :讲中文的 - 英语]' + 
 		'(https://forum.duolingo.com/comment/35834162)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-		'Learn Through Stories [LTS] : Duolingo English Stories' + br
+		'Learn Through Stories [LTS] : Duolingo English Stories'
 }
 
 // Characters listing
@@ -166,6 +166,8 @@ function construct(e, caller=null) {
 	// characters
 	output += characters[from_language] + br +
 		'> ' + narrator_marking + [...char_names].join("; ") + br;
+	// story icon
+	output += "![Story icon](" + e.illustrationUrls.active.slice(0, -4) + ".png)" + br;
 	// story title
 	output += "#### ! [" + flatStext(e.lines[1].phrases) +
 		" (" + e.fromLanguageName +
