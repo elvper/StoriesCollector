@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.4
+// @version      0.2.5
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -91,7 +91,7 @@ var bridge = {
 var ask = {
 	en: {
 		arrange: "Sort the words into the correct order.",
-		select: "Select the correct option.",
+		select: "Select the missing word or phrase",
 		type: "Fill in the missing word(s)."
 	},
 	es: {
@@ -143,6 +143,7 @@ function dl_buttons() {
 	}
 	// button to get all
 	var button = document.createElement("button");
+	button.id = "get_all_stories";
 	button.setAttribute("number", "all");
 	button.innerText = "Get all stories";
 	button.addEventListener("click", () => all_stories_get());
@@ -166,15 +167,17 @@ function construct(e, caller=null) {
 	output += characters[from_language] + br +
 		'> ' + narrator_marking + [...char_names].join("; ") + br;
 	// story title
-	output += "#### ! " + flatStext(e.lines[1].phrases) +
-		" (" + e.fromLanguageName + ")" + br;
+	output += "#### ! [" + flatStext(e.lines[1].phrases) +
+		" (" + e.fromLanguageName +
+		")](https://stories.duolingo.com/lessons/" + e.id + ")" + br;
 	// story text
 	for (var i = 2; i < e.lines.length; i++) {
 		// speaker
 		if (narrator.includes(e.lines[i].person)){
 			output += narrator_marking;
 		} else {
-			output += "[color=" + speaker_color + "]" + e.lines[i].person + ": [/color]";
+			output += "[color=" + speaker_color + "]" +
+				e.lines[i].person.toUpperCase() + ": [/color]";
 		}
 		// speech
 		output += flatStext(e.lines[i].phrases) + b;
@@ -269,7 +272,7 @@ function collect_exercises(e) {
 					// add sub-question
 					ex += b + "> " + flatStext(line.phrases).replace(correct, "...".repeat(correct.length));
 					// add answer options
-					ex += b + "> > - " + a.join(b + "> - ") + b + b;
+					ex += b + "> > - " + a.join(b + "> > - ") + b + b;
 					break;
 				case "type-text":
 					// add question
@@ -315,6 +318,7 @@ function shuffleArray(array) {
 function all_stories_get(e){
 	//console.log(JSON.stringify(e));
 	// create display element
+	document.getElementById("get_all_stories").remove();
 	var div = document.createElement("div");
 	div.setAttribute("style", "padding-top: 10px;");
 	div.innerHTML = '<textarea id="all_output" rows="5" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
