@@ -193,7 +193,9 @@ function display_output(caller) {
 	div.setAttribute("style", "padding-top: 10px;");
 	div.innerHTML = '<textarea id="output" rows="200" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
 	caller.parentElement.append(div);
-	document.getElementById("output").value = output;
+	var output_ele = document.getElementById("output");
+	output_ele.value = output;
+	output_ele.rows = output.split("\n").length + 5;
 }
 
 // Create exercises
@@ -310,7 +312,7 @@ var transcript_load = setInterval(function() {
 
 
 
-
+//document.getElementById("output").value.split("\n").length
 
 
 
