@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.3
+// @version      0.2.3.1
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -16,7 +16,7 @@ header.en_fr = _ =>
 	'[Index for more stories](https://forum.duolingo.com/comment/35112359)' + br +
 	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 	'Learn Through Stories [LTS] : Duolingo French Stories' + br +
-	'>#####Characters:' + br +
+	'>#####**Characters**:' + br +
 	'> ' + narrator_marking + [...char_names].join("; ");
 header.en_de = _ =>
 	'[[LTS INDEX] German Stories](https://forum.duolingo.com/comment/35116657)' + br +
@@ -66,7 +66,7 @@ bridge.en_fr = _ =>
 	'---' + br +
 	'For a Tinycard deck for words used in this story, click here : ' +
 	'[![](https://i.imgur.com/3r0Jd8k.png)]' + 
-	'(https://tinycards.duolingo.com/decks/N5sHjC1d/duolingo-french-stories-1-1t)' +
+	'()' +
 	br + '---' + br +
 	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
 bridge.en_de = _ =>
@@ -158,7 +158,7 @@ function construct(e, caller=null) {
 	// header
 	output = header[from_language + "_" + learning]() + br;
 	// story set and version
-	output += "> Set " + e.setNumber + "; CEFR " + e.cefrLevel + "; Story revision " + e.revision + "; Story length " + e.lines.length + "; Exercises " + ex_count + br;
+	output += "> **Set** " + e.setNumber + "; **CEFR** " + e.cefrLevel + "; **Story revision** " + e.revision + "; **Story length** " + e.lines.length + "; **Exercises** " + ex_count + br;
 	// story title
 	output += "#### ! " + flatStext(e.lines[1].phrases) + " (" + e.fromLanguageName + ")" + br;
 	// story text
@@ -317,11 +317,10 @@ function all_stories_get(e){
 	for (var set of [...document.getElementsByClassName("set")]) {
 		for (var story of [...set.getElementsByClassName("story")]) {
 			console.log(i++);
-			console.log(story.getAttribute("href").substr(9));
-			//get_JSON(
-			//	"https://stories.duolingo.com/api/stories/" +  story.getAttribute("href").substr(9) + "?masterVersion=false",
-			//	construct
-			//);
+			get_JSON(
+				"https://stories.duolingo.com/api/stories/" +  story.getAttribute("href").substr(9) + "?masterVersion=false",
+				construct
+			);
 		}
 	}
 }
