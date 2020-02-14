@@ -10,80 +10,82 @@
 (function() {
     'use strict';
 
+// Line breaks
+var b = "  \n"; // Small break (two spaces)
+var br = "\n\n"; // Big break (double enter)
+
 // Header text
-var header = {};
-header.en_fr = _ =>
-	'[Index for more stories](https://forum.duolingo.com/comment/35112359)' + br +
-	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-	'Learn Through Stories [LTS] : Duolingo French Stories' + br +
-	'>#####**Characters**:' + br +
-	'> ' + narrator_marking + [...char_names].join("; ");
-header.en_de = _ =>
-	'[[LTS INDEX] German Stories](https://forum.duolingo.com/comment/35116657)' + br +
-	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-	'Learn Through Stories [LTS] : Duolingo German Stories' + br +
-	'>#####Characters:' + br +
-	'> ' + narrator_marking + ': NARRATOR ;' + br +
-	'> ' + [...char_names].join("; ");
-header.en_es = _ =>
-	'[[LTS INDEX] Spanish Stories](https://forum.duolingo.com/comment/35116428)' + br +
-	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-	'Learn Through Stories [LTS] : Duolingo Spanish Stories' + br +
-	'>#####Characters:' + br +
-	'> ' + narrator_marking + ': NARRATOR ;' + br +
-	'> ' + [...char_names].join("; ");
-header.en_pt = _ =>
-	'[[LTS INDEX] Portuguese Stories](https://forum.duolingo.com/comment/35116516)' + br +
-	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-	'Learn Through Stories [LTS] : Duolingo Portuguese Stories' + br +
-	'>#####Characters:' + br +
-	'> ' + narrator_marking + [...char_names].join("; ");
-header.es_en = _ =>
-	'[[LTS ÍNDICE] Cuentos : inglés para hispanohablantes](https://forum.duolingo.com/comment/35418327)' + br +
-	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-	'Learn Through Stories [LTS] : Duolingo English Stories' + br +
-	'>#####Personajes:' + br +
-	'> ' + narrator_marking + ': NARRATOR ;' + br +
-	'> ' + [...char_names].join("; ");
-header.pt_en = _ =>
-	'[[[LTS INDEX] Histórias: inglês para falantes de português](https://forum.duolingo.com/comment/35553792)' + br +
-	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-	'Learn Through Stories [LTS] : Duolingo English Stories' + br +
-	'>#####Personagens:' + br +
-	'> ' + narrator_marking + ': NARRATOR ;' + br +
-	'> ' + [...char_names].join("; ");
-header.zh_en = _ =>
-	'[[[LTS INDEX] 小故事 :讲中文的 - 英语](https://forum.duolingo.com/comment/35834162)' + br +
-	'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
-	'Learn Through Stories [LTS] : Duolingo English Stories' + br +
-	'>#####:' + br +
-	'> ' + narrator_marking + ': 扬声器 ;' + br +
-	'> ' + [...char_names].join("; ");
+var header = {
+	en_fr:
+		'[[LTS INDEX] French stories]' + 
+		'(https://forum.duolingo.com/comment/35112359)' + br +
+		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+		'Learn Through Stories [LTS] : Duolingo French Stories' + br,
+	en_de:
+		'[[LTS INDEX] German Stories]' + 
+		'(https://forum.duolingo.com/comment/35116657)' + br +
+		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+		'Learn Through Stories [LTS] : Duolingo German Stories' + br,
+	en_es:
+		'[[LTS INDEX] Spanish Stories]' + 
+		'(https://forum.duolingo.com/comment/35116428)' + br +
+		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+		'Learn Through Stories [LTS] : Duolingo Spanish Stories' + br,
+	en_pt:
+		'[[LTS INDEX] Portuguese Stories]' +
+		'(https://forum.duolingo.com/comment/35116516)' + br +
+		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+		'Learn Through Stories [LTS] : Duolingo Portuguese Stories' + br,
+	es_en:
+		'[[LTS ÍNDICE] Cuentos : inglés para hispanohablantes]' +
+		'(https://forum.duolingo.com/comment/35418327)' + br +
+		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+		'Learn Through Stories [LTS] : Duolingo English Stories',
+	pt_en:
+		'[[[LTS INDEX] Histórias: inglês para falantes de português]' + 
+		'(https://forum.duolingo.com/comment/35553792)' + br +
+		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+		'Learn Through Stories [LTS] : Duolingo English Stories' + br,
+	zh_en:
+		'[[[LTS INDEX] 小故事 :讲中文的 - 英语]' + 
+		'(https://forum.duolingo.com/comment/35834162)' + br +
+		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
+		'Learn Through Stories [LTS] : Duolingo English Stories' + br
+}
+
+// Characters listing
+var characters = {
+	en: '>#####**Characters:**',
+	es: '>#####**Personajes:**',
+	pt: '>#####**Personagens:**',
+	zh: '>#####**Characters:**'
+}
 
 // Text between the story and exercises
-var bridge = {};
-bridge.en_fr = _ =>
-	'---' + br +
-	'For a Tinycard deck for words used in this story, click here : ' +
-	'[![](https://i.imgur.com/3r0Jd8k.png)]' + 
-	'()' +
-	br + '---' + br +
-	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
-bridge.en_de = _ =>
-	'---' + br +
-	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
-bridge.en_es = _ =>
-	'---' + br +
-	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
-bridge.en_pt = _ =>
-	'---' + br +
-	'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br;
-bridge.es_en = _ =>
-	'---' + br;
-bridge.pt_en = _ =>
-	'---' + br;
-bridge.zh_en = _ =>
-	'---' + br;
+var bridge = {
+	en_fr:
+		'---' + br +
+		'For a Tinycard deck for words used in this story, click here : ' +
+		'[![](https://i.imgur.com/3r0Jd8k.png)]' + 
+		'()' + // Tinycards URL here
+		br + '---' + br +
+		'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br,
+	en_de:
+		'---' + br +
+		'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br,
+	en_es:
+		'---' + br +
+		'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br,
+	en_pt:
+		'---' + br +
+		'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br,
+	es_en:
+		'---' + br,
+	pt_en:
+		'---' + br,
+	zh_en:
+		'---' + br
+}
 
 // Question to pose for implicit questions (by from language)
 var ask = {
@@ -110,11 +112,8 @@ var ask = {
 };
 
 // Catch narrator names
-var narrator = ["Narrator", "Narrador", "narradora", "Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
-
-// Line breaks
-var b = "  \n"; // Small break (two spaces)
-var br = "\n\n"; // Big break (double enter)
+var narrator = ["Narrator", "Narrador", "narradora",
+	"Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
 
 // Other
 var speaker_color = "#7AC70C"; // Color to display narrator / character name in
@@ -156,11 +155,19 @@ function construct(e, caller=null) {
 	// unique character names
 	char_names = new Set(flatperson(e.lines).filter(n => n));
 	// header
-	output = header[from_language + "_" + learning]() + br;
-	// story set and version
-	output += "> **Set** " + e.setNumber + "; **CEFR** " + e.cefrLevel + "; **Story revision** " + e.revision + "; **Story length** " + e.lines.length + "; **Exercises** " + ex_count + br;
+	output = header[from_language + "_" + learning] + br;
+	// story info
+	output += "**Set** " + e.setNumber +
+		"; **CEFR** " + e.cefrLevel +
+		"; **Story revision** " + e.revision +
+		"; **Story length** " + e.lines.length +
+		"; **Exercises** " + ex_count + br;
+	// characters
+	output += characters[from_language] + br +
+		'> ' + narrator_marking + [...char_names].join("; ") + br;
 	// story title
-	output += "#### ! " + flatStext(e.lines[1].phrases) + " (" + e.fromLanguageName + ")" + br;
+	output += "#### ! " + flatStext(e.lines[1].phrases) +
+		" (" + e.fromLanguageName + ")" + br;
 	// story text
 	for (var i = 2; i < e.lines.length; i++) {
 		// speaker
@@ -173,7 +180,7 @@ function construct(e, caller=null) {
 		output += flatStext(e.lines[i].phrases) + b;
 	}
 	// seperation between story text and exercises
-	output += b + bridge[from_language + "_" + learning]();
+	output += b + bridge[from_language + "_" + learning];
 	// exercises
 	output += exercises;
 	// remove previos if present
@@ -185,7 +192,7 @@ function construct(e, caller=null) {
 	if (caller){
 		display_output(caller);
 	} else {
-		document.getElementById("all_output").value += "---\n---\n---\n\n" + output;
+		document.getElementById("all_output").value += "\n---\n\n" + output;
 	}
 }
 
@@ -246,7 +253,7 @@ function collect_exercises(e) {
 					// split phrase into random parts
 					var mix = flatStext(line.phrases).replace(/[.,!;:?]/g, "").split(" ");
 					shuffleArray(mix);
-					ex += b + "> " + mix.join(" - ") + b + b;
+					ex += br + "> " + mix.join(" - ") + b + b;
 					break;
 				case "select-phrases":
 					// add question
@@ -262,7 +269,7 @@ function collect_exercises(e) {
 					// add sub-question
 					ex += b + "> " + flatStext(e.lines[4].phrases).replace(correct, "_".repeat(correct.length));
 					// add answer options
-					ex += br + "> - " + a.join(b + "> - ") + b + b;
+					ex += b + "> - " + a.join(b + "> - ") + b + b;
 					break;
 				case "type-text":
 					// add question
