@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.2.6
+// @version      0.3.0
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -125,6 +125,8 @@ var learning = null,
 var output = "";
 var char_names = null;
 var ex_count = 0;
+var tbl = null;
+var set_list = null;
 
 var flattext = a => a.flatMap(a => a.text).join("");
 var flatStext = a => a.flatMap(a => flattext(a.syncedTexts)).join("");
@@ -141,17 +143,24 @@ function dl_buttons() {
 			set.append(button);
 		}
 	}
-	// button to get all
+	// button to get all for forum
 	var button = document.createElement("button");
 	button.id = "get_all_stories";
 	button.setAttribute("number", "all");
-	button.innerText = "Get all stories";
+	button.innerText = "Get all stories for the forum";
 	button.addEventListener("click", () => all_stories_get());
+	document.getElementsByClassName("stories-header")[0].append(button);
+	// button to get all for Google Sheets
+	var button = document.createElement("button");
+	button.id = "get_all_sheets";
+	button.setAttribute("number", "all");
+	button.innerText = "Get all stories for Google Sheets";
+	button.addEventListener("click", () => all_stories_sheets());
 	document.getElementsByClassName("stories-header")[0].append(button);
 }
 
 function construct(e, caller=null) {
-	console.log(JSON.stringify(e));
+	//console.log(JSON.stringify(e));
 	var exercises = collect_exercises(e);
 	// unique character names
 	char_names = new Set(flatperson(e.lines).filter(n => n));
@@ -297,7 +306,7 @@ function request_story(e) {
 	);
 }
 
-function get_JSON(url, f, arg=null){
+function get_JSON(url, f, arg=null) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -317,19 +326,18 @@ function shuffleArray(array) {
     }
 }
 
-function all_stories_get(e){
+function all_stories_get(e) {
 	//console.log(JSON.stringify(e));
 	// create display element
 	document.getElementById("get_all_stories").remove();
+	document.getElementById("get_all_sheets").remove();
 	var div = document.createElement("div");
 	div.setAttribute("style", "padding-top: 10px;");
 	div.innerHTML = '<textarea id="all_output" rows="5" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
 	document.getElementsByClassName("stories-header")[0].append(div);
 	// get each story
-	var i = 1;
 	for (var set of [...document.getElementsByClassName("set")]) {
 		for (var story of [...set.getElementsByClassName("story")]) {
-			console.log(i++);
 			get_JSON(
 				"https://stories.duolingo.com/api/stories/" +  story.getAttribute("href").substr(9) + "?masterVersion=false",
 				construct
@@ -338,15 +346,62 @@ function all_stories_get(e){
 	}
 }
 
-function request_sets() {
-	get_JSON(
-		"https://stories.duolingo.com/api2/stories?fromLanguage=" + from_language + "&learningLanguage=" + learning + "&masterVersions=false&illustrationFormat=png"
-	);
+function all_stories_sheets() {
+	tbl = document.createElement("table");
+	tbl.id = "all_tbl";
+	// get each story
+	for (var set of set_list.sets) {
+		for (var story of set) {
+			get_JSON(
+				"https://stories.duolingo.com/api/stories/" + story.id + "?masterVersion=false",
+				construct_sheets
+			);
+		}
+	}
+	document.body.innerHTML = "";
+	document.body.append(tbl);
 }
 
-function set_language(user){
+function tr(content) {
+	var new_row = document.createElement("tr");
+	new_row.innerHTML = content;
+	tbl.append(new_row);
+}
+
+function construct_sheets(e) {
+	console.log('Adding story "' + e.fromLanguageName + '"');
+	// set + from language title
+	tr("<td></td><td>Set " + e.setNumber + "</td><td>" + e.fromLanguageName + "</td>");
+	// cefr + story version
+	tr("<td></td><td>CEFR: " + e.cefrLevel + "</td><td>Version: " + e.revision + "</td>");
+	// title row
+	tr('<td>=IMAGE("' + e.illustrationUrls.active + '",4,28,21)</td><td>Title</td><td>' + e.name + "</td>");
+	// story text
+	for (var i = 2; i < e.lines.length; i++){
+		var line = e.lines[i];
+		var speaker = narrator.includes(line.person) ?
+			"🔊" : '=IMAGE("' + line.avatarUrl + '",4,28,21)';
+		tr("<td>" + speaker + "</td><td>" + line.person + "</td><td>" + flatStext(line.phrases) + "</td>");
+	}
+	// end
+	var mark_end = "<td>##</td><td>###############</td><td>##################################################</td>";
+	tr(mark_end);
+	tr(mark_end);
+	tr(mark_end);
+}
+
+function got_sets(e){
+	set_list = e;
+}
+
+function set_language(user) {
 	learning = user.currentCourse.learningLanguage;
 	from_language = user.currentCourse.fromLanguage;
+	// get set and story overview
+	get_JSON(
+		"https://stories.duolingo.com/api2/stories?fromLanguage=" + from_language + "&learningLanguage=" + learning + "&masterVersions=false&illustrationFormat=png",
+		got_sets
+	);
 }
 
 (function current_course() {
