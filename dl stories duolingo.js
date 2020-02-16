@@ -402,7 +402,7 @@ function all_stories_sheets() {
 }
 
 // Generate row for table
-function tr(content, e) {
+function tr(content) {
 	var new_row = document.createElement("tr");
 	new_row.innerHTML = content;
 	row_list.push(new_row);
@@ -414,23 +414,21 @@ function construct_sheets(e) {
 	row_list = [];
 	var part = (e.multiPartInfo ? " " + e.multiPartInfo.part + "/" + e.multiPartInfo.totalParts : "");
 	// set + from language title
-	tr("<td></td><td>Set " + e.setNumber + "</td><td>" +
-		e.fromLanguageName + part + "</td>", e);
+	tr("<td></td><td>Set " + e.setNumber + "</td><td>" + e.fromLanguageName + part + "</td>");
 	// cefr + story version
-	tr("<td></td><td>CEFR: " + e.cefrLevel + "</td><td>Version: " + e.revision + "</td>", e);
+	tr("<td></td><td>CEFR: " + e.cefrLevel + "</td><td>Version: " + e.revision + "</td>");
 	// title row
-	tr('<td>=IMAGE("' + e.illustrationUrls.active + '",4,28,21)</td><td>Title</td><td>' + e.name + part + "</td>", e);
+	tr('<td>=IMAGE("' + e.illustrationUrls.active + '",4,28,21)</td>' +
+		"<td>Title</td><td>" + e.name + part + "</td>");
 	// story text
 	for (var i = 2; i < e.lines.length; i++){
 		var line = e.lines[i];
 		var speaker = narrator.includes(line.person) || !line.person ?
 			"🔊" : '=IMAGE("' + line.avatarUrl + '",4,28,21)';
-		tr("<td>" + speaker + "</td><td>" + line.person + "</td><td>" + flatStext(line.phrases) + "</td>", e);
+		tr("<td>" + speaker + "</td><td>" + line.person + "</td><td>" + flatStext(line.phrases) + "</td>");
 	}
 	// end
-	tr(mark_end, e);
-	tr(mark_end, e);
-	tr(mark_end, e);
+	tr(mark_end); tr(mark_end); tr(mark_end);
 	var story_obj = {};
 	story_obj[e.id] = row_list;
 	output_sheets[e.setNumber] = {...output_sheets[e.setNumber], ...story_obj};
@@ -463,7 +461,6 @@ function check_output_sheets() {
 		}
 		// add each story
 		for (var story of set) {
-			var story_i = set.indexOf(story) + 1;
 			// add each table row of the story
 			for (var row of output_sheets[set_i][story.id]) {
 				tbl.append(row);
