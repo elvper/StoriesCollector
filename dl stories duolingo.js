@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.3.0
+// @version      0.4.0
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -112,7 +112,7 @@ var ask = {
 };
 
 // Catch narrator names
-var narrator = ["Narrator", "Narrador", "narradora",
+var narrator = ["Narrator", "Narrador", "Narradora",
 	"Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
 
 // Other
@@ -123,24 +123,35 @@ var learning = null,
 	from_language = null;
 
 var output = "";
+var output_all = {};
 var char_names = null;
 var ex_count = 0;
 var tbl = null;
+var output_sheets = {};
+var row_list = [];
 var set_list = null;
+var mark_end = "<td>##</td><td>###############</td><td>###########################################################</td>";
+var transcript_load = null;
 
 var flattext = a => a.flatMap(a => a.text).join("");
 var flatStext = a => a.flatMap(a => flattext(a.syncedTexts)).join("");
 var flatperson = a => a.flatMap(a => a.person ? a.person : null);
 
+// Step 5: add buttons to stories page
 function dl_buttons() {
 	// button for each story
-	for (var set of [...document.getElementsByClassName("set")]) {
-		for (var story of [...set.getElementsByClassName("story")]) {
+	for (var set of set_list.sets) {
+		var set_i = set_list.sets.indexOf(set);
+		for (var story of set) {
+			var story_i = set.indexOf(story);
 			var button = document.createElement("button");
-			button.setAttribute("number", [...set.getElementsByClassName("story")].indexOf(story));
-			button.innerText = story.innerText;
+			button.setAttribute("set", set_i);
+			button.setAttribute("number", story_i);
+			button.setAttribute("ref", story.id);
+			button.innerText = story.title +
+				(story.subtitle ? " (" + story.subtitle + ")" : "");
 			button.addEventListener("click", function(){request_story(this)});
-			set.append(button);
+			document.getElementsByClassName("set")[set_i].append(button);
 		}
 	}
 	// button to get all for forum
@@ -159,7 +170,9 @@ function dl_buttons() {
 	document.getElementsByClassName("stories-header")[0].append(button);
 }
 
+// Generate a story for the Duolingo forum
 function construct(e, caller=null) {
+	//console.log('Fetching story "' + e.fromLanguageName + '"');
 	//console.log(JSON.stringify(e));
 	var exercises = collect_exercises(e);
 	// unique character names
@@ -179,12 +192,13 @@ function construct(e, caller=null) {
 	output += "![Story icon](" + e.illustrationUrls.active.slice(0, -4) + ".png)" + br;
 	// story title
 	output += "#### ! [" + flatStext(e.lines[1].phrases) +
+		(e.multiPartInfo ? " " + e.multiPartInfo.part + "/" + e.multiPartInfo.totalParts : "") +
 		" (" + e.fromLanguageName +
 		")](https://stories.duolingo.com/lessons/" + e.id + ")" + br;
 	// story text
 	for (var i = 2; i < e.lines.length; i++) {
 		// speaker
-		if (narrator.includes(e.lines[i].person)){
+		if (narrator.includes(e.lines[i].person) || !e.lines[i].person){
 			output += narrator_marking;
 		} else {
 			output += "[color=" + speaker_color + "]" +
@@ -206,10 +220,14 @@ function construct(e, caller=null) {
 	if (caller){
 		display_output(caller);
 	} else {
-		document.getElementById("all_output").value += "\n---\n\n" + output;
+		var story_obj = {};
+		story_obj[e.id] = output;
+		output_all[e.setNumber] = {...output_all[e.setNumber], ...story_obj};
+		check_output_all();
 	}
 }
 
+// Display a single story for a Duolingo forum post
 function display_output(caller) {
 	// close button
 	var button_div = document.createElement("div");
@@ -239,8 +257,6 @@ function collect_exercises(e) {
 	for (var line of e.lines){
 		if (line.challenges.length){
 			ex_count++;
-			//console.log(line.challenges[0].type);
-			//console.log(line.challenges[0]);
 			switch(line.challenges[0].type) {
 				case "multiple-choice":
 					// add question
@@ -298,14 +314,16 @@ function collect_exercises(e) {
 	return ex;
 }
 
+// Request JSON code of a story
 function request_story(e) {
 	get_JSON(
-		"https://stories.duolingo.com/api/stories/" +  e.parentElement.getElementsByClassName("story")[e.getAttribute("number")].getAttribute("href").substr(9) + "?masterVersion=false",
+		"https://stories.duolingo.com/api/stories/" + e.getAttribute("ref") + "?masterVersion=false",
 		construct,
 		e
 	);
 }
 
+// Make xml requests
 function get_JSON(url, f, arg=null) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -317,6 +335,7 @@ function get_JSON(url, f, arg=null) {
 	xhttp.send();
 }
 
+// Randomly shuffle an array
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -326,26 +345,48 @@ function shuffleArray(array) {
     }
 }
 
+// Collect all stories for the Duolingo forum
 function all_stories_get(e) {
 	//console.log(JSON.stringify(e));
-	// create display element
+	// Remove "all" buttons
 	document.getElementById("get_all_stories").remove();
 	document.getElementById("get_all_sheets").remove();
-	var div = document.createElement("div");
-	div.setAttribute("style", "padding-top: 10px;");
-	div.innerHTML = '<textarea id="all_output" rows="5" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
-	document.getElementsByClassName("stories-header")[0].append(div);
-	// get each story
-	for (var set of [...document.getElementsByClassName("set")]) {
-		for (var story of [...set.getElementsByClassName("story")]) {
+	// Get each story
+	for (var set of set_list.sets) {
+		for (var story of set) {
 			get_JSON(
-				"https://stories.duolingo.com/api/stories/" +  story.getAttribute("href").substr(9) + "?masterVersion=false",
+				"https://stories.duolingo.com/api/stories/" + story.id + "?masterVersion=false",
 				construct
 			);
 		}
 	}
 }
 
+// Display output for forum if all stories have been collected
+function check_output_all() {
+	var out = "";
+	for (var set of set_list.sets) {
+		var set_i = set_list.sets.indexOf(set) + 1;
+		if (!output_all[set_i]) return;
+		for (var story of set) {
+			if (!output_all[set_i][story.id]) return;
+		}
+	}
+	for (var set of set_list.sets) {
+		for (var story of set) {
+			out += "\n\n---\n\n" + output_all[set_list.sets.indexOf(set) + 1][story.id];
+		}
+	}
+	console.log("All stories collected");
+	// create display element
+	var div = document.createElement("div");
+	div.setAttribute("style", "padding-top: 10px;");
+	div.innerHTML = '<textarea id="all_output" rows="5" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
+	document.getElementsByClassName("stories-header")[0].append(div);
+	document.getElementById("all_output").value = out;
+}
+
+// Collect all stories for Google Sheets
 function all_stories_sheets() {
 	tbl = document.createElement("table");
 	tbl.id = "all_tbl";
@@ -358,42 +399,89 @@ function all_stories_sheets() {
 			);
 		}
 	}
+}
+
+// Generate row for table
+function tr(content, e) {
+	var new_row = document.createElement("tr");
+	new_row.innerHTML = content;
+	row_list.push(new_row);
+}
+
+// Generate a story for Google Sheets
+function construct_sheets(e) {
+	//console.log('Adding story "' + e.fromLanguageName + '"');
+	row_list = [];
+	var part = (e.multiPartInfo ? " " + e.multiPartInfo.part + "/" + e.multiPartInfo.totalParts : "");
+	// set + from language title
+	tr("<td></td><td>Set " + e.setNumber + "</td><td>" +
+		e.fromLanguageName + part + "</td>", e);
+	// cefr + story version
+	tr("<td></td><td>CEFR: " + e.cefrLevel + "</td><td>Version: " + e.revision + "</td>", e);
+	// title row
+	tr('<td>=IMAGE("' + e.illustrationUrls.active + '",4,28,21)</td><td>Title</td><td>' + e.name + part + "</td>", e);
+	// story text
+	for (var i = 2; i < e.lines.length; i++){
+		var line = e.lines[i];
+		var speaker = narrator.includes(line.person) || !line.person ?
+			"🔊" : '=IMAGE("' + line.avatarUrl + '",4,28,21)';
+		tr("<td>" + speaker + "</td><td>" + line.person + "</td><td>" + flatStext(line.phrases) + "</td>", e);
+	}
+	// end
+	tr(mark_end, e);
+	tr(mark_end, e);
+	tr(mark_end, e);
+	var story_obj = {};
+	story_obj[e.id] = row_list;
+	output_sheets[e.setNumber] = {...output_sheets[e.setNumber], ...story_obj};
+	check_output_sheets();
+}
+
+// Generate table if all stories have been collected
+function check_output_sheets() {
+	// Check whether all stories have been collected
+	for (var set of set_list.sets) {
+		var set_i = set_list.sets.indexOf(set) + 1;
+		if (!output_sheets[set_i]) return;
+		for (var story of set) {
+			if (!output_sheets[set_i][story.id]) return;
+		}
+	}
+	// Construct table if all stories have been collected
+	for (var set of set_list.sets) {
+		var set_i = set_list.sets.indexOf(set) + 1;
+		// Create set header
+		var new_row = document.createElement("tr");
+		new_row.innerHTML = "<td>---</td><td>-------------------------</td>" +
+		"<td>----- Set " + set_i + " ------------------------------" +
+		"-----------------------------------------------------</td>";
+		tbl.append(new_row);
+		for (var _ of [1, 2, 3]) {
+			new_row = document.createElement("tr");
+			new_row.innerHTML = mark_end;
+			tbl.append(new_row);
+		}
+		// add each story
+		for (var story of set) {
+			var story_i = set.indexOf(story) + 1;
+			// add each table row of the story
+			for (var row of output_sheets[set_i][story.id]) {
+				tbl.append(row);
+			}
+		}
+	}
+	console.log("All stories collected");
 	document.body.innerHTML = "";
 	document.body.append(tbl);
 }
 
-function tr(content) {
-	var new_row = document.createElement("tr");
-	new_row.innerHTML = content;
-	tbl.append(new_row);
-}
-
-function construct_sheets(e) {
-	console.log('Adding story "' + e.fromLanguageName + '"');
-	// set + from language title
-	tr("<td></td><td>Set " + e.setNumber + "</td><td>" + e.fromLanguageName + "</td>");
-	// cefr + story version
-	tr("<td></td><td>CEFR: " + e.cefrLevel + "</td><td>Version: " + e.revision + "</td>");
-	// title row
-	tr('<td>=IMAGE("' + e.illustrationUrls.active + '",4,28,21)</td><td>Title</td><td>' + e.name + "</td>");
-	// story text
-	for (var i = 2; i < e.lines.length; i++){
-		var line = e.lines[i];
-		var speaker = narrator.includes(line.person) ?
-			"🔊" : '=IMAGE("' + line.avatarUrl + '",4,28,21)';
-		tr("<td>" + speaker + "</td><td>" + line.person + "</td><td>" + flatStext(line.phrases) + "</td>");
-	}
-	// end
-	var mark_end = "<td>##</td><td>###############</td><td>##################################################</td>";
-	tr(mark_end);
-	tr(mark_end);
-	tr(mark_end);
-}
-
+// Step 3: set available stories list and check if the page has loaded
 function got_sets(e){
 	set_list = e;
+	page_loaded_check();
 }
 
+// Step 2: set active language and get overview of available stories
 function set_language(user) {
 	learning = user.currentCourse.learningLanguage;
 	from_language = user.currentCourse.fromLanguage;
@@ -404,6 +492,7 @@ function set_language(user) {
 	);
 }
 
+// Step 1: get active language
 (function current_course() {
 	get_JSON(
 		"https://stories.duolingo.com/api/user",
@@ -411,13 +500,15 @@ function set_language(user) {
 	);
 })();
 
-// Wait for elements to load
-var transcript_load = setInterval(function() {
-	if (document.getElementsByClassName("story").length) {
-		dl_buttons();
-		clearInterval(transcript_load);
-	}
-}, 100);
+// Step 4: wait for the page to load before adding buttons
+function page_loaded_check() {
+	transcript_load = setInterval(function() {
+		if (document.getElementsByClassName("story").length) {
+			dl_buttons();
+			clearInterval(transcript_load);
+		}
+	}, 100);
+}
 
 })();
 
