@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.4.0
+// @version      0.5.0
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -47,7 +47,7 @@ var header = {
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo English Stories',
 	zh_en:
-		'[[[LTS INDEX] 小故事 :讲中文的 - 英语]' + 
+		'[[LTS INDEX] 小故事 :讲中文的 - 英语]' + 
 		'(https://forum.duolingo.com/comment/35834162)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo English Stories'
@@ -64,11 +64,11 @@ var characters = {
 // Text between the story and exercises
 var bridge = {
 	en_fr:
+		//'---' + br +
+		//'For a Tinycard deck for words used in this story, click here : ' +
+		//'[![](https://i.imgur.com/3r0Jd8k.png)]' + 
+		//'()' + br + // Tinycards URL here
 		'---' + br +
-		'For a Tinycard deck for words used in this story, click here : ' +
-		'[![](https://i.imgur.com/3r0Jd8k.png)]' + 
-		'()' + // Tinycards URL here
-		br + '---' + br +
 		'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br,
 	en_de:
 		'---' + br +
@@ -91,29 +91,76 @@ var bridge = {
 var ask = {
 	en: {
 		arrange: "Sort the words into the correct order.",
-		select: "Select the missing word or phrase",
-		type: "Fill in the missing word(s)."
+		select: "Select the missing word or phrase.",
+		type: "Fill in the missing word or phrase."
 	},
 	es: {
-		arrange: "@@@@@ Sort the words into the correct order.",
-		select: "@@@@@ Select the correct option.",
-		type: "@@@@@ Fill in the gap."
+		arrange: "Pon las palabras en el orden correcto.",
+		select: "Seleccione la palabra o frase que falta.",
+		type: "Complete la palabra o frase que falta."
 	},
 	pt: {
-		arrange: "@@@@@ Sort the words into the correct order.",
-		select: "@@@@@ Select the correct option.",
-		type: "@@@@@ Fill in the gap."
+		arrange: "Coloque as palavras na ordem correta.",
+		select: "Selecione a palavra ou frase que falta.",
+		type: "Preencha a palavra ou frase que falta."
 	},
 	zh: {
-		arrange: "@@@@@ Sort the words into the correct order.",
-		select: "@@@@@ Select the correct option.",
-		type: "@@@@@ Fill in the gap."
+		arrange: "分类",
+		select: "缺少了什么",
+		type: "填写"
 	}
 };
+
+var story_info = {
+	en: {
+		title: "Story information",
+		setnum: s => "**Set**: " + s,
+		cefr: "CEFR",
+		rev: "Story revision",
+		len: "Story length",
+		ex: "Exercises",
+		img: "Big story image",
+		audio: "Download story audio"
+	},
+	pt: {
+		title: "Informações da história",
+		setnum: s => "**Série**: " + s,
+		cefr: "CEFR",
+		rev: "Revisão história",
+		len: "Comprimento da história",
+		ex: "Exercícios",
+		img: "Grande imagem da história",
+		audio: "Baixar áudio da história"
+	},
+	es: {
+		title: "Información de la historia",
+		setnum: s => "**Colección**: " + s,
+		cefr: "MCER / CEFR",
+		rev: "Revisión de la historia",
+		len: "Longitud de la historiah",
+		ex: "Ejercicios",
+		img: "Imagen grande de la historia",
+		audio: "Descargar audio de la historia"
+	},
+	zh: {
+		title: "故事信息",
+		setnum: s => "**第** " + s + " **组**",
+		cefr: "歐洲共同語言參考標準 (CEFR)",
+		rev: "故事改版",
+		len: "故事长度",
+		ex: "练习题",
+		img: "故事的大图景",
+		audio: "下载故事音频"
+	}
+}
 
 // Catch narrator names
 var narrator = ["Narrator", "Narrador", "Narradora",
 	"Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
+
+var story_img = {
+	
+}
 
 // Other
 var speaker_color = "#7AC70C"; // Color to display narrator / character name in
@@ -142,21 +189,21 @@ function dl_buttons() {
 	// button for each story
 	for (var set of set_list.sets) {
 		var set_i = set_list.sets.indexOf(set);
+		var set_ele = document.getElementsByClassName("set")[set_i];
 		for (var story of set) {
 			var story_i = set.indexOf(story);
+			// story text button
 			var button = document.createElement("button");
-			button.setAttribute("set", set_i);
-			button.setAttribute("number", story_i);
+			button.className = "story_catcher";
 			button.setAttribute("ref", story.id);
-			button.innerText = story.title +
-				(story.subtitle ? " (" + story.subtitle + ")" : "");
 			button.addEventListener("click", function(){request_story(this)});
-			document.getElementsByClassName("set")[set_i].append(button);
+			set_ele.insertBefore(button, set_ele.getElementsByClassName("story")[story_i + 1]);
 		}
 	}
 	// button to get all for forum
 	var button = document.createElement("button");
 	button.id = "get_all_stories";
+	button.className = "story_all";
 	button.setAttribute("number", "all");
 	button.innerText = "Get all stories for the forum";
 	button.addEventListener("click", () => all_stories_get());
@@ -164,6 +211,7 @@ function dl_buttons() {
 	// button to get all for Google Sheets
 	var button = document.createElement("button");
 	button.id = "get_all_sheets";
+	button.className = "story_all";
 	button.setAttribute("number", "all");
 	button.innerText = "Get all stories for Google Sheets";
 	button.addEventListener("click", () => all_stories_sheets());
@@ -175,23 +223,22 @@ function construct(e, caller=null) {
 	//console.log('Fetching story "' + e.fromLanguageName + '"');
 	//console.log(JSON.stringify(e));
 	var exercises = collect_exercises(e);
+	var img_url = e.illustrationUrls.active.slice(0, -4) + ".png";
 	// unique character names
 	char_names = new Set(flatperson(e.lines).filter(n => n));
 	// header
 	output = header[from_language + "_" + learning] + br;
-	// story info
-	output += "**Set** " + e.setNumber +
-		"; **CEFR** " + e.cefrLevel +
-		"; **Story revision** " + e.revision +
-		"; **Story length** " + e.lines.length +
-		"; **Exercises** " + ex_count + br;
+	// download audio
+	output += "[" + story_info[from_language].audio +
+		"](https://stories-cdn.duolingo.com/audio/" + e.audio.id + ".mp3)" + br;
 	// characters
 	output += characters[from_language] + br +
 		'> ' + narrator_marking + [...char_names].join("; ") + br;
-	// story icon
-	output += "![Story icon](" + e.illustrationUrls.active.slice(0, -4) + ".png)" + br;
+	// Big story icon
+	//output += "![Story icon](" + e.illustrationUrls.active.slice(0, -4) + ".png)" + br;
 	// story title
-	output += "#### ! [" + flatStext(e.lines[1].phrases) +
+	output += "#### [![](https://cdn.filestackcontent.com/AyKJdUiAUQnK4tGqSqLJmz/" +
+		"resize=height:32/" + img_url + ") " + flatStext(e.lines[1].phrases) +
 		(e.multiPartInfo ? " " + e.multiPartInfo.part + "/" + e.multiPartInfo.totalParts : "") +
 		" (" + e.fromLanguageName +
 		")](https://stories.duolingo.com/lessons/" + e.id + ")" + br;
@@ -211,6 +258,18 @@ function construct(e, caller=null) {
 	output += b + bridge[from_language + "_" + learning];
 	// exercises
 	output += exercises;
+	// story info
+	output += "---\n\n##" + story_info[from_language].title + b +
+		//+ story_info[from_language].setnum(e.setNumber) + b +
+		"**" + story_info[from_language].cefr + "**: " + e.cefrLevel + b +
+		"**" + story_info[from_language].rev + "**: " + e.revision + b +
+		"**" + story_info[from_language].len + "**: " + e.lines.length + b +
+		"**" + story_info[from_language].ex + "**: " + ex_count + b +
+		"**[" + story_info[from_language].img + "](" + img_url + ")**" + b +
+		"**[" + story_info[from_language].audio +
+		"](https://stories-cdn.duolingo.com/audio/" + e.audio.id + ".mp3)**";
+	// end
+	output += "\n---\n"
 	// remove previos if present
 	if (document.getElementById("output")) {
 		document.getElementById("output").parentElement.remove();
@@ -472,6 +531,13 @@ function check_output_sheets() {
 	document.body.append(tbl);
 }
 
+function css(){
+	var sheet = window.document.styleSheets[0];
+	sheet.insertRule('.story_catcher{position: relative;top: 20px;left: -10px;width: 39px;margin-top: -29px;margin-left: -39px;height: 29px;background: rgba(255,255,0,0.6);border-color: black;border-radius: 20px;z-index: 1;transform: scale(0.75);}', sheet.cssRules.length);
+	sheet.insertRule('.story_catcher:after{content: "💬";}', sheet.cssRules.length);
+	sheet.insertRule('.story_all{margin: 5px;background: rgba(255,255,0,0.6);border-color: black;border-radius: 20px;}', sheet.cssRules.length);
+}
+
 // Step 3: set available stories list and check if the page has loaded
 function got_sets(e){
 	set_list = e;
@@ -501,6 +567,7 @@ function set_language(user) {
 function page_loaded_check() {
 	transcript_load = setInterval(function() {
 		if (document.getElementsByClassName("story").length) {
+			css();
 			dl_buttons();
 			clearInterval(transcript_load);
 		}
@@ -508,16 +575,6 @@ function page_loaded_check() {
 }
 
 })();
-
-
-
-
-
-
-
-
-
-
 
 
 
