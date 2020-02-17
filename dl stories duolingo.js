@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.5.0
+// @version      0.5.1
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -223,7 +223,7 @@ function construct(e, caller=null) {
 	//console.log('Fetching story "' + e.fromLanguageName + '"');
 	//console.log(JSON.stringify(e));
 	var exercises = collect_exercises(e);
-	var img_url = e.illustrationUrls.active.slice(0, -4) + ".png";
+	var img_url = e.illustrationUrls.active.slice(0, -4);
 	// unique character names
 	char_names = new Set(flatperson(e.lines).filter(n => n));
 	// header
@@ -238,7 +238,7 @@ function construct(e, caller=null) {
 	//output += "![Story icon](" + e.illustrationUrls.active.slice(0, -4) + ".png)" + br;
 	// story title
 	output += "#### [![](https://cdn.filestackcontent.com/AyKJdUiAUQnK4tGqSqLJmz/" +
-		"resize=height:32/" + img_url + ") " + flatStext(e.lines[1].phrases) +
+		"resize=height:32/" + img_url + ".png) " + flatStext(e.lines[1].phrases) +
 		(e.multiPartInfo ? " " + e.multiPartInfo.part + "/" + e.multiPartInfo.totalParts : "") +
 		" (" + e.fromLanguageName +
 		")](https://stories.duolingo.com/lessons/" + e.id + ")" + br;
@@ -265,7 +265,8 @@ function construct(e, caller=null) {
 		"**" + story_info[from_language].rev + "**: " + e.revision + b +
 		"**" + story_info[from_language].len + "**: " + e.lines.length + b +
 		"**" + story_info[from_language].ex + "**: " + ex_count + b +
-		"**[" + story_info[from_language].img + "](" + img_url + ")**" + b +
+		"**[" + story_info[from_language].img + " (png)](" + img_url + ".png)**" + b +
+		"**[" + story_info[from_language].img + " (svg)](" + img_url + ".svg)**" + b +
 		"**[" + story_info[from_language].audio +
 		"](https://stories-cdn.duolingo.com/audio/" + e.audio.id + ".mp3)**";
 	// end
@@ -433,7 +434,7 @@ function check_output_all() {
 	}
 	for (var set of set_list.sets) {
 		for (var story of set) {
-			out += "\n\n---\n\n" + output_all[set_list.sets.indexOf(set) + 1][story.id];
+			out += "\n\n---\n\n---\n\n" + output_all[set_list.sets.indexOf(set) + 1][story.id];
 		}
 	}
 	console.log("All stories collected");
