@@ -222,7 +222,7 @@ var header = {
 		'Learn Through Stories [LTS] : Duolingo English Stories',
 	zh_en:
 		'[[LTS INDEX] 小故事 :讲中文的 - 英语]' + 
-		'(https://forum.duolingo.com/comment/35834162)' + br +
+		'(https://forum.duolingo.com/comment/36629672)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo English Stories'
 }
