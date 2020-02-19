@@ -197,7 +197,7 @@ var header = {
 		'Learn Through Stories [LTS] : Duolingo French Stories',
 	en_de:
 		'[[LTS INDEX] German Stories]' + 
-		'(https://forum.duolingo.com/comment/35116657)' + br +
+		'(https://forum.duolingo.com/comment/36647418)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo German Stories',
 	en_es:
