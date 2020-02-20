@@ -202,7 +202,7 @@ var header = {
 		'Learn Through Stories [LTS] : Duolingo German Stories',
 	en_es:
 		'[[LTS INDEX] Spanish Stories]' + 
-		'(https://forum.duolingo.com/comment/35116428)' + br +
+		'(https://forum.duolingo.com/comment/36661987)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo Spanish Stories',
 	en_pt:
@@ -212,12 +212,12 @@ var header = {
 		'Learn Through Stories [LTS] : Duolingo Portuguese Stories',
 	es_en:
 		'[[LTS ÍNDICE] Cuentos : inglés para hispanohablantes]' +
-		'(https://forum.duolingo.com/comment/35418327)' + br +
+		'(https://forum.duolingo.com/comment/36662333)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo English Stories',
 	pt_en:
 		'[[[LTS INDEX] Histórias: inglês para falantes de português]' + 
-		'(https://forum.duolingo.com/comment/35553792)' + br +
+		'(https://forum.duolingo.com/comment/36662201)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo English Stories',
 	zh_en:
