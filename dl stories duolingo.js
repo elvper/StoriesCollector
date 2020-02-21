@@ -208,7 +208,7 @@ var br = "\n\n"; // Big break (double enter)
 var header = {
 	en_fr:
 		'[[LTS INDEX] French stories]' + 
-		'(https://forum.duolingo.com/comment/35112359)' + br +
+		'(https://forum.duolingo.com/comment/36691441)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo French Stories',
 	en_de:
@@ -223,7 +223,7 @@ var header = {
 		'Learn Through Stories [LTS] : Duolingo Spanish Stories',
 	en_pt:
 		'[[LTS INDEX] Portuguese Stories]' +
-		'(https://forum.duolingo.com/comment/35116516)' + br +
+		'(https://forum.duolingo.com/comment/36691481)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo Portuguese Stories',
 	es_en:
