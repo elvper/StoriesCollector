@@ -807,9 +807,9 @@ function construct_overview(e) {
 		name: e.id in p[course] ? e.name : e.name + "[br]" + e.id,
 		cefr: "**[color=" + cefr[e.cefrLevel] + "]" + e.cefrLevel + "[/color]**",
 		rev: e.revision,
-		len: "**[color=" + calc_color((e.lines.length - 20) / 0.4) +
+		len: "**[color=" + calc_color((e.lines.length - 20) / 0.3) +
 			"]" + e.lines.length + "[/color]**",
-		ex: "**[color=" + calc_color((ex_count - 6) / 0.14) +
+		ex: "**[color=" + calc_color((ex_count - 6) / 0.1) +
 			"]" + ex_count + "[/color]**"
 	};
 	if (Object.keys(overview_list).length == gcl("story").length) {
