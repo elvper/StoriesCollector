@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.6.0
+// @version      0.6.2
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -279,7 +279,7 @@ var bridge = {
 
 // Table header of overview
 var overview_header = {
-	en: "|img|Title|Part|CEFR|length|ex|rev|",
+	en: "||Title|CEFR|Length|Exercises|Version|",
 	es: "|img|Title|Part|CEFR|length|ex|rev|",
 	pt: "|img|Title|Part|CEFR|length|ex|rev|",
 	zh: "|img|Title|Part|CEFR|length|ex|rev|"
@@ -397,12 +397,15 @@ var flattext = a => a.flatMap(a => a.text).join("");
 var flatStext = a => a.flatMap(a => flattext(a.syncedTexts)).join("");
 var flatperson = a => a.flatMap(a => a.person ? a.person : null);
 
+let gid = (e) => document.getElementById(e);
+let gcl = (e) => document.getElementsByClassName(e);
+
 // Step 5: add buttons to stories page
 function dl_buttons() {
 	// button for each story
 	for (var set of set_list.sets) {
 		var set_i = set_list.sets.indexOf(set);
-		var set_ele = document.getElementsByClassName("set")[set_i];
+		var set_ele = gcl("set")[set_i];
 		for (var story of set) {
 			var story_i = set.indexOf(story);
 			// story text button
@@ -427,13 +430,13 @@ function add_all_button (b_id, b_text, b_func) {
 	button.className = "story_all";
 	button.innerText = b_text;
 	button.addEventListener("click", b_func);
-	document.getElementsByClassName("stories-header")[0].append(button);
+	gcl("stories-header")[0].append(button);
 }
 
 function remove_all_buttons() {
-	document.getElementById("all_stories").remove();
-	document.getElementById("all_sheets").remove();
-	document.getElementById("all_overview").remove();
+	gid("all_stories").remove();
+	gid("all_sheets").remove();
+	gid("all_overview").remove();
 }
 
 // Generate a story for the Duolingo forum
@@ -503,9 +506,9 @@ function construct(e, caller=null) {
 	// end
 	output += "\n---\n"
 	// remove previos if present
-	if (document.getElementById("output")) {
-		document.getElementById("output").parentElement.remove();
-		document.getElementById("close_output").remove();
+	if (gid("output")) {
+		gid("output").parentElement.remove();
+		gid("close_output").remove();
 	}
 	// display output
 	if (caller){
@@ -526,8 +529,8 @@ function display_output(caller) {
 	button_div.id = "close_output";
 	button.innerText = "Close output";
 	button.addEventListener("click", function(){
-		document.getElementById("output").parentElement.remove();
-		document.getElementById("close_output").remove();
+		gid("output").parentElement.remove();
+		gid("close_output").remove();
 	});
 	button_div.append(button);
 	caller.parentElement.append(button_div);
@@ -536,8 +539,8 @@ function display_output(caller) {
 	div.setAttribute("style", "padding-top: 10px;");
 	div.innerHTML = '<textarea id="output" rows="200" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
 	caller.parentElement.append(div);
-	document.getElementById("output").value = output;
-	document.getElementById("output").rows = output.split("\n").length + 5;
+	gid("output").value = output;
+	gid("output").rows = output.split("\n").length + 5;
 }
 
 // Create exercises
@@ -672,8 +675,8 @@ function check_output_all() {
 	var div = document.createElement("div");
 	div.setAttribute("style", "padding-top: 10px;");
 	div.innerHTML = '<textarea id="all_output" rows="5" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
-	document.getElementsByClassName("stories-header")[0].append(div);
-	document.getElementById("all_output").value = out;
+	gcl("stories-header")[0].append(div);
+	gid("all_output").value = out;
 }
 
 // Collect all stories for Google Sheets
@@ -777,6 +780,7 @@ function all_overview() {
 	}
 }
 
+// Count how many exercises there are in a story
 function count_exercises(e) {
 	var countr = 0;
 	for (var line of e.lines) {
@@ -785,63 +789,57 @@ function count_exercises(e) {
 	return countr;
 }
 
+// Generate an overview table of the stories
 function construct_overview(e) {
 	var ex_count = count_exercises(e);
+	var p_num = ((a) => a ? " " + a.part + "/" + a.totalParts : "")(e.multiPartInfo);
 	overview_list[e.id] = {
 		id: e.id,
 		set: e.setNumber,
-		img: "![](https://i.imgur.com/" + icons[e.illustrationUrls.active.substr(39,40)] + ".png)",
-		title: e.id in p[course] ? "[" + e.fromLanguageName +"](https://forum.duolingo.com/comment/" + p[course][e.id] + ")" : e.fromLanguageName,
+		// image from hardcoded list
+		img: "![](https://i.imgur.com/" +
+			icons[e.illustrationUrls.active.substr(39,40)] + ".png)",
+		// title with part number and forum link
+		title: e.id in p[course] ?
+			"[" + e.fromLanguageName + p_num + "](https://forum.duolingo.com/comment/" + p[course][e.id] + ")" :
+			e.fromLanguageName + p_num,
+		// target language story title with story ID if no forum link is hardcoded
 		name: e.id in p[course] ? e.name : e.name + "[br]" + e.id,
-		part: e.multiPartInfo ? e.multiPartInfo.part + "/" + e.multiPartInfo.totalParts : "",
 		cefr: "**[color=" + cefr[e.cefrLevel] + "]" + e.cefrLevel + "[/color]**",
 		rev: e.revision,
-		len: "**[color=" + perc2color(100 - (e.lines.length - 20) / 0.4) + "]" + e.lines.length + "[/color]**",
-		ex: "**[color=" + perc2color(100 - (ex_count - 6) / 0.14) + "]" + ex_count + "[/color]**"
+		len: "**[color=" + calc_color((e.lines.length - 20) / 0.4) +
+			"]" + e.lines.length + "[/color]**",
+		ex: "**[color=" + calc_color((ex_count - 6) / 0.14) +
+			"]" + ex_count + "[/color]**"
 	};
-	if (Object.keys(overview_list).length == document.getElementsByClassName("story").length) {
+	if (Object.keys(overview_list).length == gcl("story").length) {
 		output_overview();
 	}
 }
 
 function output_overview() {
 	var ftable = "\n\n" + overview_header[from_language] +
-		"\n|:-:|-:|:-|:-:|:-:|:-:|:-:|\n";
+		"\n|:-:|:-|:-:|:-:|:-:|:-:|\n";
 	var s = "|";
 	for (var set of set_list.sets) {
 		var set_i = set_list.sets.indexOf(set) + 1;
-		ftable += "||[br]**Set " + set_i + "**" + "&nbsp;".repeat(40) + "[br]&nbsp;|\n";
+		ftable += "||[br]" + "&emsp;".repeat(12) + "**Set " + set_i + "**" + "[br]&nbsp;|\n";
 		for (var story of set) {
 			var sd = overview_list[story.id];
-			ftable += s + sd.img + s + sd.title + "[br]" + sd.name + s + sd.part + s + sd.cefr + s + sd.len + s + sd.ex + s + sd.rev + s + "\n";
+			ftable += s + sd.img + s + sd.title + "[br]" + sd.name + s + sd.cefr + s + sd.len + s + sd.ex + s + sd.rev + s + "\n";
 		}
 	}
 	// create display element
 	var div = document.createElement("div");
 	div.setAttribute("style", "padding-top: 10px;");
 	div.innerHTML = '<textarea id="all_output" rows="200" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
-	document.getElementsByClassName("stories-header")[0].append(div);
-	document.getElementById("all_output").value = ftable;
+	gcl("stories-header")[0].append(div);
+	gid("all_output").value = ftable;
 }
 
-// https://gist.github.com/mlocati/7210513
-function perc2color(perc) {
-	if (perc < 0) {
-		perc = 0;
-	} else if (perc > 100) {
-		perc = 100;
-	}
-	var r, g, b = 0;
-	if(perc < 50) {
-		r = 255;
-		g = Math.round(5.1 * perc);
-	}
-	else {
-		g = 255;
-		r = Math.round(510 - 5.10 * perc);
-	}
-	var h = r * 0x10000 + g * 0x100 + b * 0x1;
-	return '#' + ('000000' + h.toString(16)).slice(-6);
+// Calcurate color in range from red to green
+function calc_color(c) {
+	return c < 0 ? "#00c800" : c > 100 ? "#c80000" : "#" + ("00" + (1024 * (c < 50 ? 50 + 256 * Math.round(c) : 12800 + Math.round(100 - c))).toString(16)).slice(-6);
 }
 
 // CSS styles to add to page for buttons
@@ -882,7 +880,7 @@ function set_language(user) {
 // Step 4: wait for the page to load before adding buttons
 function page_loaded_check() {
 	transcript_load = setInterval(function() {
-		if (document.getElementsByClassName("story").length) {
+		if (gcl("story").length) {
 			css();
 			dl_buttons();
 			clearInterval(transcript_load);
