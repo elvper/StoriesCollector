@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.6.2
+// @version      0.6.3
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -356,6 +356,29 @@ var story_info = {
 	}
 }
 
+// filter out words by learning language for the word list (NO CAPITALS)
+// format: /\b(firstword|word2|word3|lastword)\b/gi start with /\b( end with )\b/gi and split |
+// don't include ' symbol
+// for words starting or ending with a diacritic, punt them at the end between )\b and /gi with a split |
+// for example /\b(firstword|word2|word3|lastword)\b|àccentword|accentword2é|à/gi
+// (you could look at French/Spanish/Portuguese for an example)
+// it's possible to write something more fancy to match it better, but should do for now
+var word_filter = {
+	en:
+		/\b(the|you|he|she|it|we|they|of|be|at|of|off|to|for|on|as|or|by|no|not|yes|and|on|in|an|a|i)\b/gi,
+	fr:
+		/\b(un|une|je|tu|il|elle|on|nous|vous|ils|elles|le|la|l|les|que|qu|pour|sur|avec|a|par|ou|de|d|des|et|dans|si|ne|pas|non|oui|en|suis|est|es|sont|sommes|ont|avons|ai|as|avez|va|vas|vais|vont|allons|allez|viens|vient|venons|venez|viennent|ce|c|ces|cettes|au|avoir|venir|voire)\b|être|êtes|à/gi,
+	de:
+		/\b(ich|du|er|sie|es|wir|ihr|das|die|der|den|des|dem|nicht|ein|einen|einer|einem|eines|eine|kein|keinen|keiner|keinem|keines|keine|und|zu|in|mit|ja|nein|auf|von|für|an|am|im|aus|oder|um|sein|bin|bist|ist|sind|seid|haben|habe|hast|hat|habt|gehen|gehe|gehst|geht|ach|oh)\b/gi,
+	pt:
+		/\b(eu|tu|ele|ela|nós|nos|vocês|eles|elas|o|a|os|as|um|uma|uns|umas|que|não|sim|de|a|ao|aos|e|se|si|para|pra|com|por|ou|em|do|no|da|na|dos|nos|das|nas|sou|estou|somos|estamos|sois|estais|são|estão|estás|tenho|tens|tem|temos|tendes|têm|vou|vais|vai|vamos|ides|vão|venho|vens|vem|vimos|vindes|vêm|ter|ir|vir|ser|estar|ah|ver)\b|você|está|às|à|és|é/gi,
+	es:
+		/\b(yo|tu|ella|es|nos|usted|ustedes|el|la|le|lo|los|las|que|de|no|a|y|en|un|uno|unos|una|unas|por|para|se|si|con|o|al|e|soy|estoy|eres|estás|es|somos|estamos|sois|estáis|son|están|tengo|tienes|tiene|tenemos|tenéis|tienen|he|has|ha|hay|hamos|habéis|han|voy|vas|va|vamos|vais|van|vengo|vienes|viene|venimos|venis|vienen|ser|estar|ir|venir|haber|tener|ver)\b|está|tú|él|qué|sí/gi
+}
+
+// symbols to remove from the word list
+var symbols = /[.\¿?!¡,; \(\)\-'"´…:—«»#@$%^&/+=_<>”„]/g
+
 // Catch narrator names
 var narrator = ["Narrator", "Narrador", "Narradora",
 	"Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
@@ -497,7 +520,8 @@ function construct(e, caller=null) {
 	for (var i = 1; i < e.lines.length; i++) {
 		for (var part of e.lines[i].phrases) {
 			var textpart = flattext(part.syncedTexts);
-			if (textpart.replace(/[.\?!, \(\)\-'…:¿—]/g, "") != ""){
+			// delete words from the filter list
+			if (textpart.replace(word_filter[learning], "").replace(symbols, "") != ""){
 				phrase_set.add(textpart[0].toUpperCase() + textpart.slice(1));
 			}
 		}
