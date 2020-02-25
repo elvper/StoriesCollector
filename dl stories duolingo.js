@@ -367,7 +367,7 @@ var word_filter = {
 	en:
 		/\b(the|you|he|she|it|we|they|of|be|at|of|off|to|for|on|as|or|by|no|not|yes|and|on|in|an|a|i)\b/gi,
 	fr:
-		/\b(un|une|je|tu|il|elle|on|nous|vous|ils|elles|le|la|l|les|que|qu|pour|sur|avec|a|par|ou|de|d|des|et|dans|si|ne|pas|non|oui|en|suis|est|es|sont|sommes|ont|avons|ai|as|avez|va|vas|vais|vont|allons|allez|viens|vient|venons|venez|viennent|ce|c|ces|cettes|au|avoir|venir|voire)\b|être|êtes|à/gi,
+		/\b(un|une|je|tu|il|elle|on|nous|vous|ils|elles|le|la|l|les|que|qu|pour|sur|avec|a|par|ou|de|d|des|et|dans|si|ne|pas|non|oui|en|suis|est|es|sont|sommes|ont|avons|ai|as|avez|va|vas|vais|vont|allons|allez|viens|vient|venons|venez|viennent|ce|c|ces|cettes|au|avoir|venir|voire|ah)\b|être|êtes|à/gi,
 	de:
 		/\b(ich|du|er|sie|es|wir|ihr|das|die|der|den|des|dem|nicht|ein|einen|einer|einem|eines|eine|kein|keinen|keiner|keinem|keines|keine|und|zu|in|mit|ja|nein|auf|von|für|an|am|im|aus|oder|um|sein|bin|bist|ist|sind|seid|haben|habe|hast|hat|habt|gehen|gehe|gehst|geht|ach|oh)\b/gi,
 	pt:
