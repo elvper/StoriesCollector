@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Duolingo Stories Miner no filter
-// @version      0.1
+// @name         Duolingo Stories Miner
+// @version      0.6.3
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -534,9 +534,9 @@ var bridge = {
 // Table header of overview
 var overview_header = {
 	en: "||Title|CEFR|Length|Exercises|Version|",
-	es: "|img|Title|Part|CEFR|length|ex|rev|",
-	pt: "|img|Title|Part|CEFR|length|ex|rev|",
-	zh: "|img|Title|Part|CEFR|length|ex|rev|"
+	es: "||Título|CEFR|Longitud|Ejercicios|Versión|",
+	pt: "||Título|CEFR|Duração|Exercícios|Versão|",
+	zh: "||标题|CEFR|长度|练习题|版|"
 }
 
 // Question to pose for implicit questions (by from language)
