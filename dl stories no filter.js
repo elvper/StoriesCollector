@@ -486,7 +486,7 @@ var header = {
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo English Stories',
 	pt_en:
-		'[[[LTS INDEX] Histórias: inglês para falantes de português]' + 
+		'[[LTS INDEX] Histórias: inglês para falantes de português]' + 
 		'(https://forum.duolingo.com/comment/36662201)' + br +
 		'##[![](https://i.imgur.com/0dx2HSm.png)](https://stories.duolingo.com) ' +
 		'Learn Through Stories [LTS] : Duolingo English Stories',
