@@ -1900,7 +1900,7 @@ function output_overview() {
 	var s = "|";
 	for (var set of set_list.sets) {
 		var set_i = set_list.sets.indexOf(set) + 1;
-		ftable += "||[br]" + "&emsp;".repeat(12) + "**Set " + set_i + "**" + "[br]&nbsp;|\n";
+		ftable += "||[br]" + "&emsp;".repeat(7) + "**Set " + set_i + "**" + "[br]&nbsp;|\n";
 		for (var story of set) {
 			var sd = overview_list[story.id];
 			ftable += s + sd.img + s + sd.title + "[br]" + sd.name + s + sd.cefr + s + sd.len + s + sd.ex + s + sd.rev + s + "\n";
