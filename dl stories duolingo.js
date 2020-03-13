@@ -814,7 +814,7 @@ var p = {
 		"de-morgen-muffin": 36883234,
 		"de-wilde-fahrt-teil-1-avatar": 36883242,
 		"de-wilde-fahrt-teil-2-avatar": 36883249,
-		"de-der-erste-auftrag-teil-1-avatar": 36647418,
+		"de-der-erste-auftrag-teil-1-avatar": 36883982,
 		"de-der-erste-auftrag-teil-2-avatar": 36883982,
 		"de-verschlossenes-badezimmer": 36883994,
 		"de-zuckerhut": 36884001,
