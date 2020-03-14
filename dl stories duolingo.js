@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.7.0
+// @version      0.7.1
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -1332,10 +1332,10 @@ var bridge = {
 
 // Table header of overview
 var overview_header = {
-	en: "||Title|CEFR|Length|Exercises|Version|",
-	es: "||Título|CEFR|Longitud|Ejercicios|Versión|",
-	pt: "||Título|CEFR|Duração|Exercícios|Versão|",
-	zh: "||标题|CEFR|长度|练习题|版|"
+	en: "||Title|&#x1F50A;|CEFR|Length|Exercises|Version|",
+	es: "||Título|&#x1F50A;|CEFR|Longitud|Ejercicios|Versión|",
+	pt: "||Título|&#x1F50A;|CEFR|Duração|Exercícios|Versão|",
+	zh: "||标题|&#x1F50A;|CEFR|长度|练习题|版|"
 }
 
 // Question to pose for implicit questions (by from language)
@@ -1887,7 +1887,9 @@ function construct_overview(e) {
 		len: "**[color=" + calc_color((e.lines.length - 20) / 0.3) +
 			"]" + e.lines.length + "[/color]**",
 		ex: "**[color=" + calc_color((ex_count - 6) / 0.1) +
-			"]" + ex_count + "[/color]**"
+			"]" + ex_count + "[/color]**",
+		audio: "[" + narrator_marking +
+		"](https://stories-cdn.duolingo.com/audio/" + e.audio.id + ".mp3)"
 	};
 	if (Object.keys(overview_list).length == gcl("story").length) {
 		output_overview();
@@ -1896,14 +1898,14 @@ function construct_overview(e) {
 
 function output_overview() {
 	var ftable = "\n\n" + overview_header[from_language] +
-		"\n|:-:|:-|:-:|:-:|:-:|:-:|\n";
+		"\n|:-:|:-|:-:|:-:|:-:|:-:|:-:|\n";
 	var s = "|";
 	for (var set of set_list.sets) {
 		var set_i = set_list.sets.indexOf(set) + 1;
 		ftable += "||[br]" + "&emsp;".repeat(7) + "**Set " + set_i + "**" + "[br]&nbsp;|\n";
 		for (var story of set) {
 			var sd = overview_list[story.id];
-			ftable += s + sd.img + s + sd.title + "[br]" + sd.name + s + sd.cefr + s + sd.len + s + sd.ex + s + sd.rev + s + "\n";
+			ftable += s + sd.img + s + sd.title + "[br]" + sd.name + s + sd.audio + s + sd.cefr + s + sd.len + s + sd.ex + s + sd.rev + s + "\n";
 		}
 	}
 	// create display element
