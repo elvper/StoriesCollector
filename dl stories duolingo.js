@@ -1293,7 +1293,7 @@ var header = {
 		'[[LTS INDEX] 小故事 :讲中文的 - 英语]' + 
 		'(https://forum.duolingo.com/comment/36629672)' + br +
 		'##[![](https://i.imgur.com/yhb4P6e.png)](https://stories.duolingo.com) ' +
-		'Learn Through Stories [LTS] : Duolingo English Stories'
+		'通过故事学习[LTS]：Duolingo英语故事 Learn Through Stories [LTS] : Duolingo English Stories'
 }
 
 // Characters listing
@@ -1301,7 +1301,7 @@ var characters = {
 	en: '>#####**Characters:**',
 	es: '>#####**Personajes:**',
 	pt: '>#####**Personagens:**',
-	zh: '>#####**Characters:**'
+	zh: '>#####**人物 Characters:**'
 }
 
 // Text between the story and exercises
