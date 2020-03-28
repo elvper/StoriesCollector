@@ -1607,7 +1607,7 @@ function wordlist(e, type) {
 				var r = line.line.content.hintMap[i];
 				var part = line.line.content.text.substr(r.rangeFrom, r.rangeTo - r.rangeFrom + 1);
 				if (part.replace(word_filter[learning], "").replace(symbols, "") != ""){
-					txt += "|" + part + "|" + line.line.content.hints[i] + "|\n";
+					txt += "|	"  + part + "	|	" + line.line.content.hints[i] + "|\n";
 	}	}	}	}
 			//txt += line.line.content.hintMap.map((r, i) => "|" + line.line.content.text.substr(r.rangeFrom, r.rangeTo - r.rangeFrom + 1) + "|" + line.line.content.hints[i] + "|").join("\n") + "\n"
 	return txt
