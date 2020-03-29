@@ -1806,7 +1806,7 @@ function process_story (e, type) {
 			"|||\n|:-:|:-:|\n" +
 			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|" + t + "|" + lst[i].translation + "|").join(b) + br
 		: type == "docs" ?
-			b + '<table border="1"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
+			b + '<table border="1"><col width="300"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
 		:
 			"";
 			
@@ -1900,7 +1900,7 @@ function process_story (e, type) {
 			"|" + learning + "|" + from_language + "|\n|:-:|:-:|\n"
 		: type == "docs" ?
 			"<h2>" + story_info[from_language].words +
-			'</h2><table border="1"><tr><th>' + learning + "</th><th>" +
+			'</h2><table border="1"><col width="300"><col width="300"><tr><th>' + learning + "</th><th>" +
 			from_language + "</th></tr>"
 		:
 			"";
