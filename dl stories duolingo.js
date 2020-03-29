@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      0.8.0
+// @version      1.0.0
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -9,6 +9,253 @@
 
 (function() {
     'use strict';
+	
+var char_names = {	
+	1: {pt: "Pâmela", es: "", fr: "", de: "", en: ""},
+	2: {pt: "Cozinheiro", es: "", fr: "", de: "", en: ""},
+	3: {pt: "Maya", es: "", fr: "", de: "", en: ""},
+	4: {pt: "Brenda", es: "", fr: "", de: "", en: ""},
+	5: {pt: "Eduardo", es: "", fr: "", de: "", en: ""},
+	6: {pt: "Beto", es: "", fr: "", de: "", en: ""},
+	7: {pt: "Gabriel", es: "", fr: "", de: "", en: ""},
+	8: {pt: "Marília", es: "", fr: "", de: "", en: ""},
+	9: {pt: "César", es: "", fr: "", de: "", en: ""},
+	10: {pt: "Ernesto", es: "", fr: "", de: "", en: ""},
+	11: {pt: "Jéssica", es: "", fr: "", de: "", en: ""},
+	12: {pt: "Carlota", es: "", fr: "", de: "", en: ""},
+	13: {pt: "Pedro", es: "", fr: "", de: "", en: ""},
+	14: {pt: "Márcia", es: "", fr: "", de: "", en: ""},
+	15: {pt: "José", es: "", fr: "", de: "", en: ""},
+	16: {pt: "Laura", es: "", fr: "", de: "", en: ""},
+	17: {pt: "Marcos", es: "", fr: "", de: "", en: ""},
+	18: {pt: "Otávio", es: "", fr: "", de: "", en: ""},
+	19: {pt: "Adisa", es: "", fr: "", de: "", en: ""},
+	20: {pt: "Raul", es: "", fr: "", de: "", en: ""},
+	21: {pt: "Heitor", es: "", fr: "", de: "", en: ""},
+	22: {pt: "Patrício", es: "", fr: "", de: "", en: ""},
+	23: {pt: "Policial Tadeu", es: "", fr: "", de: "", en: ""},
+	24: {pt: "Gato", es: "", fr: "", de: "", en: ""},
+	25: {pt: "Duda", es: "", fr: "", de: "", en: ""},
+	26: {pt: "Dudu", es: "", fr: "", de: "", en: ""},
+	27: {pt: "Dado", es: "", fr: "", de: "", en: ""},
+	28: {pt: "Assistente", es: "", fr: "", de: "", en: ""},
+	29: {pt: "Rei Cavalier", es: "", fr: "", de: "", en: ""},
+	30: {pt: "Rainha", es: "", fr: "", de: "", en: ""},
+	31: {pt: "Lícia", es: "", fr: "", de: "", en: ""},
+	32: {pt: "Fom-Lan", es: "", fr: "", de: "", en: ""},
+	33: {pt: "Mar-Lan", es: "", fr: "", de: "", en: ""},
+	34: {pt: "Einar", es: "", fr: "", de: "", en: ""},
+	35: {pt: "Ogro", es: "", fr: "", de: "", en: ""},
+	36: {pt: "Mateus", es: "", fr: "", de: "", en: ""},
+	37: {pt: "Lorenzo", es: "", fr: "", de: "", en: ""},
+	38: {pt: "Aurora", es: "", fr: "", de: "", en: ""},
+	39: {pt: "Rei Maximiliano", es: "", fr: "", de: "", en: ""},
+	40: {pt: "", es: "", fr: "", de: "", en: ""},
+	41: {pt: "Esquilo", es: "", fr: "", de: "", en: ""},
+	42: {pt: "Gorila", es: "", fr: "", de: "", en: ""},
+	43: {pt: "Lobo", es: "", fr: "", de: "", en: ""},
+	44: {pt: "Chefe", es: "", fr: "", de: "", en: ""},
+	45: {pt: "Cervo", es: "", fr: "", de: "", en: ""},
+	46: {pt: "", es: "", fr: "", de: "", en: ""},
+	47: {pt: "Cervo", es: "", fr: "", de: "", en: ""},
+	48: {pt: "Maya", es: "", fr: "", de: "", en: ""},
+	49: {pt: "Diogo", es: "", fr: "", de: "", en: ""},
+	50: {pt: "Guarda Fonseca", es: "", fr: "", de: "", en: ""},
+	51: {pt: "Jabari", es: "", fr: "", de: "", en: ""},
+	52: {pt: "Fiona", es: "", fr: "", de: "", en: ""},
+	53: {pt: "Estranho", es: "", fr: "", de: "", en: ""},
+	54: {pt: "Mãe", es: "", fr: "", de: "", en: ""},
+	55: {pt: "Lady Janaína", es: "", fr: "", de: "", en: ""},
+	56: {pt: "Jorge", es: "", fr: "", de: "", en: ""},
+	57: {pt: "Piloto", es: "", fr: "", de: "", en: ""},
+	58: {pt: "Totó", es: "", fr: "", de: "", en: ""},
+	59: {pt: "Gênio", es: "", fr: "", de: "", en: ""},
+	60: {pt: "Rosária", es: "", fr: "", de: "", en: ""},
+	61: {pt: "Assaltante", es: "", fr: "", de: "", en: ""},
+	62: {pt: "", es: "", fr: "", de: "", en: ""},
+	63: {pt: "", es: "", fr: "", de: "", en: ""},
+	64: {pt: "", es: "", fr: "", de: "", en: ""},
+	65: {pt: "", es: "", fr: "", de: "", en: ""},
+	66: {pt: "", es: "", fr: "", de: "", en: ""},
+	67: {pt: "", es: "", fr: "", de: "", en: ""},
+	68: {pt: "", es: "", fr: "", de: "", en: ""},
+	69: {pt: "", es: "", fr: "", de: "", en: ""},
+	70: {pt: "", es: "", fr: "", de: "", en: ""},
+	71: {pt: "João", es: "", fr: "", de: "", en: ""},
+	72: {pt: "Homem", es: "", fr: "", de: "", en: ""},
+	73: {pt: "", es: "", fr: "", de: "", en: ""},
+	74: {pt: "Eliza", es: "", fr: "", de: "", en: ""},
+	75: {pt: "Rui", es: "", fr: "", de: "", en: ""},
+	76: {pt: "", es: "", fr: "", de: "", en: ""},
+	77: {pt: "Davi", es: "", fr: "", de: "", en: ""},
+	78: {pt: "Diego", es: "", fr: "", de: "", en: ""},
+	79: {pt: "Jacó", es: "", fr: "", de: "", en: ""},
+	80: {pt: "Daniel", es: "", fr: "", de: "", en: ""},
+	81: {pt: "Gabi", es: "", fr: "", de: "", en: ""},
+	82: {pt: "Sara", es: "", fr: "", de: "", en: ""},
+	83: {pt: "Mãe", es: "", fr: "", de: "", en: ""},
+	84: {pt: "Camila", es: "", fr: "", de: "", en: ""},
+	85: {pt: "Pai", es: "", fr: "", de: "", en: ""},
+	86: {pt: "Senhor", es: "", fr: "", de: "", en: ""},
+	87: {pt: "Vovó", es: "", fr: "", de: "", en: ""},
+	88: {pt: "Bianca", es: "", fr: "", de: "", en: ""},
+	89: {pt: "Mônica", es: "", fr: "", de: "", en: ""},
+	90: {pt: "Jeane", es: "", fr: "", de: "", en: ""},
+	91: {pt: "Carlos", es: "", fr: "", de: "", en: ""},
+	92: {pt: "Senhora", es: "", fr: "", de: "", en: ""},
+	93: {pt: "", es: "", fr: "", de: "", en: ""},
+	94: {pt: "Rosa", es: "", fr: "", de: "", en: ""},
+	95: {pt: "Mãe", es: "", fr: "", de: "", en: ""},
+	96: {pt: "", es: "", fr: "", de: "", en: ""},
+	97: {pt: "Heitor", es: "", fr: "", de: "", en: ""},
+	98: {pt: "Maria", es: "", fr: "", de: "", en: ""},
+	99: {pt: "Júlia", es: "", fr: "", de: "", en: ""},
+	100: {pt: "Daniel", es: "", fr: "", de: "", en: ""},
+	101: {pt: "Gabriela", es: "", fr: "", de: "", en: ""},
+	102: {pt: "Bianca", es: "", fr: "", de: "", en: ""},
+	103: {pt: "Rafael", es: "", fr: "", de: "", en: ""},
+	104: {pt: "Mãe", es: "", fr: "", de: "", en: ""},
+	105: {pt: "Antônio", es: "", fr: "", de: "", en: ""},
+	106: {pt: "Carla", es: "", fr: "", de: "", en: ""},
+	107: {pt: "Carmen", es: "", fr: "", de: "", en: ""},
+	108: {pt: "Avô", es: "", fr: "", de: "", en: ""},
+	109: {pt: "Milton", es: "", fr: "", de: "", en: ""},
+	110: {pt: "Eliana", es: "", fr: "", de: "", en: ""},
+	111: {pt: "Elisa", es: "", fr: "", de: "", en: ""},
+	112: {pt: "Susana", es: "", fr: "", de: "", en: ""},
+	113: {pt: "Taxista", es: "", fr: "", de: "", en: ""},
+	114: {pt: "João", es: "", fr: "", de: "", en: ""},
+	115: {pt: "Juliana", es: "", fr: "", de: "", en: ""},
+	116: {pt: "Laura", es: "", fr: "", de: "", en: ""},
+	117: {pt: "Jorge", es: "", fr: "", de: "", en: ""},
+	118: {pt: "Professor", es: "", fr: "", de: "", en: ""},
+	119: {pt: "Adriano", es: "", fr: "", de: "", en: ""},
+	120: {pt: "", es: "", fr: "", de: "", en: ""},
+	121: {pt: "Vitória", es: "", fr: "", de: "", en: ""},
+	122: {pt: "Paulo", es: "", fr: "", de: "", en: ""},
+	123: {pt: "Mulher ao telefone", es: "", fr: "", de: "", en: ""},
+	124: {pt: "Luís", es: "", fr: "", de: "", en: ""},
+	125: {pt: "Isabela", es: "", fr: "", de: "", en: ""},
+	126: {pt: "Alexandre", es: "", fr: "", de: "", en: ""},
+	127: {pt: "Lucas", es: "", fr: "", de: "", en: ""},
+	128: {pt: "Adriana", es: "", fr: "", de: "", en: ""},
+	129: {pt: "Avó", es: "", fr: "", de: "", en: ""},
+	130: {pt: "Gabriel", es: "", fr: "", de: "", en: ""},
+	131: {pt: "Diego", es: "", fr: "", de: "", en: ""},
+	132: {pt: "Fernanda", es: "", fr: "", de: "", en: ""},
+	133: {pt: "Carlos", es: "", fr: "", de: "", en: ""},
+	134: {pt: "Luana", es: "", fr: "", de: "", en: ""},
+	135: {pt: "Caetano", es: "", fr: "", de: "", en: ""},
+	136: {pt: "Rebeca", es: "", fr: "", de: "", en: ""},
+	137: {pt: "Cláudia", es: "", fr: "", de: "", en: ""},
+	138: {pt: "Mateus", es: "", fr: "", de: "", en: ""},
+	139: {pt: "Marcos", es: "", fr: "", de: "", en: ""},
+	140: {pt: "Andréia", es: "", fr: "", de: "", en: ""},
+	141: {pt: "Bancária", es: "", fr: "", de: "", en: ""},
+	142: {pt: "", es: "", fr: "", de: "", en: ""},
+	143: {pt: "Márcia", es: "", fr: "", de: "", en: ""},
+	144: {pt: "Zico", es: "", fr: "", de: "", en: ""},
+	145: {pt: "Jairo", es: "", fr: "", de: "", en: ""},
+	146: {pt: "Paula", es: "", fr: "", de: "", en: ""},
+	147: {pt: "Olga", es: "", fr: "", de: "", en: ""},
+	148: {pt: "Sérgio", es: "", fr: "", de: "", en: ""},
+	149: {pt: "Manuela", es: "", fr: "", de: "", en: ""},
+	150: {pt: "Ronaldo", es: "", fr: "", de: "", en: ""},
+	151: {pt: "Jorge", es: "", fr: "", de: "", en: ""},
+	152: {pt: "Joana", es: "", fr: "", de: "", en: ""},
+	153: {pt: "Mãe", es: "", fr: "", de: "", en: ""},
+	154: {pt: "Dono da loja", es: "", fr: "", de: "", en: ""},
+	155: {pt: "Pedro", es: "", fr: "", de: "", en: ""},
+	156: {pt: "João", es: "", fr: "", de: "", en: ""},
+	157: {pt: "", es: "", fr: "", de: "", en: ""},
+	158: {pt: "", es: "", fr: "", de: "", en: ""},
+	159: {pt: "", es: "", fr: "", de: "", en: ""},
+	160: {pt: "Instrutora", es: "", fr: "", de: "", en: ""},
+	161: {pt: "Dênis", es: "", fr: "", de: "", en: ""},
+	162: {pt: "Marcos", es: "", fr: "", de: "", en: ""},
+	163: {pt: "Jonas", es: "", fr: "", de: "", en: ""},
+	164: {pt: "", es: "", fr: "", de: "", en: ""},
+	165: {pt: "", es: "", fr: "", de: "", en: ""},
+	166: {pt: "", es: "", fr: "", de: "", en: ""},
+	167: {pt: "", es: "", fr: "", de: "", en: ""},
+	168: {pt: "Marlene", es: "", fr: "", de: "", en: ""},
+	169: {pt: "Daniel", es: "", fr: "", de: "", en: ""},
+	170: {pt: "Miguel", es: "", fr: "", de: "", en: ""},
+	171: {pt: "", es: "", fr: "", de: "", en: ""},
+	172: {pt: "", es: "", fr: "", de: "", en: ""},
+	173: {pt: "", es: "", fr: "", de: "", en: ""},
+	174: {pt: "", es: "", fr: "", de: "", en: ""},
+	175: {pt: "", es: "", fr: "", de: "", en: ""},
+	176: {pt: "Vendedor", es: "", fr: "", de: "", en: ""},
+	177: {pt: "Letícia", es: "", fr: "", de: "", en: ""},
+	178: {pt: "Roberta", es: "", fr: "", de: "", en: ""},
+	179: {pt: "Beto", es: "", fr: "", de: "", en: ""},
+	180: {pt: "Romário", es: "", fr: "", de: "", en: ""},
+	181: {pt: "Solange", es: "", fr: "", de: "", en: ""},
+	182: {pt: "Álvaro", es: "", fr: "", de: "", en: ""},
+	183: {pt: "Michel", es: "", fr: "", de: "", en: ""},
+	184: {pt: "Motorista", es: "", fr: "", de: "", en: ""},
+	185: {pt: "", es: "", fr: "", de: "", en: ""},
+	186: {pt: "Policial", es: "", fr: "", de: "", en: ""},
+	187: {pt: "", es: "", fr: "", de: "", en: ""},
+	188: {pt: "Motorista", es: "", fr: "", de: "", en: ""},
+	189: {pt: "", es: "", fr: "", de: "", en: ""},
+	190: {pt: "Danilo", es: "", fr: "", de: "", en: ""},
+	191: {pt: "", es: "", fr: "", de: "", en: ""},
+	192: {pt: "Carlos", es: "", fr: "", de: "", en: ""},
+	193: {pt: "Segurança", es: "", fr: "", de: "", en: ""},
+	194: {pt: "", es: "", fr: "", de: "", en: ""},
+	195: {pt: "Idoso", es: "", fr: "", de: "", en: ""},
+	196: {pt: "Geraldo", es: "", fr: "", de: "", en: ""},
+	197: {pt: "Homem alto", es: "", fr: "", de: "", en: ""},
+	198: {pt: "Homem baixo", es: "", fr: "", de: "", en: ""},
+	199: {pt: "Bruno", es: "", fr: "", de: "", en: ""},
+	200: {pt: "Paola", es: "", fr: "", de: "", en: ""},
+	201: {pt: "Vicente", es: "", fr: "", de: "", en: ""},
+	202: {pt: "Sandra", es: "", fr: "", de: "", en: ""},
+	203: {pt: "Kátia", es: "", fr: "", de: "", en: ""},
+	204: {pt: "Breno", es: "", fr: "", de: "", en: ""},
+	205: {pt: "", es: "", fr: "", de: "", en: ""},
+	206: {pt: "Margarida", es: "", fr: "", de: "", en: ""},
+	207: {pt: "Joana", es: "", fr: "", de: "", en: ""},
+	208: {pt: "Pai", es: "", fr: "", de: "", en: ""},
+	209: {pt: "Mãe", es: "", fr: "", de: "", en: ""},
+	210: {pt: "Helena", es: "", fr: "", de: "", en: ""},
+	211: {pt: "Érica", es: "", fr: "", de: "", en: ""},
+	212: {pt: "Zeca", es: "", fr: "", de: "", en: ""},
+	213: {pt: "", es: "", fr: "", de: "", en: ""},
+	214: {pt: "Vovó", es: "", fr: "", de: "", en: ""},
+	215: {pt: "Jaqueline", es: "", fr: "", de: "", en: ""},
+	216: {pt: "", es: "", fr: "", de: "", en: ""},
+	217: {pt: "Ana", es: "", fr: "", de: "", en: ""},
+	218: {pt: "Jorge", es: "", fr: "", de: "", en: ""},
+	219: {pt: "Lisa", es: "", fr: "", de: "", en: ""},
+	220: {pt: "Homem", es: "", fr: "", de: "", en: ""},
+	221: {pt: "", es: "", fr: "", de: "", en: ""},
+	222: {pt: "Michel", es: "", fr: "", de: "", en: ""},
+	223: {pt: "Tiago", es: "", fr: "", de: "", en: ""},
+	224: {pt: "Aline", es: "", fr: "", de: "", en: ""},
+	225: {pt: "", es: "", fr: "", de: "", en: ""},
+	226: {pt: "Alberto", es: "", fr: "", de: "", en: ""},
+	227: {pt: "", es: "", fr: "", de: "", en: ""},
+	228: {pt: "Cachorro", es: "", fr: "", de: "", en: ""},
+	229: {pt: "Tiago", es: "", fr: "", de: "", en: ""},
+	230: {pt: "Vitória", es: "", fr: "", de: "", en: ""},
+	231: {pt: "", es: "", fr: "", de: "", en: ""},
+	232: {pt: "", es: "", fr: "", de: "", en: ""},
+	233: {pt: "", es: "", fr: "", de: "", en: ""},
+	234: {pt: "", es: "", fr: "", de: "", en: ""},
+	235: {pt: "", es: "", fr: "", de: "", en: ""},
+	236: {pt: "Alberto", es: "", fr: "", de: "", en: ""},
+	237: {pt: "", es: "", fr: "", de: "", en: ""},
+	238: {pt: "Sheila", es: "", fr: "", de: "", en: ""},
+	239: {pt: "Fábio", es: "", fr: "", de: "", en: ""},
+	240: {pt: "Elias", es: "", fr: "", de: "", en: ""},
+	241: {pt: "", es: "", fr: "", de: "", en: ""},
+	242: {pt: "", es: "", fr: "", de: "", en: ""},
+	243: {pt: "Amigo de trabalho", es: "", fr: "", de: "", en: ""},
+	244: {pt: "Amiga de trabalho", es: "", fr: "", de: "", en: ""}
+}	
 
 var icons = {
 	"783305780a6dad8e0e4eb34109d948e6a5fc2c35": "DjoX3Ed",
@@ -1293,7 +1540,7 @@ var header = {
 		'[[LTS INDEX] 小故事 :讲中文的 - 英语]' + 
 		'(https://forum.duolingo.com/comment/36629672)' + br +
 		'##[![](https://i.imgur.com/yhb4P6e.png)](https://stories.duolingo.com) ' +
-		'通过故事学习[LTS]：Duolingo英语故事 Learn Through Stories [LTS] : Duolingo English Stories'
+		'Learn Through Stories [LTS] : Duolingo English Stories'
 }
 
 // Characters listing
@@ -1301,7 +1548,7 @@ var characters = {
 	en: '>#####**Characters:**',
 	es: '>#####**Personajes:**',
 	pt: '>#####**Personagens:**',
-	zh: '>#####**人物 Characters:**'
+	zh: '>#####**Characters:**'
 }
 
 // Text between the story and exercises
@@ -1437,16 +1684,19 @@ var narrator = ["Narrator", "Narrador", "Narradora",
 	"Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
 	
 var narrator = {
-	en: "> Characters:\n> Narrator",
-	fr: "> Personnages:\n> Narrateur / narratrice",
-	pt: "> Personagens:\n> Narrador / narradora",
-	es: "> Personajes:\n> Narrador / narradora",
-	de: "> Figuren:\n> Erzähler / erzählerin"
+	en: ["Characters:\n", "Narrator"],
+	fr: ["Personnages:\n", "Narrateur / narratrice"],
+	pt: ["Personagens:\n", "Narrador / narradora"],
+	es: ["Personajes:\n", "Narrador / narradora"],
+	de: ["Figuren:\n", "Erzähler / erzählerin"]
 }
 
 // Other
 var speaker_color = "#7AC70C"; // Color to display narrator / character name in
-var narrator_marking = "&#x1F50A; "; // Text or symbol for when the narrator speaks
+var narrator_marking = { // Text or symbol for when the narrator speaks
+	forum: "&#x1F50A; ",
+	docs: "🔊 "
+};
 
 // CEFR color markings
 var cefr = {
@@ -1463,12 +1713,15 @@ var cefr = {
 
 var apiurl = "https://stories.duolingo.com/api2/stories";
 
+var story_separator = {
+	forum: "\n---\n---\n---\n",
+	docs: '<div class="sep"><br><br><hr><hr><hr><br><br></div>'
+}
+
 var learning = null,
 	from_language = null,
 	course = null;
 
-var output_all = {};
-var char_names = null;
 var ex_count = 0;
 var tbl = null;
 var output_sheets = {};
@@ -1476,28 +1729,28 @@ var row_list = [];
 var set_list = null;
 var mark_end = "<td>##</td><td>###############</td><td>###########################################################</td>";
 var transcript_load = null;
-var overview_list = {};
+var story_collector = {};
 
 let gid = (e) => document.getElementById(e);
 let gcl = (e) => document.getElementsByClassName(e);
 
 var story_url = "https://stories.duolingo.com/lessons/";
 
-function process_story (e, type, caller) {
-	var txt = "";
+function process_story (e, type) {
+	var txt = type == "docs" ? '<div class="storydocs">' : "";
 	var img_url = e.illustrations.active.slice(0, -4);
 	
-	txt += type == "forum" ?
-		header[course] + br +
-		narrator[learning] + br +
-		"#### [![](https://i.imgur.com/" + icons[e.illustrations.active.substr(39,40)] + ".png) "
-	:
-		"";
+	if (type == "docs") {
+		b = "<br>";
+		br = "<br><br>";
+	}
 	
 	function title(title_learn, title_from, id) {return(
 		type == "forum" ?
 			title_learn + " (" + title_from + ")]" +
 			"(" + story_url + id + ")" + b
+		: type == "docs" ?
+			'<a href="' + story_url + id + '"><b>' + title_learn + "</b></a>" + b
 		:
 			""
 	)}
@@ -1510,20 +1763,30 @@ function process_story (e, type, caller) {
 	}
 	
 	var narr = (t, ranges) =>
-		type == "forum" ?
-			narrator_marking + text_part(t, ranges) + b
-		:
-			"";
+			narrator_marking[type] + text_part(t, ranges) + b
 	
-	var character = (c, t, ranges) =>
+	var get_name = (id) =>
+		char_names[id] ?
+			char_names[id][learning] || "C#" + id
+		:
+			"C#" + id
+	
+	var character = (id, t, ranges, img) =>
 		type == "forum" ?
-			"[color=" + speaker_color + "]" + c + "[/color]" + ": " + text_part(t, ranges) + b
+			"[color=" + speaker_color + "]" + get_name(id) + "[/color]: " + text_part(t, ranges) + b
+		: type == "docs" ?
+			'<img src="' + img.slice(0, -4) + '.png" style="height:24px;width:18px;"><font color="' + speaker_color + '">' + get_name(id) + ":</font> " + text_part(t, ranges) + b
 		:
 			"";
+			
+	var char_list = (lst) =>
+		[...new Set(lst.filter(ele => ele.type == "LINE" && ele.line.type == "CHARACTER").map(ele => ele.line.characterId))].map(ele => get_name(ele))
 	
 	var list_options = (lst) =>
 		type == "forum" ?
-			lst.flatMap(ele => ">- " + (ele.text || ele)).join(b) + br
+			lst.map(ele => ">- " + (ele.text || ele)).join(b) + br
+		: type == "docs" ?
+			'<ul style="list-style:disc;margin:0;padding:0 3em 0;"><li>' + lst.map(ele => (ele.text || ele)).join("</li><li>") + "</li></ul>"
 		:
 			"";
 			
@@ -1533,6 +1796,8 @@ function process_story (e, type, caller) {
 	var question_answers = (q, a) =>
 		type == "forum" ?
 			(q ? "> **" + q.text + "**" + br : "") + list_options(a)
+		: type == "docs" ?
+			(q ? '<b style="margin:1em;">' + q.text + "</b>" + b : "") + list_options(a)
 		:
 			"";
 	
@@ -1540,9 +1805,36 @@ function process_story (e, type, caller) {
 		type == "forum" ?
 			"|||\n|:-:|:-:|\n" +
 			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|" + t + "|" + lst[i].translation + "|").join(b) + br
+		: type == "docs" ?
+			b + '<table border="1"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
 		:
 			"";
-	
+			
+	var prompt = (t) =>
+		type == "forum" ?
+			"> **" + t + "**" + br
+		: type == "docs" ?
+			'<b style="margin:1em;">' + t + "</b>" + b
+		:
+			""
+
+	txt +=
+		type == "forum" ?
+			header[course] + br +
+			"> " + narrator[learning].join("> ") + ", " +
+			char_list(e.elements).join(", ") + br +
+			"#### [![](https://i.imgur.com/" +
+			icons[e.illustrations.active.substr(39,40)] + ".png) "
+		: type == "docs" ?
+			'<h1 style="text-align:left;margin:0;">' + e.fromLanguageName + "</h1>" +
+			"<b>" + story_info[from_language].rev + ": " + e.trackingProperties.story_revision + "</b>" + b +
+			"<b>" + story_info[from_language].cefr + ": " + e.trackingProperties.cefr_level + "</b>" + b +
+			"<b>" + narrator[learning].join("") + ", " +
+			char_list(e.elements).join(", ") + "</b>" + br +
+			'<img src="' + e.illustrations.active.slice(0, -4) + '.png" style="width:32px;height:32px;">'
+		:
+			"";
+
 	for (var line of e.elements) {
 		txt += (
 			line.type == "LINE" ?
@@ -1555,7 +1847,12 @@ function process_story (e, type, caller) {
 				: line.line.type == "PROSE" ?
 					narr(line.line.content.text, line.hideRangesForChallenge)
 				: line.line.type == "CHARACTER" ?
-					character(line.line.characterId, line.line.content.text, line.hideRangesForChallenge)
+					character(
+						line.line.characterId,
+						line.line.content.text,
+						line.hideRangesForChallenge,
+						line.line.avatarUrl
+					)
 				:
 					console.log("Unknown LINE type: " + JSON.stringify(line))
 			: line.type == "SUBHEADING" ?
@@ -1565,7 +1862,7 @@ function process_story (e, type, caller) {
 			: line.type == "POINT_TO_PHRASE" ?
 				question_answers(line.question, list_select(line.transcriptParts))
 			: line.type == "CHALLENGE_PROMPT" ?
-				"> **" + line.prompt.text + "**" + br
+				prompt(line.prompt.text)
 			: line.type == "SELECT_PHRASE" ?
 				question_answers(line.question, line.answers)
 			: line.type == "ARRANGE" ?
@@ -1585,32 +1882,53 @@ function process_story (e, type, caller) {
 		e.elements.filter(ele => ["MULTIPLE_CHOICE", "SELECT_PHRASE", "MATCH", "TYPE_TEXT", "ARRANGE"].includes(ele.type)).length;
 	
 	// story info
-	txt += "---\n\n##" + story_info[from_language].title + b +
+	txt += type == "forum" ?
+		"---\n\n##" + story_info[from_language].title + b +
 		"**" + story_info[from_language].cefr + "**: " + e.trackingProperties.cefr_level + b +
 		"**" + story_info[from_language].rev + "**: " + e.trackingProperties.story_revision + b +
 		"**" + story_info[from_language].len + "**: " + e.elements.length + b +
 		"**" + story_info[from_language].ex + "**: " + ex_count() + b +
 		"**[" + story_info[from_language].img + " (png)](" + img_url + ".png)**" + b +
-		"**[" + story_info[from_language].img + " (svg)](" + img_url + ".svg)**" + br;
-	
+		"**[" + story_info[from_language].img + " (svg)](" + img_url + ".svg)**" + br
+	:
+		"";
+		
 	// Word list
-	txt += "---\n\n##" + story_info[from_language].words + br + wordlist(e, type);
+	txt +=
+		type == "forum" ?
+			"---\n\n##" + story_info[from_language].words + br +
+			"|" + learning + "|" + from_language + "|\n|:-:|:-:|\n"
+		: type == "docs" ?
+			"<h2>" + story_info[from_language].words +
+			'</h2><table border="1"><tr><th>' + learning + "</th><th>" +
+			from_language + "</th></tr>"
+		:
+			"";
 	
-	return txt;
-}
-
-function wordlist(e, type) {
-	var txt = "|" + learning + "|" + from_language + "|\n|:-:|:-:|\n";
 	for (var line of e.elements) {
 		if (line.type == "LINE") {
 			for (var i = 0; i < line.line.content.hints.length; i++) {
 				var r = line.line.content.hintMap[i];
-				var part = line.line.content.text.substr(r.rangeFrom, r.rangeTo - r.rangeFrom + 1);
+				var part = line.line.content.text.substr(
+					r.rangeFrom, r.rangeTo - r.rangeFrom + 1);
 				if (part.replace(word_filter[learning], "").replace(symbols, "") != ""){
-					txt += "|	"  + part + "	|	" + line.line.content.hints[i] + "|\n";
+					txt +=
+						type == "forum" ?
+							"|\t"  + part + "\t|\t" +
+							line.line.content.hints[i] + "|\n"
+						: type == "docs" ?
+							"<tr><td>"  + part + "</td><td>" +
+							line.line.content.hints[i] + "</td></tr>"
+						:
+							"";
 	}	}	}	}
-			//txt += line.line.content.hintMap.map((r, i) => "|" + line.line.content.text.substr(r.rangeFrom, r.rangeTo - r.rangeFrom + 1) + "|" + line.line.content.hints[i] + "|").join("\n") + "\n"
-	return txt
+	
+	txt += type == "docs" ?
+		"</table></div>"
+	:
+		""
+	
+	return txt;
 }
 
 // Randomly shuffle an array
@@ -1639,7 +1957,7 @@ function get_JSON(url, f, arg=null) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(xhttp.responseText);
+			//console.log(xhttp.responseText);
 			f(JSON.parse(xhttp.responseText), arg);
 		}
 	};
@@ -1703,9 +2021,10 @@ function dl_buttons() {
 			set_ele.insertBefore(button, set_ele.getElementsByClassName("story")[story_i + 1]);
 		}
 	}
-	//add_all_button("all_stories", "Get all stories for the forum", () => all_forum());
+	add_all_button("all_forum", "Forum (all)", () => get_all("forum"));
 	//add_all_button("all_sheets", "Get all stories for Google sheets", () => all_sheets());
 	//add_all_button("all_overview", "Get all stories for forum overview", () => all_overview());
+	add_all_button("all_docs", "Google Docs (all)", () => get_all("docs"));
 }
 
 function add_all_button (b_id, b_text, b_func) {
@@ -1718,9 +2037,9 @@ function add_all_button (b_id, b_text, b_func) {
 }
 
 function remove_all_buttons() {
-	gid("all_stories").remove();
-	gid("all_sheets").remove();
-	gid("all_overview").remove();
+	["forum", "sheets", "overview", "docs"].forEach(
+		ele => gid("all_" + ele) && gid("all_" + ele).remove()
+	)
 }
 
 // Request JSON code of a story
@@ -1745,6 +2064,33 @@ function construct(e, caller=null) {
 	}
 }
 
+function construct_all(e, type) {
+	story_collector[e.trackingProperties.story_id] = process_story(e, type);
+	if (Object.keys(story_collector).length == gcl("story").length) {
+		output_all(story_collector, type);
+	}
+}
+
+function output_all(c, type) {
+	var output = "";
+	for (var set of set_list.sets) {
+		var set_i = set_list.sets.indexOf(set) + 1;
+		for (var story of set) {
+			output += c[story.id] + story_separator[type];
+		}
+	}
+	if (type == "forum") {
+		// create display element
+		var div = document.createElement("div");
+		div.setAttribute("style", "padding-top: 10px;");
+		div.innerHTML = '<textarea id="all_output" rows="5" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
+		gcl("stories-header")[0].append(div);
+		gid("all_output").value = output;
+	} else if (type == "docs") {
+		document.body.innerHTML = output;
+	}
+}
+
 // Display a single story for a Duolingo forum post
 function display_output(caller, output) {
 	// close button
@@ -1765,6 +2111,21 @@ function display_output(caller, output) {
 	caller.parentElement.append(div);
 	gid("output").value = output;
 	gid("output").rows = output.split("\n").length + 5;
+}
+
+function get_all(type) {
+	story_collector = {};
+	remove_all_buttons();
+	// Get each story
+	for (var set of set_list.sets) {
+		for (var story of set) {
+			get_JSON(
+				apiurl + "/" + story.id + "?masterVersion=false",
+				construct_all,
+				type
+			);
+		}
+	}
 }
 
 // CSS styles to add to page for buttons
