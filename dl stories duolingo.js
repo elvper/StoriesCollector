@@ -1804,7 +1804,7 @@ function process_story (e, type) {
 	var match = (lst) =>
 		type == "forum" ?
 			"|||\n|:-:|:-:|\n" +
-			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|" + t + "|" + lst[i].translation + "|").join(b) + br
+			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|	" + t + "	|	" + lst[i].translation + "	|").join(b) + br
 		: type == "docs" ?
 			b + '<table border="1"><col width="300"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
 		:
@@ -1897,7 +1897,7 @@ function process_story (e, type) {
 	txt +=
 		type == "forum" ?
 			"---\n\n##" + story_info[from_language].words + br +
-			"|" + learning + "|" + from_language + "|\n|:-:|:-:|\n"
+			"|	" + learning + "	|	" + from_language + "	|\n|:-:|:-:|\n"
 		: type == "docs" ?
 			"<h2>" + story_info[from_language].words +
 			'</h2><table border="1"><col width="300"><col width="300"><tr><th>' + learning + "</th><th>" +
@@ -1914,8 +1914,8 @@ function process_story (e, type) {
 				if (part.replace(word_filter[learning], "").replace(symbols, "") != ""){
 					txt +=
 						type == "forum" ?
-							"|\t"  + part + "\t|\t" +
-							line.line.content.hints[i] + "|\n"
+							"|	\t"  + part + "\t	|	\t" +
+							line.line.content.hints[i] + "	|\n"
 						: type == "docs" ?
 							"<tr><td>"  + part + "</td><td>" +
 							line.line.content.hints[i] + "</td></tr>"
