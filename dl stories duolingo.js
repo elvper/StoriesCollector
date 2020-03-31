@@ -2894,9 +2894,9 @@ function process_story (e, type) {
 	var audiolink = (t) =>
 		type == "forum" ?
 			"[" + story_info[from_language].audio + "](https://stories-cdn.duolingo.com/audio/" +
-			story_audio[from_language + "_" + learning][t] + ".mp3)" + br
+			story_audio[course][t] + ".mp3)" + br
 		: type == "docs" ?
-			'<a href="https://stories-cdn.duolingo.com/audio/' + story_audio[from_language + "_" + learning][t] + '.mp3">' + story_info[from_language].audio + "</a>" + b
+			'<a href="https://stories-cdn.duolingo.com/audio/' + story_audio[course][t] + '.mp3">' + story_info[from_language].audio + "</a>" + b
 		:
 			"";
 
