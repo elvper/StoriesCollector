@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      1.0.1
+// @version      1.0.2
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -2682,6 +2682,7 @@ var story_info = {
 	en: {
 		title: "Story information",
 		setnum: s => "**Set**: " + s,
+		set: s => "Set: " + s,
 		cefr: "CEFR",
 		rev: "Story revision",
 		len: "Story length",
@@ -2693,6 +2694,7 @@ var story_info = {
 	pt: {
 		title: "Informações da história",
 		setnum: s => "**Série**: " + s,
+		set: s => "Série: " + s,
 		cefr: "CEFR",
 		rev: "Revisão história",
 		len: "Comprimento da história",
@@ -2704,6 +2706,7 @@ var story_info = {
 	es: {
 		title: "Información de la historia",
 		setnum: s => "**Colección**: " + s,
+		set: s => "Colección: " + s,
 		cefr: "MCER / CEFR",
 		rev: "Revisión de la historia",
 		len: "Longitud de la historiah",
@@ -2715,6 +2718,7 @@ var story_info = {
 	zh: {
 		title: "故事信息",
 		setnum: s => "**第** " + s + " **组**",
+		set: s => "第 " + s + " 组",
 		cefr: "歐洲共同語言參考標準 (CEFR)",
 		rev: "故事改版",
 		len: "故事长度",
@@ -2896,6 +2900,14 @@ function process_story (e, type) {
 		:
 			"";
 
+	var setnum = (t) =>
+		type == "forum" ?
+			"> **" + t + "**" + br
+		: type == "docs" ?
+			'<b style="margin:1em;">' + t + "</b>" + b
+		:
+			"";
+
 	txt +=
 		type == "forum" ?
 			header[course] + br +
@@ -2907,6 +2919,7 @@ function process_story (e, type) {
 		: type == "docs" ?
 			'<h1 style="text-align:left;margin:0;">' + e.fromLanguageName + "</h1>" +
 			audiolink(e.trackingProperties.story_id) +
+			"<b>" + story_info[from_language].set(e.trackingProperties.story_set_number) + "</b>" + b +
 			"<b>" + story_info[from_language].rev + ": " + e.trackingProperties.story_revision + "</b>" + b +
 			"<b>" + story_info[from_language].cefr + ": " + e.trackingProperties.cefr_level + "</b>" + b +
 			"<b>" + narrator[learning].join("") + ", " +
@@ -2964,6 +2977,7 @@ function process_story (e, type) {
 	// story info
 	txt += type == "forum" ?
 		"---\n\n##" + story_info[from_language].title + b +
+		story_info[from_language].setnum(e.trackingProperties.story_set_number) + b +
 		"**" + story_info[from_language].cefr + "**: " + e.trackingProperties.cefr_level + b +
 		"**" + story_info[from_language].rev + "**: " + e.trackingProperties.story_revision + b +
 		"**" + story_info[from_language].len + "**: " + e.elements.length + b +
