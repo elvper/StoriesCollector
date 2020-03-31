@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      1.0.0
+// @version      1.0.1
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -2885,17 +2885,28 @@ function process_story (e, type) {
 		: type == "docs" ?
 			'<b style="margin:1em;">' + t + "</b>" + b
 		:
-			""
+			"";
+
+	var audiolink = (t) =>
+		type == "forum" ?
+			"[" + story_info[from_language].audio + "](https://stories-cdn.duolingo.com/audio/" +
+			story_audio[from_language + "_" + learning][t] + ".mp3)" + br
+		: type == "docs" ?
+			'<a href="https://stories-cdn.duolingo.com/audio/' + story_audio[from_language + "_" + learning][t] + '.mp3">' + story_info[from_language].audio + "</a>" + b
+		:
+			"";
 
 	txt +=
 		type == "forum" ?
 			header[course] + br +
+			audiolink(e.trackingProperties.story_id) +
 			"> " + narrator[learning].join("> ") + ", " +
 			char_list(e.elements).join(", ") + br +
 			"#### [![](https://i.imgur.com/" +
 			icons[e.illustrations.active.substr(39,40)] + ".png) "
 		: type == "docs" ?
 			'<h1 style="text-align:left;margin:0;">' + e.fromLanguageName + "</h1>" +
+			audiolink(e.trackingProperties.story_id) +
 			"<b>" + story_info[from_language].rev + ": " + e.trackingProperties.story_revision + "</b>" + b +
 			"<b>" + story_info[from_language].cefr + ": " + e.trackingProperties.cefr_level + "</b>" + b +
 			"<b>" + narrator[learning].join("") + ", " +
