@@ -2876,6 +2876,7 @@ function process_story (e, type) {
 	
 	var match = (lst) =>
 		type == "forum" ?
+	    		"##Match the words" + br +
 			"|||\n|:-:|:-:|\n" +
 			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|\t" + t + "\t|\t" + lst[i].translation + "\t|").join(b) + br
 		: type == "docs" ?
