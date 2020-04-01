@@ -3021,7 +3021,7 @@ function process_story (e, type) {
 	
 	txt +=
 		type == "forum" ?
-			word_array.map(ele => "|\t" + ele.replace(";", "\t|\t") + "|\n").join("")
+			word_array.map(ele => "|\t" + ele.replace(";", "\t|\t") + "\t|\n").join("")
 		: type == "docs" ?
 			word_array.map(ele => "<tr><td>" + ele.replace(";", "</td><td>") + "</td></tr>").join("") +
 			"</table></div>"
