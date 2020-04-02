@@ -2876,11 +2876,12 @@ function process_story (e, type) {
 	
 	var match = (lst) =>
 		type == "forum" ?
-	    		"## &#x1F3B2; Match the words" + br +
+	    		"## ![]https://i.imgur.com/8gDeEfM.png) Match the words" + br +
 			"|||\n|:-:|:-:|\n" +
 			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|\t" + t + "\t|\t" + lst[i].translation + "\t|").join(b) + br
 		: type == "docs" ?
-			b + '<table border="1"><col width="300"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
+			"![]https://i.imgur.com/8gDeEfM.png) Match the words" + br +
+	    		b + '<table border="1"><col width="300"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
 		:
 			"";
 			
