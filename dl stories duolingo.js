@@ -2689,7 +2689,7 @@ var story_info = {
 		ex: "Exercises",
 		img: "Big story image",
 		audio: "Download story audio",
-		words: "Word list"
+		words: "&#x1F4CB; Word list"
 	},
 	pt: {
 		title: "Informações da história",
@@ -2876,7 +2876,7 @@ function process_story (e, type) {
 	
 	var match = (lst) =>
 		type == "forum" ?
-	    		"##Match the words" + br +
+	    		"## &#x1F3B2; Match the words" + br +
 			"|||\n|:-:|:-:|\n" +
 			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|\t" + t + "\t|\t" + lst[i].translation + "\t|").join(b) + br
 		: type == "docs" ?
