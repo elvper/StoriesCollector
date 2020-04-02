@@ -2868,7 +2868,7 @@ function process_story (e, type) {
 
 	var question_answers = (q, a) =>
 		type == "forum" ?
-			(q ? "> **" + q.text + "**" + br : "") + list_options(a)
+			(q ? "> **" + "&#x1F449;" + q.text + "**" + br : "") + list_options(a)
 		: type == "docs" ?
 			(q ? '<b style="margin:1em;">' + q.text + "</b>" + b : "") + list_options(a)
 		:
