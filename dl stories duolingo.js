@@ -2681,7 +2681,7 @@ var ask = {
 var story_info = {
 	en: {
 		title: "Story information",
-		setnum: s => "- **Set**: " + s,
+		setnum: s => "**Set**: " + s [br],
 		set: s => "- Set: " + s,
 		cefr: "- CEFR",
 		rev: "- Story revision",
@@ -2693,7 +2693,7 @@ var story_info = {
 	},
 	pt: {
 		title: "Informações da história",
-		setnum: s => "- **Série**: " + s,
+		setnum: s => "**Série**: " + s [br],
 		set: s => "- Série: " + s,
 		cefr: "- CEFR",
 		rev: "- Revisão história",
@@ -2705,7 +2705,7 @@ var story_info = {
 	},
 	es: {
 		title: "Información de la historia",
-		setnum: s => "- **Colección**: " + s,
+		setnum: s => "**Colección**: " + s [br],
 		set: s => "- Colección: " + s,
 		cefr: "- MCER / CEFR",
 		rev: "- Revisión de la historia",
@@ -2717,7 +2717,7 @@ var story_info = {
 	},
 	zh: {
 		title: "故事信息",
-		setnum: s => "**第** " + s + " **组**",
+		setnum: s => "**第** " + s + " **组**" [br],
 		set: s => "- 第 " + s + " 组",
 		cefr: "- 歐洲共同語言參考標準 (CEFR)",
 		rev: "- 故事改版",
@@ -2868,7 +2868,7 @@ function process_story (e, type) {
 
 	var question_answers = (q, a) =>
 		type == "forum" ?
-			(q ? "> **" + "&#x1F449;" + q.text + "**" + br : "") + list_options(a)
+			(q ? "> /t "![Duo37](https://i.imgur.com/LzuGkwC.png)" **" + q.text + "**" + br : "") + list_options(a)
 		: type == "docs" ?
 			(q ? '<b style="margin:1em;">' + q.text + "</b>" + b : "") + list_options(a)
 		:
