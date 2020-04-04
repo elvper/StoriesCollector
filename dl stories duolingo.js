@@ -2681,50 +2681,50 @@ var ask = {
 var story_info = {
 	en: {
 		title: "Story information",
-		setnum: s => "**Set**: " + s,
-		set: s => "Set: " + s,
-		cefr: "CEFR",
-		rev: "Story revision",
-		len: "Story length",
-		ex: "Exercises",
-		img: "Big story image",
-		audio: "Download story audio",
+		setnum: s => "- **Set**: " + s,
+		set: s => "- Set: " + s,
+		cefr: "- CEFR",
+		rev: "- Story revision",
+		len: "- Story length",
+		ex: "- Exercises",
+		img: "- Big story image",
+		audio: "- Download story audio",
 		words: "&#x1F4CB; Word list"
 	},
 	pt: {
 		title: "Informações da história",
-		setnum: s => "**Série**: " + s,
-		set: s => "Série: " + s,
-		cefr: "CEFR",
-		rev: "Revisão história",
-		len: "Comprimento da história",
-		ex: "Exercícios",
-		img: "Grande imagem da história",
-		audio: "Baixar áudio da história",
+		setnum: s => "- **Série**: " + s,
+		set: s => "- Série: " + s,
+		cefr: "- CEFR",
+		rev: "- Revisão história",
+		len: "- Comprimento da história",
+		ex: "- Exercícios",
+		img: "- Grande imagem da história",
+		audio: "- Baixar áudio da história",
 		words: "Lista de palavras"
 	},
 	es: {
 		title: "Información de la historia",
-		setnum: s => "**Colección**: " + s,
-		set: s => "Colección: " + s,
-		cefr: "MCER / CEFR",
-		rev: "Revisión de la historia",
-		len: "Longitud de la historiah",
-		ex: "Ejercicios",
-		img: "Imagen grande de la historia",
-		audio: "Descargar audio de la historia",
+		setnum: s => "- **Colección**: " + s,
+		set: s => "- Colección: " + s,
+		cefr: "- MCER / CEFR",
+		rev: "- Revisión de la historia",
+		len: "- Longitud de la historiah",
+		ex: "- Ejercicios",
+		img: "- Imagen grande de la historia",
+		audio: "- Descargar audio de la historia",
 		words: "Lista de palabras"
 	},
 	zh: {
 		title: "故事信息",
 		setnum: s => "**第** " + s + " **组**",
-		set: s => "第 " + s + " 组",
-		cefr: "歐洲共同語言參考標準 (CEFR)",
-		rev: "故事改版",
-		len: "故事长度",
-		ex: "练习题",
-		img: "故事的大图景",
-		audio: "下载故事音频",
+		set: s => "- 第 " + s + " 组",
+		cefr: "- 歐洲共同語言參考標準 (CEFR)",
+		rev: "- 故事改版",
+		len: "- 故事长度",
+		ex: "- 练习题",
+		img: "- 故事的大图景",
+		audio: "- 下载故事音频",
 		words: "单词表"
 	}
 }
@@ -2880,7 +2880,7 @@ function process_story (e, type) {
 			"|||\n|:-:|:-:|\n" +
 			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|\t" + t + "\t|\t" + lst[i].translation + "\t|").join(b) + br
 		: type == "docs" ?
-			"![]https://i.imgur.com/8gDeEfM.png) Match the words" + br +
+			"![](https://i.imgur.com/P4i4icY.png) Match the words ![](https://i.imgur.com/BssXhdz.png)" + br +
 	    		b + '<table border="1"><col width="300"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
 		:
 			"";
@@ -2904,7 +2904,7 @@ function process_story (e, type) {
 
 	var setnum = (t) =>
 		type == "forum" ?
-			"> **" + t + "**" + br
+			"> ![Duo37](https://i.imgur.com/LzuGkwC.png)  /t **" + t + "**" + br
 		: type == "docs" ?
 			'<b style="margin:1em;">' + t + "</b>" + b
 		:
