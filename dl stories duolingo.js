@@ -254,7 +254,7 @@ var char_names = {
 	241: {pt: "", es: "", fr: "", de: "", en: ""},
 	242: {pt: "", es: "", fr: "", de: "", en: ""},
 	243: {pt: "Amigo de trabalho", es: "Compañero de trabajo", fr: "Ami du travail", de: "Kollege", en: ""},
-	244: {pt: "Amiga de trabalho", es: "Compañera de trabajo", fr: "Amie du travail", de: "Kollegin", en: ""}
+	244: {pt: "Amiga de trabalho", es: "Compañera de trabajo", fr: "Amie du travail", de: "Kollegin", en: ""},
 	245: {pt: "", es: "", fr: "", de: "", en: ""},
 	246: {pt: "", es: "Camila", fr: "Anne", de: "", en: "Wendy"},
 	247: {pt: "", es: "Gustavo", fr: "Thomas", de: "", en: "Gus"},
