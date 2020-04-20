@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Duolingo Stories Miner
-// @version      1.1.0
+// @version      1.0.2
 // @description  Collect stories and exercises from Duolingo
 // @author       somebody
 // @match        https://stories.duolingo.com/*
@@ -9,8 +9,8 @@
 
 (function() {
     'use strict';
-
-var char_names = {
+	
+var char_names = {	
 	1: {pt: "Pâmela", es: "Pamela ", fr: "Pénélope", de: "Paula", en: "Liz"},
 	2: {pt: "Cozinheiro", es: "Cocinero", fr: "Le cuisinier", de: "Koch", en: ""},
 	3: {pt: "Maya", es: "Dilcia", fr: "Gwendoline", de: "Katharina", en: "Jesminda"},
@@ -424,8 +424,7 @@ var char_names = {
 	411: {pt: "", es: "Tomás", fr: "Ludovic", de: "", en: "Tony"},
 	412: {pt: "", es: "Samanta", fr: "Colette", de: "", en: ""},
 	413: {pt: "", es: "", fr: "", de: "", en: "Samantha"}
-}
-
+}	
 var story_audio = {
 	en_pt: {
 		"pt-bom-dia": "e9bf39c220b0204ed8f59d1a6678fe24a624a4c6",
@@ -1495,209 +1494,207 @@ var story_audio = {
 	}
 }
 
-// https://cdn.filestackcontent.com/AyKJdUiAUQnK4tGqSqLJmz/resize=height:32/
 var icons = {
-	"783305780a6dad8e0e4eb34109d948e6a5fc2c35": "DjoX3Ed",
-	"df24f7756b139f6eda927eb776621b9febe1a3f1": "dUyAaO3",
-	"717bd84875f83c678f64f124937a278061e0e778": "F8DS7fw",
-	"1b10a427eeaa15c0ed6b690e78cbe8cb1b43e4e3": "0ZTAHYZ",
-	"09fc3d3f2b5acf538364fe21f1b5ab3a457b1d7b": "eiDz9rw",
-	"7e5d271488d31d6f1d0c503512e642ca7effe84f": "pgGgbMS",
-	"5361833c123aec9adfa60b0dc63398cd1aa49ef2": "yH1dF2z",
-	"f2020f08dc6ab976902d63ac29d5779e5959d06a": "yH1dF2z",
-	"cb76f485e6668f6f964fdf792d3f67ce5ae566b9": "n5UE1v0",
-	"d52beeb7535f755c3ac9c0475dfc3c87a8f1fa07": "TWa8p02",
-	"09cbfe4b009b6617a05701652d4210d552d0f5a2": "Txdgrh0",
-	"f3d07f61cdd95c84cb15d7f9d0e4b0dc8173072b": "j3l9AKR",
-	"9a1213d7cb11cc1ab115544c9557336da748fca6": "tY3lfBQ",
-	"ec74184ed69da39d62ba574fa9d615f7d0c53da1": "QuUqma1",
-	"b4090fb3357cd46aa8eac9f22c4fbbe3265d273e": "SLTqVlD",
-	"2048b2aca1b5e4e869402fc61c30ffa6617ba5b8": "SLTqVlD",
-	"bec84c03bd4044c75bcf0286a16e33992e7bff31": "SLTqVlD",
-	"21138fac4fa22d97330dc25cec4b68dcda9abc13": "cAodNMA",
-	"82f278cdb107bead5682d9161323e0ba329af607": "hYR0eNH",
-	"22d80e422eeb2f9e860d1f014edf989ff6257372": "TtNgm8l",
-	"af44dc77489e379a0652ce2e7b42bc96e3839833": "YiwNe2o",
-	"47c4cafa5f4b71f0e3d1cd73377b0324f70da2e6": "zwvVIWv",
-	"c28cb69bf3836fd092352596d98fc29a300c70ce": "pw2oaa2",
-	"7adc3c6ae983a10e3b79bd0efb8bfbb5ed3725c2": "dbSt0RR",
-	"6711cee61441da3d7aa6099466d6fff137239c3a": "yDwEty6",
-	"8bc8ee88f110f544dee2d14bdd67af1e645989a9": "zvEkxPn",
-	"fd6e3736df0c5ee0ed8b7f0bd6a1e5ca0d4c6859": "UTsBRPP",
-	"ceca620db9f2f5fade10e8e825088effc46968c0": "UTsBRPP",
-	"96fd9b652456a41bca2912838b14cb5bd9f7827a": "5cJrIQl",
-	"4709ac3b88be5e6b76c502500ea0f593bea8bd14": "i55k9RR",
-	"78280e171c39627186afb39898b33c5d1af1e43d": "AkwA96R",
-	"d0d5327cf96850b66bb9db4aa71b64a0050a53b3": "jx5ijxp",
-	"170e9caad206d87350e17e32c18226edefea8131": "RzhTXxs",
-	"7cd7723e6a361adbea522f2dc71b13755d4d578c": "QLII9e8",
-	"792e2286967c20465f3e45293ca8140533aa119e": "ZWfMW1M",
-	"6d37fa1702d8cb50ebffb3f79fc7c5d020b5459c": "uUjhfbg",
-	"2ccb57023b0ccbeb4541a22890559fbe30b7acc2": "60mD8SE",
-	"d9ab12bffb7890199d0cc6e3961a31c5254cb206": "ApPfp8x",
-	"be8f47fb647fd1b6b62660bfeceaa284fb800d10": "EoROvhu",
-	"fea97b34f975e980cb0f47aab08a6980675bbd81": "GkBKa1r",
-	"1dcd5216b93313f075eb62584804a9bec488724e": "M6Ez4Su",
-	"3b73e46379f8de494377e0f781978308917097da": "4IN9G5T",
-	"58bb6af97a30f031afaae6f8173bbe9f5f4b96e6": "62OyvAy",
-	"710f3a5ac270376f08d81bf3208c800c55c9405a": "v990oLf",
-	"120b9964782982500b064c71b098c4b92344be92": "STj7gkV",
-	"4a459a2aa33ff61983d53d6cb64e4642869086a2": "V6o5s5k",
-	"e70b0075377ea237ac6a6a55eaf12b14491ab78b": "IKVN4cA",
-	"9835f10a11488cd3b1dcb6ba069f4a738f4f56cd": "Y8y6kXZ",
-	"7d6b3a6c9551eee23b9ef23c77db6da4031295e2": "oMdqxLi",
-	"b25effb6b84f963315c4cf0b94d70033d61e59cb": "5zyde3T",
-	"3283c91b393498677a423edd74e33a92764aadca": "iGBMfB6",
-	"f4b7a86b9ce48eb4c9b1538021a584b4449c98a0": "qpddW7d",
-	"a13fae69b40921c2d4f62a0295a19ff0c25d26eb": "F8odUNg",
-	"bec6ac06369ced77777ad5151e3a385213c413b8": "2rYbUhh",
-	"3b13eb5d447097726c62cdc5f0c59ce615fae365": "Y0zM2mB",
-	"7a7194e15e27ca4d321f3e215c649415c3084b10": "2371Mg0",
-	"bc18fe62fb2dd751d977f80742520922d3235edb": "6nvmBkk",
-	"904d8ef9f657f0442c18cd064ed6ae970a7fd252": "pGbQwBR",
-	"1517cbcf4f4e76f1dc8b0687b90969af2c828c4f": "WGyIaZD",
-	"b8759b3dd106fcc1ce534a5fa64b7862463c614b": "yWqdHmq",
-	"30fe65475ddc1c2e8d1b6f6c14bd6e43e0180058": "wFF8nqE",
-	"9b2262390489b3f5a045dc77896f56f3c20e50f0": "TRd1NLc",
-	"4dfde84d0f5e67f5e356cc4c215701471c811b64": "QGy5Kxf",
-	"3c6df706f419a9e321656b9c4c35f93cd98bb6b1": "kTvSV0e",
-	"7e2fd5d7f620ba85ef1a0bdb114ad83442dabb24": "hMN5IJC",
-	"395de5ab9638c37f278413fafb4180244e7bd042": "boKlFFt",
-	"983ea34533d3216746f071a9dc5daf00481ceb0b": "0I5NYWZ",
-	"6a073f6357dc14ea58e162202f936682895b11ec": "VNd3k3S",
-	"23ec366084ab6a714a7dd9cd9def0e316bbbca06": "3mPi0wO",
-	"8c4b35b5a245bfd649e417f52579d1191f972104": "3mPi0wO",
-	"7ffd75def7116cf2604b92902abfb9f3393dac17": "lqnUpQX",
-	"a88dce8c031687c4370e25e71e80b643d0ecf7d2": "kiVlr1S",
-	"0a315c800609aa3cabfd0ee5f4a2126b945ac93a": "kiVlr1S",
-	"33ff312288d1c1456f426529bb442fbb37b7fbfb": "IaibjjI",
-	"305e15c47403caf694e362889d7639ba2117fc53": "NYwgrkD",
-	"e1d2c08f443668d8f99ef3d26f1d04b70d187ab3": "TsQrZXs",
-	"09b82c75d938d569334349497ffcbf65775f51ea": "yWutlOF",
-	"b21485bce15018d0e7423b31c02422f6a9f72195": "Jg5ugQJ",
-	"4cbc2ae441e2cd2b2696a6ba8f88077b74e06fb3": "zgHcpcl",
-	"4a3485e61b2b0d29008a6f171809b4fe91370981": "zgHcpcl",
-	"9ca3985bd9c1d1fa5cac10938af9656032cccb46": "RO50NoS",
-	"cc35f6155e0dd7e4dea428856763ba0f25e284a9": "HQvRC9j",
-	"7ba92098a48e79462db00f485b5a1b45a1b1e00d": "EoVjYgb",
-	"9b9061f450b23328702fe3e684904a5641dd5791": "DAXU5RY",
-	"16221ba6d2c18d4055e5136c0b32a046b9313cc5": "nQzqMiL",
-	"1f8f82aab6a16cd4020bcd3c0b48bf98f840996e": "wX1nhvy",
-	"362617bceae484d99d620d7937a0204699502d4e": "IiEcBHo",
-	"aa69fccf4681e1a7768b18b959cff9173afbc601": "IiEcBHo",
-	"ec03b57e6052db61c39b2e56bad701cc64719e7e": "wFxN7XZ",
-	"0b1b912c420b82ccf6e1af0ae6929ed465cebe28": "wFxN7XZ",
-	"24ddf793cf9799aa9125838f9c057496fbcd9d20": "0KKG6vJ",
-	"7ae1a6ae0a0e13e6b07092809282692c29affec2": "0KKG6vJ",
-	"12d83fa013e64d1f13b97c0a405849ce566a9407": "Cjd1L3F",
-	"e0a5d6e8a12b5b8657d32de84c54fbec638389e8": "Cjd1L3F",
-	"5d3266350bc203b4fcbd02eb6ac0fffc73200303": "VRZPVgL",
-	"ee073ab0dfe915425501fc1f254518a0764737bc": "VRZPVgL",
-	"f701986b4ebe97bfd2df2464ea66f15c035aa0ec": "zHB02XY",
-	"7662fc143f16426134e5a81be4197d01a2329dee": "zHB02XY",
-	"6dc7ee59d104037590efe9b4afe76fbe2d1ba3c6": "6XcuKeu",
-	"c48dad6a9eca125ddf0709a2edd03e7058ae9260": "6XcuKeu",
-	"62c9d6b47c7d6fdffa33026d75a91bef76403c2d": "FJvFtrW",
-	"003987ceffa12229b08cae5214cd1d2bc34f77de": "FJvFtrW",
-	"0125bde5027ea20ae06c819388c0a9eab2605828": "fMUCiNB",
-	"423b73ee9e150df75084b5e05f713b34cb1c214a": "K5qvOSB",
-	"8d72b2774b98681f901db5d73166efc932ef8392": "K5qvOSB",
-	"4381f0cf6dedee84ce24d2c881fcce2f1f909692": "OswJWVu",
-	"d719f67944b2e09838cccc11c935d80d3bdfa0bf": "x1lDdEB",
-	"7b176582983ea6b77cbc245c1a4f9302e3ca8bfb": "CsGJyzE",
-	"5680e1dc10743201b1c4ce2d016223272ae40002": "qKWf9xY",
-	"21647f13d7dea2d9fdb352c00a1cfda69085fd11": "qKWf9xY",
-	"b16c72aadc05d26d59a822bcbc53919c17ba53b7": "LlZqkI6",
-	"f4e8a14039b0aa71b1df137ae017efa717b2eef6": "LlZqkI6",
-	"ad8c35c2e9c77aaf7d9030a720de3c74d8b8a1a4": "CZOpq4j",
-	"312edadf37df1c32d3453281b994f66d9b61abb8": "CZOpq4j",
-	"b867db3552fa0c7849fd6bc55e1203baf0111184": "kadAxgk",
-	"3249dc93e28187154a69b2d130cd936345ed46a6": "kadAxgk",
-	"596b5452dcd320b0cc7fb468a9dcfb12d9c7972e": "aMravcN",
-	"deb8f45f9440fff3910c53679a1410fcc82a595c": "aMravcN",
-	"db24499e734876b2dc618d1d7dc7a47d6b69dd11": "zYRiTx4",
-	"53c7c9c5474c881dbb38b20363fb13378c8b45f6": "zYRiTx4",
-	"1d3e98f9b4bd25d26f035493245af6f085450360": "muht9CE",
-	"69f23ed6d8e4d49f23ac591ad4902282b441c281": "muht9CE",
-	"981d99d0d2c87d36c69938538f1785da0533492a": "pr4Invg",
-	"75e2df33af637e7904f4e40736c32fd141f4fba4": "Pnq4sKp",
-	"c332cb99186db398cb78a435bd290e2a9f23b064": "Pnq4sKp",
-	"0e043b3c7d080ff48d886ec6b10279099ef96a17": "LB1kiBD",
-	"6ee066ef97c71eb35b7f3b78ffc6b709d1773d09": "LB1kiBD",
-	"a32dddee7aa42996a7b91d3db47c5e15b81e130b": "vMIFNp4",
-	"e078a38bd0437918e81c2f07c87a283a14e84c8f": "OyZOQsZ",
-	"94dd997c0461ca778b57a42f5b297c3ac934ce78": "OyZOQsZ",
-	"450592ada18b027200b1004e94fe5ab4a450d03f": "qccZfgh",
-	"0ad4b3835306aa679c2cff51cbf0515bc09f270f": "VKz5WMr",
-	"64ef42f2271a01569becc8d00cc27a4c69a76d8a": "VKz5WMr",
-	"c742be95838ee164da366adbc795e6e08da9c2ee": "zVXz4ai",
-	"5cbd1c027fc170ebc8c8eff3a397ad22041e72b3": "sJaKPCM",
-	"41ee14206f3a427bc6e48c683ea13a94b44659fc": "xEgZQws",
-	"b91b85c726972e04eaf16443cbc1cfef5ec083e9": "M8aWGOq",
-	"5dfc64e2bebf1fac26800f72aa386a85d769a401": "G4R1cwM",
-	"72a58c6082e9f1475904eed99a94695e54344997": "mo2cYnr",
-	"80f48a87b3bf20a79fa608a787d302009a90b526": "aAMAKu9",
-	"7760db748143115c4d7e7e9ba63b2ae530c2b552": "sseU31Z",
-	"17356bc6f4063356b622797a71685d0397bff19d": "wqtQQEa",
-	"f01b2bbc722faaf9dfc826d2ec0744138caf8b3a": "cQKI53P",
-	"84f9a2dd273519e431762584ab025a7ce5401af3": "wDPJabW",
-	"686c95bab13b4e85d31b9ed08115b5370f43cd7d": "Xeih9Nf",
-	"c2a92b5fd528afca8fabd43309346c0bba79e72e": "hHfBlJc",
-	"937c4808cf3264c55ca06398e6690062edeb8cd2": "aESaocs",
-	"55e56e802bd98e8d6d8172fe4790d42c1ac40274": "yfGoXgB",
-	"de7da27fccd01c7bd923d99c4886c59f4509ac34": "QM42DI7",
-	"5f098014a8f5b0bc779f02ed1968a8f3ac136b95": "xkEUAXh",
-	"cf5d6257f8753490966f326d12e23dc506650b19": "UNHoyM8",
-	"1bd0d82eee9df83723328fba49a75e9dcd0a9ae1": "zsolERC",
-	"437ef6ab2c5bb5186d01fd7ecf10a3b00e9dbc5a": "uJbGktW",
-	"367ad107602defe9e104ffbaa25a8df8ecadec0b": "HQtj94U",
-	"a3f67b92b316b236b2ec283e9da9b93fadd09d13": "zl7sDh0",
-	"27283d3a28f1f20a2871bf771de8426af2b6ca46": "BYSJZWr",
-	"2f7bcb56b8b0c6f7d51db3fca249a0d805aa16f3": "t8dmVYS",
-	"961d5d44d0e1a52236b3a8ac118a7819c74b9f56": "tUgd1jk",
-	"cacaef9b313efda431889ff53f7d8f4e2ab55c28": "FsGtRjJ",
-	"cbc8bb9092dd2b0ed8513746e3eea4611cab765b": "ELuNbzd",
-	"198c47f1acbb8079a418e86d7f4250d3c8e53f8b": "1tPBDe4",
-	"1a3ecc7f74993af40b4a5b7d9b4da8d9d45e4a7e": "nIrA6Dd",
-	"9d12163912051f06d8fd030ef1d54930074b8e3d": "3KwRJyk",
-	"d9b06923d4631ad9ea59fd33d28c08f8c6ecd7cc": "QMbpRYF",
-	"2f5d7c623ff71838607c8b789fc979ba0f0bd045": "UqwZhrp",
-	"93c568e9da40d53c405dde607b7834fcc53847da": "XladLRz",
-	"686c3b1a9fc164b9548f6b503c373b8b2fe9eef6": "JXqQCVF",
-	"8b012f298540d13616123422efda7bfba2115649": "wV0NnK5",
-	"e220e8af5712fcc295a2580cf10108933443ae15": "vBygGef",
-	"6d06c7a207e54a023bf97032e1d2dab2d90239a1": "kPBkY6e",
-	"7a7f433298941184d941f593564eaac6d32d5eec": "kGr5OZ9",
-	"5dd7c1c9e363ca081026fc76b834b84df03c1ce5": "QN5RYBZ",
-	"c705fb9dbd8dd847d687d6e63c7e6eeba2e4d60d": "Ombft9O",
-	"9a2dcd1a9eaff04d1e9b4338e9afcead94c365bf": "Yb8qvy0",
-	"e3c4951a636e72c3f82ef749d5fbf2e61d51628d": "oVFg54e",
-	"966f6e25540bc4ba5347e59005bcc1e2827fdd66": "jOsu0VU",
-	"51d1c685bd34b719a260b60637e6774fce1d2cb8": "ZFL3T3W",
-	"5dc22a453cc462fa2ac2412700a39a9e1b47d4e6": "oOTj9wH",
-	"087b93170babff3e2d63cc840a339f221e6957b0": "z0fZUcZ",
-	"d052dcca47838cd5debc241d8963f4a99b3bb873": "iLJ6yEf",
-	"743f08a1a28a5e27e7e78ba3c46443b92365789b": "ItCWNAi",
-	"0641ff57af041e20c48758333ca7a5e76006d438": "kjvoK9j",
-	"d009bf5a911fc69baee4534e0bcc9e5478a9b633": "uVNoosT",
-	"51e004f16574a25cf124ce8d3c718187674dfbdc": "GwrTjq2",
-	"88e500c781ec4505c30a55fa55eda9d2df4a04da": "aF4wExy",
-	"7118252e70f96bc0ffa531032ec8c2efaf043e7b": "ubi08xn",
-	"1cad8a6eda3c353f9c7c98e338cb8fc3d211644d": "5bnmwSc",
-	"0abdcc5823240ad538848a828283979a1c445fa9": "Rbeuum8",
-	"91023e19762be713ac3b9ec727924006b6ca8ce0": "zmrnGJ4",
-	"b9a6aee812d1c55a3facf77e6d552591342f0037": "nUnZtM8",
-	"205eb89c151a9cea69e598e00b5cbe534c23881a": "vUym9Qi",
-	"dc39b146e09be64389b169c261884a6c5ea6fcca": "NZdwG6x",
-	"6830f32cae89c97b8418a589d0539c3d87bbff2b": "AqTHwMN",
-	"30aefbeb8dcf34c7a93bff266a4252b79ec143e5": "g4Ghph4",
-	"c356b975f0ed8c71436b609a97a30491dd71e111": "H5095ss",
-	"b719cbfd3a627fae092fae93dbf83c8c3cb7fd18": "IhU1SXT",
-	"02ed13ae1aba57917368af1e2492564588e51b06": "Pi3bbX6",
-	"d177f65e767d30af6fc75f7d0fc2c886ce601bea": "kJOrXza",
-	"c7b3eabc1e12d46fdff41335bca8b3daa589f0cf": "lwQ75ln",
-	"9ad6bc610313267c3fbb650a0d94480aa76c8a1c": "v3RjTUh",
-	"5c8a64d8aec1682d26f003aafdd4f8fa0abfe4d7": "Sp4guoX"
+	"	783305780a6dad8e0e4eb34109d948e6a5fc2c35	":"	DjoX3Ed	",
+	"	df24f7756b139f6eda927eb776621b9febe1a3f1	":"	dUyAaO3	",
+	"	717bd84875f83c678f64f124937a278061e0e778	":"	F8DS7fw	",
+	"	1b10a427eeaa15c0ed6b690e78cbe8cb1b43e4e3	":"	0ZTAHYZ	",
+	"	09fc3d3f2b5acf538364fe21f1b5ab3a457b1d7b	":"	eiDz9rw	",
+	"	7e5d271488d31d6f1d0c503512e642ca7effe84f	":"	pgGgbMS	",
+	"	5361833c123aec9adfa60b0dc63398cd1aa49ef2	":"	yH1dF2z	",
+	"	f2020f08dc6ab976902d63ac29d5779e5959d06a	":"	yH1dF2z	",
+	"	d52beeb7535f755c3ac9c0475dfc3c87a8f1fa07	":"	TWa8p02	",
+	"	5dd7c1c9e363ca081026fc76b834b84df03c1ce5	":"	10CC9U0	",
+	"	c705fb9dbd8dd847d687d6e63c7e6eeba2e4d60d	":"	1GfB5Bu	",
+	"	9a2dcd1a9eaff04d1e9b4338e9afcead94c365bf	":"	ths9qqV	",
+	"	e3c4951a636e72c3f82ef749d5fbf2e61d51628d	":"	kwYdHy1	",
+	"	966f6e25540bc4ba5347e59005bcc1e2827fdd66	":"	GqJdgtM	",
+	"	51d1c685bd34b719a260b60637e6774fce1d2cb8	":"	0thIKC9	",
+	"	5dc22a453cc462fa2ac2412700a39a9e1b47d4e6	":"	JEJFaHr	",
+	"	087b93170babff3e2d63cc840a339f221e6957b0	":"	EuRx6Wf	",
+	"	d052dcca47838cd5debc241d8963f4a99b3bb873	":"	Q3mpODL	",
+	"	743f08a1a28a5e27e7e78ba3c46443b92365789b	":"	9K0X0IM	",
+	"	09cbfe4b009b6617a05701652d4210d552d0f5a2	":"	Txdgrh0	",
+	"	f3d07f61cdd95c84cb15d7f9d0e4b0dc8173072b	":"	j3l9AKR	",
+	"	9a1213d7cb11cc1ab115544c9557336da748fca6	":"	tY3lfBQ	",
+	"	ec74184ed69da39d62ba574fa9d615f7d0c53da1	":"	QuUqma1	",
+	"	b4090fb3357cd46aa8eac9f22c4fbbe3265d273e	":"	SLTqVlD	",
+	"	2048b2aca1b5e4e869402fc61c30ffa6617ba5b8	":"	SLTqVlD	",
+	"	bec84c03bd4044c75bcf0286a16e33992e7bff31	":"	SLTqVlD	",
+	"	21138fac4fa22d97330dc25cec4b68dcda9abc13	":"	cAodNMA	",
+	"	82f278cdb107bead5682d9161323e0ba329af607	":"	hYR0eNH	",
+	"	22d80e422eeb2f9e860d1f014edf989ff6257372	":"	TtNgm8l	",
+	"	0641ff57af041e20c48758333ca7a5e76006d438	":"	h3Fv5LN	",
+	"	d009bf5a911fc69baee4534e0bcc9e5478a9b633	":"	m9n1cUS	",
+	"	51e004f16574a25cf124ce8d3c718187674dfbdc	":"	nbffuHG	",
+	"	88e500c781ec4505c30a55fa55eda9d2df4a04da	":"	OCnpuM9	",
+	"	7118252e70f96bc0ffa531032ec8c2efaf043e7b	":"	w4HWUcD	",
+	"	1cad8a6eda3c353f9c7c98e338cb8fc3d211644d	":"	7qZvFfg	",
+	"	0abdcc5823240ad538848a828283979a1c445fa9	":"	CDpFPhj	",
+	"	91023e19762be713ac3b9ec727924006b6ca8ce0	":"	F7WEphg	",
+	"	b9a6aee812d1c55a3facf77e6d552591342f0037	":"	VR7CLAM	",
+	"	205eb89c151a9cea69e598e00b5cbe534c23881a	":"	ftwDhYD	",
+	"	dc39b146e09be64389b169c261884a6c5ea6fcca	":"	IWoR54x	",
+	"	6830f32cae89c97b8418a589d0539c3d87bbff2b	":"	er71kxB	",
+	"	30aefbeb8dcf34c7a93bff266a4252b79ec143e5	":"	hymxFm9	",
+	"	c356b975f0ed8c71436b609a97a30491dd71e111	":"	2lMqQiq	",
+	"	b719cbfd3a627fae092fae93dbf83c8c3cb7fd18	":"	a1RuX9d	",
+	"	02ed13ae1aba57917368af1e2492564588e51b06	":"	LQS9zbJ	",
+	"	d177f65e767d30af6fc75f7d0fc2c886ce601bea	":"	3FoB8Qq	",
+	"	c7b3eabc1e12d46fdff41335bca8b3daa589f0cf	":"	Tq8Madq	",
+	"	9ad6bc610313267c3fbb650a0d94480aa76c8a1c	":"	Zevoqyb	",
+	"	5c8a64d8aec1682d26f003aafdd4f8fa0abfe4d7	":"	6109pT4	",
+	"	af44dc77489e379a0652ce2e7b42bc96e3839833	":"	YiwNe2o	",
+	"	47c4cafa5f4b71f0e3d1cd73377b0324f70da2e6	":"	zwvVIWv	",
+	"	c28cb69bf3836fd092352596d98fc29a300c70ce	":"	pw2oaa2	",
+	"	7adc3c6ae983a10e3b79bd0efb8bfbb5ed3725c2	":"	dbSt0RR	",
+	"	6711cee61441da3d7aa6099466d6fff137239c3a	":"	yDwEty6	",
+	"	8bc8ee88f110f544dee2d14bdd67af1e645989a9	":"	zvEkxPn	",
+	"	fd6e3736df0c5ee0ed8b7f0bd6a1e5ca0d4c6859	":"	UTsBRPP	",
+	"	ceca620db9f2f5fade10e8e825088effc46968c0	":"	UTsBRPP	",
+	"	96fd9b652456a41bca2912838b14cb5bd9f7827a	":"	5cJrIQl	",
+	"	4709ac3b88be5e6b76c502500ea0f593bea8bd14	":"	i55k9RR	",
+	"	78280e171c39627186afb39898b33c5d1af1e43d	":"	AkwA96R	",
+	"	d0d5327cf96850b66bb9db4aa71b64a0050a53b3	":"	jx5ijxp	",
+	"	170e9caad206d87350e17e32c18226edefea8131	":"	RzhTXxs	",
+	"	7cd7723e6a361adbea522f2dc71b13755d4d578c	":"	QLII9e8	",
+	"	792e2286967c20465f3e45293ca8140533aa119e	":"	ZWfMW1M	",
+	"	6d37fa1702d8cb50ebffb3f79fc7c5d020b5459c	":"	uUjhfbg	",
+	"	2ccb57023b0ccbeb4541a22890559fbe30b7acc2	":"	60mD8SE	",
+	"	d9ab12bffb7890199d0cc6e3961a31c5254cb206	":"	ApPfp8x	",
+	"	be8f47fb647fd1b6b62660bfeceaa284fb800d10	":"	EoROvhu	",
+	"	fea97b34f975e980cb0f47aab08a6980675bbd81	":"	GkBKa1r	",
+	"	1dcd5216b93313f075eb62584804a9bec488724e	":"	M6Ez4Su	",
+	"	3b73e46379f8de494377e0f781978308917097da	":"	4IN9G5T	",
+	"	58bb6af97a30f031afaae6f8173bbe9f5f4b96e6	":"	62OyvAy	",
+	"	710f3a5ac270376f08d81bf3208c800c55c9405a	":"	v990oLf	",
+	"	120b9964782982500b064c71b098c4b92344be92	":"	STj7gkV	",
+	"	4a459a2aa33ff61983d53d6cb64e4642869086a2	":"	V6o5s5k	",
+	"	e70b0075377ea237ac6a6a55eaf12b14491ab78b	":"	IKVN4cA	",
+	"	9835f10a11488cd3b1dcb6ba069f4a738f4f56cd	":"	Y8y6kXZ	",
+	"	7d6b3a6c9551eee23b9ef23c77db6da4031295e2	":"	oMdqxLi	",
+	"	b25effb6b84f963315c4cf0b94d70033d61e59cb	":"	5zyde3T	",
+	"	3283c91b393498677a423edd74e33a92764aadca	":"	iGBMfB6	",
+	"	f4b7a86b9ce48eb4c9b1538021a584b4449c98a0	":"	qpddW7d	",
+	"	a13fae69b40921c2d4f62a0295a19ff0c25d26eb	":"	F8odUNg	",
+	"	bec6ac06369ced77777ad5151e3a385213c413b8	":"	2rYbUhh	",
+	"	3b13eb5d447097726c62cdc5f0c59ce615fae365	":"	Y0zM2mB	",
+	"	7a7194e15e27ca4d321f3e215c649415c3084b10	":"	2371Mg0	",
+	"	bc18fe62fb2dd751d977f80742520922d3235edb	":"	6nvmBkk	",
+	"	904d8ef9f657f0442c18cd064ed6ae970a7fd252	":"	pGbQwBR	",
+	"	1517cbcf4f4e76f1dc8b0687b90969af2c828c4f	":"	WGyIaZD	",
+	"	b8759b3dd106fcc1ce534a5fa64b7862463c614b	":"	yWqdHmq	",
+	"	30fe65475ddc1c2e8d1b6f6c14bd6e43e0180058	":"	wFF8nqE	",
+	"	9b2262390489b3f5a045dc77896f56f3c20e50f0	":"	TRd1NLc	",
+	"	4dfde84d0f5e67f5e356cc4c215701471c811b64	":"	QGy5Kxf	",
+	"	3c6df706f419a9e321656b9c4c35f93cd98bb6b1	":"	kTvSV0e	",
+	"	7e2fd5d7f620ba85ef1a0bdb114ad83442dabb24	":"	hMN5IJC	",
+	"	395de5ab9638c37f278413fafb4180244e7bd042	":"	boKlFFt	",
+	"	983ea34533d3216746f071a9dc5daf00481ceb0b	":"	0I5NYWZ	",
+	"	6a073f6357dc14ea58e162202f936682895b11ec	":"	VNd3k3S	",
+	"	23ec366084ab6a714a7dd9cd9def0e316bbbca06	":"	3mPi0wO	",
+	"	8c4b35b5a245bfd649e417f52579d1191f972104	":"	3mPi0wO	",
+	"	7ffd75def7116cf2604b92902abfb9f3393dac17	":"	lqnUpQX	",
+	"	a88dce8c031687c4370e25e71e80b643d0ecf7d2	":"	kiVlr1S	",
+	"	0a315c800609aa3cabfd0ee5f4a2126b945ac93a	":"	kiVlr1S	",
+	"	33ff312288d1c1456f426529bb442fbb37b7fbfb	":"	IaibjjI	",
+	"	305e15c47403caf694e362889d7639ba2117fc53	":"	NYwgrkD	",
+	"	e1d2c08f443668d8f99ef3d26f1d04b70d187ab3	":"	TsQrZXs	",
+	"	09b82c75d938d569334349497ffcbf65775f51ea	":"	yWutlOF	",
+	"	b21485bce15018d0e7423b31c02422f6a9f72195	":"	Jg5ugQJ	",
+	"	4cbc2ae441e2cd2b2696a6ba8f88077b74e06fb3	":"	zgHcpcl	",
+	"	4a3485e61b2b0d29008a6f171809b4fe91370981	":"	zgHcpcl	",
+	"	9ca3985bd9c1d1fa5cac10938af9656032cccb46	":"	RO50NoS	",
+	"	cc35f6155e0dd7e4dea428856763ba0f25e284a9	":"	HQvRC9j	",
+	"	7ba92098a48e79462db00f485b5a1b45a1b1e00d	":"	EoVjYgb	",
+	"	9b9061f450b23328702fe3e684904a5641dd5791	":"	DAXU5RY	",
+	"	16221ba6d2c18d4055e5136c0b32a046b9313cc5	":"	nQzqMiL	",
+	"	1f8f82aab6a16cd4020bcd3c0b48bf98f840996e	":"	wX1nhvy	",
+	"	362617bceae484d99d620d7937a0204699502d4e	":"	IiEcBHo	",
+	"	aa69fccf4681e1a7768b18b959cff9173afbc601	":"	IiEcBHo	",
+	"	ec03b57e6052db61c39b2e56bad701cc64719e7e	":"	wFxN7XZ	",
+	"	0b1b912c420b82ccf6e1af0ae6929ed465cebe28	":"	wFxN7XZ	",
+	"	24ddf793cf9799aa9125838f9c057496fbcd9d20	":"	0KKG6vJ	",
+	"	7ae1a6ae0a0e13e6b07092809282692c29affec2	":"	0KKG6vJ	",
+	"	12d83fa013e64d1f13b97c0a405849ce566a9407	":"	Cjd1L3F	",
+	"	e0a5d6e8a12b5b8657d32de84c54fbec638389e8	":"	Cjd1L3F	",
+	"	5d3266350bc203b4fcbd02eb6ac0fffc73200303	":"	VRZPVgL	",
+	"	ee073ab0dfe915425501fc1f254518a0764737bc	":"	VRZPVgL	",
+	"	f701986b4ebe97bfd2df2464ea66f15c035aa0ec	":"	zHB02XY	",
+	"	7662fc143f16426134e5a81be4197d01a2329dee	":"	zHB02XY	",
+	"	6dc7ee59d104037590efe9b4afe76fbe2d1ba3c6	":"	6XcuKeu	",
+	"	c48dad6a9eca125ddf0709a2edd03e7058ae9260	":"	6XcuKeu	",
+	"	62c9d6b47c7d6fdffa33026d75a91bef76403c2d	":"	FJvFtrW	",
+	"	003987ceffa12229b08cae5214cd1d2bc34f77de	":"	FJvFtrW	",
+	"	0125bde5027ea20ae06c819388c0a9eab2605828	":"	fMUCiNB	",
+	"	423b73ee9e150df75084b5e05f713b34cb1c214a	":"	K5qvOSB	",
+	"	8d72b2774b98681f901db5d73166efc932ef8392	":"	K5qvOSB	",
+	"	4381f0cf6dedee84ce24d2c881fcce2f1f909692	":"	OswJWVu	",
+	"	d719f67944b2e09838cccc11c935d80d3bdfa0bf	":"	x1lDdEB	",
+	"	7b176582983ea6b77cbc245c1a4f9302e3ca8bfb	":"	CsGJyzE	",
+	"	5680e1dc10743201b1c4ce2d016223272ae40002	":"	qKWf9xY	",
+	"	21647f13d7dea2d9fdb352c00a1cfda69085fd11	":"	qKWf9xY	",
+	"	b16c72aadc05d26d59a822bcbc53919c17ba53b7	":"	LlZqkI6	",
+	"	f4e8a14039b0aa71b1df137ae017efa717b2eef6	":"	LlZqkI6	",
+	"	ad8c35c2e9c77aaf7d9030a720de3c74d8b8a1a4	":"	CZOpq4j	",
+	"	312edadf37df1c32d3453281b994f66d9b61abb8	":"	CZOpq4j	",
+	"	b867db3552fa0c7849fd6bc55e1203baf0111184	":"	kadAxgk	",
+	"	3249dc93e28187154a69b2d130cd936345ed46a6	":"	kadAxgk	",
+	"	596b5452dcd320b0cc7fb468a9dcfb12d9c7972e	":"	aMravcN	",
+	"	deb8f45f9440fff3910c53679a1410fcc82a595c	":"	aMravcN	",
+	"	db24499e734876b2dc618d1d7dc7a47d6b69dd11	":"	zYRiTx4	",
+	"	53c7c9c5474c881dbb38b20363fb13378c8b45f6	":"	zYRiTx4	",
+	"	1d3e98f9b4bd25d26f035493245af6f085450360	":"	muht9CE	",
+	"	69f23ed6d8e4d49f23ac591ad4902282b441c281	":"	muht9CE	",
+	"	981d99d0d2c87d36c69938538f1785da0533492a	":"	pr4Invg	",
+	"	75e2df33af637e7904f4e40736c32fd141f4fba4	":"	Pnq4sKp	",
+	"	c332cb99186db398cb78a435bd290e2a9f23b064	":"	Pnq4sKp	",
+	"	0e043b3c7d080ff48d886ec6b10279099ef96a17	":"	LB1kiBD	",
+	"	6ee066ef97c71eb35b7f3b78ffc6b709d1773d09	":"	LB1kiBD	",
+	"	a32dddee7aa42996a7b91d3db47c5e15b81e130b	":"	vMIFNp4	",
+	"	e078a38bd0437918e81c2f07c87a283a14e84c8f	":"	OyZOQsZ	",
+	"	94dd997c0461ca778b57a42f5b297c3ac934ce78	":"	OyZOQsZ	",
+	"	450592ada18b027200b1004e94fe5ab4a450d03f	":"	qccZfgh	",
+	"	0ad4b3835306aa679c2cff51cbf0515bc09f270f	":"	VKz5WMr	",
+	"	64ef42f2271a01569becc8d00cc27a4c69a76d8a	":"	VKz5WMr	",
+	"	c742be95838ee164da366adbc795e6e08da9c2ee	":"	zVXz4ai	",
+	"	5cbd1c027fc170ebc8c8eff3a397ad22041e72b3	":"	sJaKPCM	",
+	"	41ee14206f3a427bc6e48c683ea13a94b44659fc	":"	xEgZQws	",
+	"	b91b85c726972e04eaf16443cbc1cfef5ec083e9	":"	M8aWGOq	",
+	"	5dfc64e2bebf1fac26800f72aa386a85d769a401	":"	G4R1cwM	",
+	"	72a58c6082e9f1475904eed99a94695e54344997	":"	mo2cYnr	",
+	"	80f48a87b3bf20a79fa608a787d302009a90b526	":"	aAMAKu9	",
+	"	7760db748143115c4d7e7e9ba63b2ae530c2b552	":"	sseU31Z	",
+	"	17356bc6f4063356b622797a71685d0397bff19d	":"	wqtQQEa	",
+	"	f01b2bbc722faaf9dfc826d2ec0744138caf8b3a	":"	cQKI53P	",
+	"	84f9a2dd273519e431762584ab025a7ce5401af3	":"	wDPJabW	",
+	"	686c95bab13b4e85d31b9ed08115b5370f43cd7d	":"	Xeih9Nf	",
+	"	c2a92b5fd528afca8fabd43309346c0bba79e72e	":"	hHfBlJc	",
+	"	937c4808cf3264c55ca06398e6690062edeb8cd2	":"	aESaocs	",
+	"	55e56e802bd98e8d6d8172fe4790d42c1ac40274	":"	yfGoXgB	",
+	"	de7da27fccd01c7bd923d99c4886c59f4509ac34	":"	QM42DI7	",
+	"	5f098014a8f5b0bc779f02ed1968a8f3ac136b95	":"	xkEUAXh	",
+	"	cf5d6257f8753490966f326d12e23dc506650b19	":"	UNHoyM8	",
+	"	1bd0d82eee9df83723328fba49a75e9dcd0a9ae1	":"	zsolERC	",
+	"	437ef6ab2c5bb5186d01fd7ecf10a3b00e9dbc5a	":"	uJbGktW	",
+	"	367ad107602defe9e104ffbaa25a8df8ecadec0b	":"	HQtj94U	",
+	"	a3f67b92b316b236b2ec283e9da9b93fadd09d13	":"	zl7sDh0	",
+	"	27283d3a28f1f20a2871bf771de8426af2b6ca46	":"	BYSJZWr	",
+	"	2f7bcb56b8b0c6f7d51db3fca249a0d805aa16f3	":"	t8dmVYS	",
+	"	961d5d44d0e1a52236b3a8ac118a7819c74b9f56	":"	tUgd1jk	",
+	"	cacaef9b313efda431889ff53f7d8f4e2ab55c28	":"	FsGtRjJ	",
+	"	cbc8bb9092dd2b0ed8513746e3eea4611cab765b	":"	ELuNbzd	",
+	"	198c47f1acbb8079a418e86d7f4250d3c8e53f8b	":"	1tPBDe4	",
+	"	1a3ecc7f74993af40b4a5b7d9b4da8d9d45e4a7e	":"	nIrA6Dd	",
+	"	9d12163912051f06d8fd030ef1d54930074b8e3d	":"	3KwRJyk	",
+	"	d9b06923d4631ad9ea59fd33d28c08f8c6ecd7cc	":"	QMbpRYF	",
+	"	2f5d7c623ff71838607c8b789fc979ba0f0bd045	":"	UqwZhrp	",
+	"	93c568e9da40d53c405dde607b7834fcc53847da	":"	XladLRz	",
+	"	686c3b1a9fc164b9548f6b503c373b8b2fe9eef6	":"	JXqQCVF	",
+	"	8b012f298540d13616123422efda7bfba2115649	":"	wV0NnK5	",
+	"	e220e8af5712fcc295a2580cf10108933443ae15	":"	vBygGef	",
+	"	6d06c7a207e54a023bf97032e1d2dab2d90239a1	":"	kPBkY6e	",
+	"	7a7f433298941184d941f593564eaac6d32d5eec	":"	kGr5OZ9	" 
 }
 
 var p = {
@@ -2825,7 +2822,7 @@ var bridge = {
 	en_fr:
 		//'---' + br +
 		//'For a Tinycard deck for words used in this story, click here : ' +
-		//'[![](https://i.imgur.com/3r0Jd8k.png)]' +
+		//'[![](https://i.imgur.com/3r0Jd8k.png)]' + 
 		//'()' + br + // Tinycards URL here
 		'---' + br +
 		'For Educators, such as in a class room situation, and people who are learning remotely, this resource of the questions asked during the lessons may be useful.' + br,
@@ -2950,12 +2947,12 @@ var word_filter = {
 }
 
 // symbols to remove from the word list
-var symbols = /[.\¿?!¡,; \(\)\-'"´…:—«»#@$%^&/+=_<>”„]/g;
+var symbols = /[.\¿?!¡,; \(\)\-'"´…:—«»#@$%^&/+=_<>”„]/g
 
 // Catch narrator names
 var narrator = ["Narrator", "Narrador", "Narradora",
-"Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
-
+	"Narratrice", "Narrateur", "Erzähler", "Erzählerin"];
+	
 var narrator = {
 	en: ["Characters:\n", "Narrator"],
 	fr: ["Personnages:\n", "Narrateur / narratrice"],
@@ -2973,15 +2970,15 @@ var narrator_marking = { // Text or symbol for when the narrator speaks
 
 // CEFR color markings
 var cefr = {
-"Intro": "#6bff00",
-"A1.1": "#56cd00",
-"A1.2.a": "#6ed000",
-"A1.2.b": "#86d301",
-"A2": "#9ed601",
-"B1": "#ffd059",
-"B2": "#ffaf01",
-"C1": "#ff7a01",
-"C2": "#fe4c4c"
+	"Intro": "#6bff00",
+	"A1.1": "#56cd00",
+	"A1.2.a": "#6ed000",
+	"A1.2.b": "#86d301",
+	"A2": "#9ed601",
+	"B1": "#ffd059",
+	"B2": "#ffaf01",
+	"C1": "#ff7a01",
+	"C2": "#fe4c4c"
 }
 
 var apiurl = "https://stories.duolingo.com/api2/stories";
@@ -3012,57 +3009,57 @@ var story_url = "https://stories.duolingo.com/lessons/";
 function process_story (e, type) {
 	var txt = type == "docs" ? '<div class="storydocs">' : "";
 	var img_url = e.illustrations.active.slice(0, -4);
-
+	
 	if (type == "docs") {
 		b = "<br>";
 		br = "<br><br>";
 	}
-
+	
 	function title(title_learn, title_from, id) {return(
 		type == "forum" ?
 			title_learn + " (" + title_from + ")]" +
-		"(" + story_url + id + ")" + b
+			"(" + story_url + id + ")" + b
 		: type == "docs" ?
 			'<a href="' + story_url + id + '"><b>' + title_learn + "</b></a>" + b
 		:
-		""
+			""
 	)}
-
+	
 	function text_part(t, ranges) {
 		for (var r of ranges) {
 			t = t.substr(0, r.start) + "..".repeat(r.end - r.start) + t.substr(r.end);
 		}
 		return t;
 	}
-
+	
 	var narr = (t, ranges) =>
 			narrator_marking[type] + text_part(t, ranges) + b
-
+	
 	var get_name = (id) =>
 		char_names[id] ?
 			char_names[id][learning] || "C#" + id
 		:
-		"C#" + id
-
+			"C#" + id
+	
 	var character = (id, t, ranges, img) =>
 		type == "forum" ?
-		"[color=" + speaker_color + "]" + get_name(id) + "[/color]: " + text_part(t, ranges) + b
+			"[color=" + speaker_color + "]" + get_name(id) + "[/color]: " + text_part(t, ranges) + b
 		: type == "docs" ?
 			'<img src="' + img.slice(0, -4) + '.png" style="height:24px;width:18px;"><font color="' + speaker_color + '">' + get_name(id) + ":</font> " + text_part(t, ranges) + b
 		:
-		"";
-
+			"";
+			
 	var char_list = (lst) =>
 		[...new Set(lst.filter(ele => ele.type == "LINE" && ele.line.type == "CHARACTER").map(ele => ele.line.characterId))].map(ele => get_name(ele))
-
+	
 	var list_options = (lst) =>
 		type == "forum" ?
 			lst.map(ele => ">- " + (ele.text || ele)).join(b) + br
 		: type == "docs" ?
 			'<ul style="list-style:disc;margin:0;padding:0 3em 0;"><li>' + lst.map(ele => (ele.text || ele)).join("</li><li>") + "</li></ul>"
 		:
-		"";
-
+			"";
+			
 	var list_select = (lst) =>
 		lst.filter(ele => ele.selectable);
 
@@ -3072,63 +3069,63 @@ function process_story (e, type) {
 		: type == "docs" ?
 			(q ? '<b style="margin:1em;">' + q.text + "</b>" + b : "") + list_options(a)
 		:
-		"";
-
+			"";
+	
 	var match = (lst) =>
 		type == "forum" ?
-	    	"## ![](https://i.imgur.com/9XGRylD.png) Match the words" + br +
-		"|||\n|:-:|:-:|\n" +
+	    		"## ![](https://i.imgur.com/9XGRylD.png) Match the words" + br +
+			"|||\n|:-:|:-:|\n" +
 			shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "|\t" + t + "\t|\t" + lst[i].translation + "\t|").join(b) + br
 		: type == "docs" ?
-		"![](https://i.imgur.com/P4i4icY.png) Match the words ![](https://i.imgur.com/BssXhdz.png)" + br +
+			"![](https://i.imgur.com/P4i4icY.png) Match the words ![](https://i.imgur.com/BssXhdz.png)" + br +
 	    		b + '<table border="1"><col width="300"><col width="300"><tr>' + shuffle(lst.flatMap(ele => ele.phrase)).map((t, i) => "<td>" + t + "</td><td>" + lst[i].translation + "</td>").join("</tr><tr>") + "</tr></table>" + b
 		:
-		"";
-
+			"";
+			
 	var prompt = (t) =>
 		type == "forum" ?
-		"> **" + t + "**" + br
+			"> **" + t + "**" + br
 		: type == "docs" ?
 			'<b style="margin:1em;">' + t + "</b>" + b
 		:
-		"";
+			"";
 
 	var audiolink = (t) =>
 		type == "forum" ?
-		"[" + story_info[from_language].audio + "](https://stories-cdn.duolingo.com/audio/" +
+			"[" + story_info[from_language].audio + "](https://stories-cdn.duolingo.com/audio/" +
 			story_audio[course][t] + ".mp3)" + br
 		: type == "docs" ?
 			'<a href="https://stories-cdn.duolingo.com/audio/' + story_audio[course][t] + '.mp3">' + story_info[from_language].audio + "</a>" + b
 		:
-		"";
+			"";
 
 	var setnum = (t) =>
 		type == "forum" ?
-		"> ![Duo37](https://i.imgur.com/LzuGkwC.png) **" + t + "**" + br
+			"> ![Duo37](https://i.imgur.com/LzuGkwC.png) **" + t + "**" + br
 		: type == "docs" ?
 			'<b style="margin:1em;">' + t + "</b>" + b
 		:
-		"";
+			"";
 
 	txt +=
 		type == "forum" ?
 			header[course] + br +
 			audiolink(e.trackingProperties.story_id) +
-		"> " + narrator[learning].join("> ") + ", " +
+			"> " + narrator[learning].join("> ") + ", " +
 			char_list(e.elements).join(", ") + br +
-		"#### [![](https://i.imgur.com/" +
+			"#### [![](https://i.imgur.com/" +
 			icons[e.illustrations.active.substr(39,40)] + ".png) "
 		: type == "docs" ?
 			'<h1 style="text-align:left;margin:0;">' + e.fromLanguageName + "</h1>" +
 			audiolink(e.trackingProperties.story_id) +
-		"<b>" + story_info[from_language].set(e.trackingProperties.story_set_number) + "</b>" + b +
-		"<b>" + story_info[from_language].rev + ": " + e.trackingProperties.story_revision + "</b>" + b +
-		"<b>" + story_info[from_language].cefr + ": " + e.trackingProperties.cefr_level + "</b>" + b +
-		"<b>" + narrator[learning].join("") + ", " +
+			"<b>" + story_info[from_language].set(e.trackingProperties.story_set_number) + "</b>" + b +
+			"<b>" + story_info[from_language].rev + ": " + e.trackingProperties.story_revision + "</b>" + b +
+			"<b>" + story_info[from_language].cefr + ": " + e.trackingProperties.cefr_level + "</b>" + b +
+			"<b>" + narrator[learning].join("") + ", " +
 			char_list(e.elements).join(", ") + "</b>" + br +
 			'<img src="' + e.illustrations.active.slice(0, -4) + '.png" style="width:32px;height:32px;">'
 		:
-		"";
+			"";
 
 	for (var line of e.elements) {
 		txt += (
@@ -3165,42 +3162,42 @@ function process_story (e, type) {
 			: line.type == "HINT_ONBOARDING" ?
 				console.log(line)
 			: line.type == "TYPE_TEXT" ?
-			""
+				""
 			: line.type == "MATCH" ?
 				match(line.fallbackHints)
 			:
 				console.log("Unknown type: " + JSON.stringify(line))
 		)
 	}
-
+	
 	var ex_count = () =>
-		e.elements.filter(ele => ["MULTIPLE_CHOICE", "SELECT_PHRASE", "MATCH", "TYPE_TEXT", "ARRANGE", "POINT_TO_PHRASE"].includes(ele.type)).length;
-
+		e.elements.filter(ele => ["MULTIPLE_CHOICE", "SELECT_PHRASE", "MATCH", "TYPE_TEXT", "ARRANGE"].includes(ele.type)).length;
+	
 	// story info
 	txt += type == "forum" ?
-	"---\n\n##" + story_info[from_language].title + b +
+		"---\n\n##" + story_info[from_language].title + b +
 		story_info[from_language].setnum(e.trackingProperties.story_set_number) + b +
-	"**" + story_info[from_language].cefr + "**: " + e.trackingProperties.cefr_level + b +
-	"**" + story_info[from_language].rev + "**: " + e.trackingProperties.story_revision + b +
-	"**" + story_info[from_language].len + "**: " + e.elements.length + b +
-	"**" + story_info[from_language].ex + "**: " + ex_count() + b +
-	"**[" + story_info[from_language].img + " (png)](" + img_url + ".png)**" + b +
-	"**[" + story_info[from_language].img + " (svg)](" + img_url + ".svg)**" + br
+		"**" + story_info[from_language].cefr + "**: " + e.trackingProperties.cefr_level + b +
+		"**" + story_info[from_language].rev + "**: " + e.trackingProperties.story_revision + b +
+		"**" + story_info[from_language].len + "**: " + e.elements.length + b +
+		"**" + story_info[from_language].ex + "**: " + ex_count() + b +
+		"**[" + story_info[from_language].img + " (png)](" + img_url + ".png)**" + b +
+		"**[" + story_info[from_language].img + " (svg)](" + img_url + ".svg)**" + br
 	:
-	"";
-
+		"";
+		
 	// Word list
 	txt +=
 		type == "forum" ?
-		"---\n\n##" + story_info[from_language].words + br +
-		"|\t" + learning + "\t|\t" + from_language + "\t|\n|:-:|:-:|\n"
+			"---\n\n##" + story_info[from_language].words + br +
+			"|\t" + learning + "\t|\t" + from_language + "\t|\n|:-:|:-:|\n"
 		: type == "docs" ?
-		"<h2>" + story_info[from_language].words +
+			"<h2>" + story_info[from_language].words +
 			'</h2><table border="1"><col width="300"><col width="300"><tr><th>' + learning + "</th><th>" +
 			from_language + "</th></tr>"
 		:
-		"";
-
+			"";
+	
 	var word_array = [];
 	for (var line of e.elements) {
 		if (line.type == "LINE") {
@@ -3211,7 +3208,7 @@ function process_story (e, type) {
 				if (part.replace(word_filter[learning], "").replace(symbols, "") != ""){
 					word_array.push(part + ";" + line.line.content.hints[i]);
 	}	}	}	}
-
+	
 	word_array = word_array.sort(
 		(x, y) =>
 			x.toLowerCase() > y.toLowerCase() ? 1 :
@@ -3220,15 +3217,15 @@ function process_story (e, type) {
 		(x, i, a) =>
 			i == 0 || x.toLowerCase() != a[i-1].toLowerCase()
 	);
-
+	
 	txt +=
 		type == "forum" ?
 			word_array.map(ele => "|\t" + ele.replace(";", "\t|\t") + "\t|\n").join("")
 		: type == "docs" ?
 			word_array.map(ele => "<tr><td>" + ele.replace(";", "</td><td>") + "</td></tr>").join("") +
-		"</table></div>"
+			"</table></div>"
 		:
-		"";
+			"";
 
 	return txt;
 }
@@ -3270,7 +3267,7 @@ function get_JSON(url, f, arg=null) {
 // Step 1: get active language
 function current_course() {
 	get_JSON(
-	"https://stories.duolingo.com/api/user",
+		"https://stories.duolingo.com/api/user",
 		set_language
 	);
 }
@@ -3317,7 +3314,6 @@ function dl_buttons() {
 			button.className = "story_catcher";
 			if (!(story.illustrationUrls.active.substr(39,40) in icons)){
 				button.className = "story_catcher not";
-				console.log('"' + story.illustrationUrls.active.substr(39,40) + '": "');
 			}
 			button.setAttribute("ref", story.id);
 			button.addEventListener("click", function(){request_story(this)});
@@ -3326,7 +3322,7 @@ function dl_buttons() {
 	}
 	add_all_button("all_forum", "Forum (all)", () => get_all("forum"));
 	//add_all_button("all_sheets", "Get all stories for Google sheets", () => all_sheets());
-	add_all_button("all_overview", "Overview (forum)", () => all_overview());
+	//add_all_button("all_overview", "Get all stories for forum overview", () => all_overview());
 	add_all_button("all_docs", "Google Docs (all)", () => get_all("docs"));
 }
 
@@ -3431,101 +3427,13 @@ function get_all(type) {
 	}
 }
 
-// Collect data to create an overview of all stories
-function all_overview() {
-	story_collector = {};
-	// remove "all" buttons
-	remove_all_buttons();
-	// get each story
-	for (var set of set_list.sets) {
-		for (var story of set) {
-			get_JSON(
-				apiurl + "/" + story.id + "?masterVersion=false",
-				construct_overview
-			);
-		}
-	}
-}
-
-// Calcurate color in range from red to green
-function calc_color(c) {
-	return c < 0 ?
-		"#00c800"
-		: c > 100 ?
-		"#c80000"
-		:
-		"#" + ("00" + (1024 * (
-				c < 50 ?
-						50 + 256 * Math.round(c)
-					:
-						12800 + Math.round(100 - c)
-			)).toString(16)).slice(-6);
-}
-
-// Generate an overview table of the stories
-function construct_overview(e) {
-	var ex_count = e.elements.filter(ele => ["MULTIPLE_CHOICE", "SELECT_PHRASE", "MATCH", "TYPE_TEXT", "ARRANGE", "POINT_TO_PHRASE"].includes(ele.type)).length;
-	var s = {
-		title: e.elements.filter(a => a.line && a.line.type == "TITLE")[0].line.content.text,
-		id: e.trackingProperties.story_id,
-		parts: (a => a ? " " + a.part + "/" + a.totalParts : "")(e.multiPartInfo)
-	}
-	story_collector[s.id] = {
-		id: s.id,
-		set: e.trackingProperties.story_set_number,
-		// image from hardcoded list
-		img: "![](https://i.imgur.com/" +
-			icons[e.illustrations.active.substr(39,40)] + ".png)",
-		// title with part number and forum link
-		title: s.id in p[course] ?
-			"[" + e.fromLanguageName + s.parts + "](https://forum.duolingo.com/comment/" +
-				p[course][s.id] + ")"
-			:
-				e.fromLanguageName + s.parts,
-		// target language story title with story ID if no forum link is hardcoded
-		name: s.title + (s.id in p[course] ? "" : "[br]" + s.id),
-		cefr: (a => "**[color=" + cefr[a] + "]" + a + "[/color]**")
-			(e.trackingProperties.cefr_level),
-		rev: e.revision,
-		len: (a => "**[color=" + calc_color((a - 20) / 0.3) + "]" + a + "[/color]**")
-			(e.elements.filter(ele => ele.line).length),
-		ex: "**[color=" + calc_color((ex_count - 6) / 0.1) +
-		"]" + ex_count + "[/color]**",
-		audio: "[" + narrator_marking.forum +
-	"](https://stories-cdn.duolingo.com/audio/" + story_audio[course][s.id] + ".mp3)"
-	};
-	if (Object.keys(story_collector).length == gcl("story").length) {
-		output_overview();
-	}
-}
-
-function output_overview() {
-	var ftable = "\n\n" + overview_header[from_language] +
-	"\n|:-:|:-|:-:|:-:|:-:|:-:|:-:|\n";
-	var s = "|";
-	for (var set of set_list.sets) {
-		var set_i = set_list.sets.indexOf(set) + 1;
-		ftable += "||[br]" + "&emsp;".repeat(7) + "**Set " + set_i + "**" + "[br]&nbsp;|\n";
-		for (var story of set) {
-			var sd = story_collector[story.id];
-			ftable += s + sd.img + s + sd.title + "[br]" + sd.name + s + sd.audio + s + sd.cefr + s + sd.len + s + sd.ex + s + sd.rev + s + "\n";
-		}
-	}
-	// create display element
-	var div = document.createElement("div");
-	div.setAttribute("style", "padding-top: 10px;");
-	div.innerHTML = '<textarea id="all_output" rows="200" cols="75" style="border-width: 2px;border-color: darkred;border-style: solid;"></textarea>';
-	gcl("stories-header")[0].append(div);
-	gid("all_output").value = ftable;
-}
-
 // CSS styles to add to page for buttons
 function css() {
 	var sheet = window.document.styleSheets[0];
 	sheet.insertRule('.story_catcher{position: relative;top: 20px;left: -10px;width: 39px;margin-top: -29px;margin-left: -39px;height: 29px;background: rgba(255,255,0,0.6);border-color: black;border-radius: 20px;z-index: 1;transform: scale(0.75);}', sheet.cssRules.length);
 	sheet.insertRule('.story_catcher.not{background: red;}', sheet.cssRules.length);
 	sheet.insertRule('.story_catcher:after{content: "💬";}', sheet.cssRules.length);
-	sheet.insertRule('.story_all{margin: 5px;background: rgb(200,0,0);border-color: black;border-radius: 20px;color: rgb(200,200,200);}', sheet.cssRules.length);
+	sheet.insertRule('.story_all{margin: 5px;background: rgba(255,255,0,0.6);border-color: black;border-radius: 20px;}', sheet.cssRules.length);
 }
 
 // initialize
@@ -3533,8 +3441,9 @@ current_course();
 
 })();
 
-//https://stories.duolingo.com/api2/stories/es-en-dos-palabras?masterVersion=false&illustrationFormat=svg&supportedElements=ARRANGE,CHALLENGE_PROMPT,HINT_ONBOARDING,LINE,MATCH,MULTIPLE_CHOICE,
 
+
+//https://stories.duolingo.com/api2/stories/es-en-dos-palabras?masterVersion=false&illustrationFormat=svg&supportedElements=ARRANGE,CHALLENGE_PROMPT,HINT_ONBOARDING,LINE,MATCH,MULTIPLE_CHOICE,
 
 
 
