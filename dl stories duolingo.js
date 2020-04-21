@@ -3515,7 +3515,7 @@ function output_overview() {
 		ftable += "||[br]" + "&emsp;".repeat(7) + "**Set " + set_i + "**" + "[br]&nbsp;|\n";
 		for (var story of set) {
 			var sd = story_collector[story.id];
-			ftable += s + sd.img + s + sd.title + "[br]" + "\t" + sd.name + "\t" + s + sd.audio + s + sd.cefr + s + sd.len + s + sd.ex + s + "\t" + sd.rev + "\t" + s + "\n";
+			ftable += s + sd.img + s + sd.title + "[br]\t" + sd.name + "\t" + s + sd.audio + s + sd.cefr + s + sd.len + s + sd.ex + s + "\t" + sd.rev + "\t" + s + "\n";
 		}
 	}
 	// create display element
